@@ -28,6 +28,7 @@ function App() {
             <Route path="/termos-de-uso" component={TermsOfUsePage} />
             <Route path="/auth" component={AuthPage} />
             <ProtectedRoute path="/admin" component={AdminPage} />
+            <Route path="/admin" component={() => <ProtectedRoute path="/admin" component={AdminPage} />} />
             <Route component={NotFound} />
           </Switch>
           <Toaster />
