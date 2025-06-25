@@ -184,9 +184,9 @@ export default function DiagnosticForm({ onClose }: { onClose: () => void }) {
       setCurrentStep(currentStep + 1);
     } else {
       // Disparar pixel de conversão antes de enviar o formulário
-      if (typeof fbq !== 'undefined') {
-        fbq('track', 'Lead');
-        console.log('Pixel de conversão disparado: Lead');
+      if (typeof window.fbq !== 'undefined') {
+        window.fbq('track', 'Lead');
+        console.log('Pixel Facebook disparado: Lead - ID: 706592518905036');
       }
       
       // Disparar evento do Google Analytics se disponível
