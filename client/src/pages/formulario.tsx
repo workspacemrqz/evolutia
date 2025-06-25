@@ -362,7 +362,7 @@ function FormularioPage() {
 
   return (
     <div className="min-h-screen bg-[#060606] text-white flex flex-col items-center justify-center p-5">
-      <div className="mb-10 text-center">
+      <div className="mb-6 text-center">
         <img 
           src="https://i.ibb.co/rf3PXc8r/LOGO-Evolut-IA-com-texto-na-horizontal.png" 
           alt="Evolut IA Logo"
@@ -383,7 +383,7 @@ function FormularioPage() {
         </div>
 
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold mb-4">
+          <h2 className="text-2xl sm:text-3xl font-bold mb-4">
             {steps[currentStep].title}
           </h2>
           {steps[currentStep].subtitle && (
