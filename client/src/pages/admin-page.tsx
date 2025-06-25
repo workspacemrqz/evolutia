@@ -23,9 +23,10 @@ export default function AdminPage() {
     dateTo: ""
   });
 
-  const { data: responses, isLoading } = useQuery<DiagnosticResponse[]>({
+  const { data: responses, isLoading: responsesLoading, error: responsesError } = useQuery<DiagnosticResponse[]>({
     queryKey: ["/api/admin/responses"],
     queryFn: getQueryFn({ on401: "throw" }),
+    enabled: !!user, // Só carrega se o usuário estiver autenticado
   });
 
   const handleLogout = () => {
@@ -137,12 +138,28 @@ export default function AdminPage() {
     return matchesSearch && matchesStatus && matchesSource && matchesDateFrom && matchesDateTo;
   }) || [];
 
-  if (isLoading) {
+  if (responsesLoading) {
     return (
       <div className="min-h-screen bg-[#060606] flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="h-8 w-8 animate-spin text-white mx-auto mb-4" />
-          <p className="text-white">Carregando...</p>
+          <p className="text-white">Carregando dados...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (responsesError) {
+    return (
+      <div className="min-h-screen bg-[#060606] flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-400 mb-4">Erro ao carregar dados: {responsesError.message}</p>
+          <Button 
+            onClick={() => window.location.reload()} 
+            className="bg-blue-600 hover:bg-blue-700"
+          >
+            Tentar Novamente
+          </Button>
         </div>
       </div>
     );
