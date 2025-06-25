@@ -1,0 +1,65 @@
+[root@srv856338 public_html]# npm run build
+
+> rest-express@1.0.0 build
+> vite build
+
+vite v5.4.14 building for production...
+transforming (3) src/main.tsxBrowserslist: browsers data (caniuse-lite) is 8 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+✓ 2072 modules transformed.
+../dist/public/index.html                   1.92 kB │ gzip:   1.04 kB
+../dist/public/assets/index-QwWfzrrP.css   88.52 kB │ gzip:  14.71 kB
+../dist/public/assets/index-CRlZJJ6r.js   517.85 kB │ gzip: 162.42 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 5.51s
+[root@srv856338 public_html]# node build-for-vps.js
+🔨 Building application for production...
+📦 Installing dependencies...
+
+up to date, audited 486 packages in 1s
+
+66 packages are looking for funding
+  run `npm fund` for details
+
+7 vulnerabilities (1 low, 6 moderate)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+🏗️ Building client application...
+
+> rest-express@1.0.0 build
+> vite build
+
+vite v5.4.14 building for production...
+transforming (1) index.htmlBrowserslist: browsers data (caniuse-lite) is 8 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+✓ 2072 modules transformed.
+../dist/public/index.html                   1.92 kB │ gzip:   1.04 kB
+../dist/public/assets/index-QwWfzrrP.css   88.52 kB │ gzip:  14.71 kB
+../dist/public/assets/index-CRlZJJ6r.js   517.85 kB │ gzip: 162.42 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 5.49s
+📋 Copying files...
+✅ Copied package.json
+✅ Copied package-lock.json
+✅ Copied start-vps.js
+✅ Copied ecosystem.config.cjs
+✅ Copied .env
+🎉 Build completed successfully!
+📁 Files ready in ./dist directory
+[root@srv856338 public_html]# 
