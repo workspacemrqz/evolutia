@@ -1,0 +1,135 @@
+[root@srv856338 public_html]# rm -rf node_modules/.cache dist/public/assets/*
+[root@srv856338 public_html]# npm run build
+
+> rest-express@1.0.0 build
+> vite build
+
+vite v5.4.14 building for production...
+transforming (1) index.htmlBrowserslist: browsers data (caniuse-lite) is 8 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+✓ 2069 modules transformed.
+../dist/public/index.html                   1.92 kB │ gzip:   1.03 kB
+../dist/public/assets/index-D8fzKg9s.css   88.39 kB │ gzip:  14.69 kB
+../dist/public/assets/index-C1O8fuCx.js   514.20 kB │ gzip: 159.77 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 6.16s
+[root@srv856338 public_html]# node build-for-vps.js
+🔨 Building application for production...
+⏰ Started at: 2025-06-25T18:42:19.505Z
+📍 Working directory: /home/evolutiaoficial.com/public_html
+
+📦 Installing dependencies...
+🔄 Running: npm install
+
+up to date, audited 486 packages in 2s
+
+66 packages are looking for funding
+  run `npm fund` for details
+
+7 vulnerabilities (1 low, 6 moderate)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+✅ Dependencies installed in 2507ms
+
+🏗️ Building client application...
+🔄 Running: npm run build
+
+> rest-express@1.0.0 build
+> vite build
+
+vite v5.4.14 building for production...
+transforming (1) index.htmlBrowserslist: browsers data (caniuse-lite) is 8 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+✓ 2069 modules transformed.
+../dist/public/index.html                   1.92 kB │ gzip:   1.03 kB
+../dist/public/assets/index-D8fzKg9s.css   88.39 kB │ gzip:  14.69 kB
+../dist/public/assets/index-C1O8fuCx.js   514.20 kB │ gzip: 159.77 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 6.20s
+✅ Client built successfully in 6594ms
+
+📋 Copying files to dist directory...
+📂 Target directory: /home/evolutiaoficial.com/public_html/dist
+📁 Dist directory already exists
+📄 Files to copy: 5
+
+[1/5] Processing: package.json
+✅ Copied package.json (3534 bytes → 3534 bytes)
+[2/5] Processing: package-lock.json
+✅ Copied package-lock.json (309591 bytes → 309591 bytes)
+
+[3/5] Processing: start-vps.js
+✅ Copied start-vps.js (6436 bytes → 6436 bytes)
+[4/5] Processing: ecosystem.config.cjs
+✅ Copied ecosystem.config.cjs (575 bytes → 575 bytes)
+
+[5/5] Processing: .env
+✅ Copied .env (107 bytes → 107 bytes)
+
+📊 Build artifacts verification:
+📂 Dist directory exists: true
+📂 Build directory exists: true
+📁 Files in dist: 6
+   - FILE: .env (107 bytes)
+   - FILE: ecosystem.config.cjs (575 bytes)
+   - FILE: package-lock.json (309591 bytes)
+   - FILE: package.json (3534 bytes)
+   - DIR: public
+   - FILE: start-vps.js (6436 bytes)
+📁 Files in build: 3
+   - DIR: server
+   - DIR: shared
+   - FILE: vite.config.js (1060 bytes)
+
+🎉 Build completed successfully!
+📁 Files ready in ./dist directory
+📊 Summary: 5 files copied, 0 files skipped
+⏱️  Total build time: 9105ms
+✅ Finished at: 2025-06-25T18:42:28.610Z
+[root@srv856338 public_html]# pm2 restart evolut-site
+Use --update-env to update environment variables[PM2] Applying action restartProcessId on app [evolut-site](ids: [ 69 ])
+[PM2] [evolut-site](69) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19 │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.3mb  │
+│ 69 │ evolut-site        │ fork     │ 1    │ online    │ 0%       │ 19.3mb   │
+│ 37 │ rotacaicara        │ fork     │ 1    │ online    │ 0%       │ 100.4mb  │
+│ 16 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 35.9mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[root@srv856338 public_html]# pm2 logs evolut-site --lines 10
+[TAILING] Tailing last 10 lines for [evolut-site] process (change the value with --lines option)/var/log/pm2/evolut-site-error-69.log last 10 lines:
+69|evolut- | 2025-06-25T18:35:40: Warning: connect.session() MemoryStore is not
+69|evolut- | 2025-06-25T18:35:40: designed for a production environment, as it will leak
+69|evolut- | 2025-06-25T18:35:40: memory, and will not scale past a single process.
+69|evolut- | 2025-06-25T18:42:30: Warning: connect.session() MemoryStore is not
+69|evolut- | 2025-06-25T18:42:30: designed for a production environment, as it will leak
+69|evolut- | 2025-06-25T18:42:30: memory, and will not scale past a single process.
+
+/var/log/pm2/evolut-site-out-69.log last 10 lines:
+69|evolut- | 2025-06-25T18:37:08: GET /api/user 304 in 1ms
+69|evolut- | 2025-06-25T18:37:08: GET /api/user 304 in 1ms
+69|evolut- | 2025-06-25T18:37:08: GET /api/admin/responses 304 in 12ms
+69|evolut- | 2025-06-25T18:37:10: GET /api/user 304 in 1ms
+69|evolut- | 2025-06-25T18:37:10: GET /api/admin/responses 304 in 3ms
+69|evolut- | 2025-06-25T18:37:12: GET /api/user 304 in 1ms
+69|evolut- | 2025-06-25T18:37:15: GET /api/user 304 in 1ms
+69|evolut- | 2025-06-25T18:37:19: GET /api/user 304 in 1ms
+69|evolut- | 2025-06-25T18:37:19: GET /api/admin/responses 304 in 2ms
+69|evolut- | 2025-06-25T18:42:30: serving on 0.0.0.0:3001
