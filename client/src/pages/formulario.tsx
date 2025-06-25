@@ -429,9 +429,9 @@ function FormularioPage() {
               <div className="clock-hand minute-hand"></div>
             </div>
           </div>
-          <span className="md:whitespace-nowrap">
-            <span className="block md:inline">Só Hoje {getCurrentDate()}</span>
-            <span className="block md:inline md:ml-1">Diagnóstico Gratuito com Vagas Limitadas</span>
+          <span className="leading-tight">
+            <span className="block">Só Hoje {getCurrentDate()}</span>
+            <span className="block">Diagnóstico Gratuito com Vagas Limitadas</span>
           </span>
         </div>
       </div>
