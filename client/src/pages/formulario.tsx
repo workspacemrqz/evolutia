@@ -377,7 +377,7 @@ function FormularioPage() {
 
       <div className="mt-8 text-center">
         <div className="bg-gradient-to-r from-[#1A3B93] to-[#3064EF] text-white px-5 py-3 rounded-lg text-base font-semibold shadow-lg shadow-blue-500/20 inline-block">
-          ⏰ Só Hoje {getCurrentDate()} Diagnóstico Grátis com Vagas Limitadas
+          ⏰ Só Hoje {getCurrentDate()} Diagnóstico Gratuito com Vagas Limitadas
         </div>
       </div>
     </div>
