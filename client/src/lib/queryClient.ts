@@ -33,11 +33,27 @@ export const getQueryFn: <T>(options: {
       credentials: "include",
     });
 
-    if (unauthorizedBehavior === "returnNull" && res.status === 401) {
+    if (!res.ok) {
+    if (res.status === 401 && options?.on401 === "returnNull") {
       return null;
     }
 
-    await throwIfResNotOk(res);
+    let message;
+    try {
+      if (res.headers.get("content-type")?.includes("application/json")) {
+        const errorData = await res.json();
+        message = errorData.message || errorData.error || "Request failed";
+      } else {
+        message = res.statusText || "Request failed";
+      }
+    } catch (e) {
+      message = `HTTP ${res.status} - ${res.statusText}`;
+    }
+
+    console.error('API Error:', { status: res.status, message, url: queryKey[0] });
+    throw new Error(message);
+  }
+
     return await res.json();
   };
 

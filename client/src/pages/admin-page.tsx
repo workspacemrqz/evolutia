@@ -15,6 +15,10 @@ import { useState } from "react";
 export default function AdminPage() {
   const { user, logoutMutation } = useAuth();
   const [selectedResponse, setSelectedResponse] = useState<DiagnosticResponse | null>(null);
+  
+  // Debug logs
+  console.log('AdminPage - user:', user);
+  console.log('AdminPage - user loading state:', user === undefined);
   const [filters, setFilters] = useState({
     search: "",
     status: "",
@@ -27,7 +31,14 @@ export default function AdminPage() {
     queryKey: ["/api/admin/responses"],
     queryFn: getQueryFn({ on401: "throw" }),
     enabled: !!user, // Só carrega se o usuário estiver autenticado
+    retry: 2,
+    retryDelay: 1000,
   });
+
+  // Debug logs
+  console.log('AdminPage - responses:', responses);
+  console.log('AdminPage - responsesLoading:', responsesLoading);
+  console.log('AdminPage - responsesError:', responsesError);
 
   const handleLogout = () => {
     logoutMutation.mutate();
@@ -137,6 +148,18 @@ export default function AdminPage() {
 
     return matchesSearch && matchesStatus && matchesSource && matchesDateFrom && matchesDateTo;
   }) || [];
+
+  // Se não há usuário, mostrar loading
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-[#060606] flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin text-white mx-auto mb-4" />
+          <p className="text-white">Verificando autenticação...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (responsesLoading) {
     return (
@@ -305,9 +328,19 @@ export default function AdminPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {!filteredData || filteredData.length === 0 ? (
+            {responsesError ? (
+              <div className="text-center py-8">
+                <p className="text-red-400 mb-4">Erro ao carregar dados: {responsesError.message}</p>
+                <Button 
+                  onClick={() => window.location.reload()} 
+                  className="bg-blue-600 hover:bg-blue-700"
+                >
+                  Tentar Novamente
+                </Button>
+              </div>
+            ) : !filteredData || filteredData.length === 0 ? (
               <div className="text-center py-8 text-gray-400">
-                Nenhuma resposta encontrada
+                {responses === undefined ? "Carregando respostas..." : "Nenhuma resposta encontrada"}
               </div>
             ) : (
               <div className="space-y-4">
