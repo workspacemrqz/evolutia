@@ -1,0 +1,33 @@
+Analise minunciosamente os arquivos do meu site que está hospedado na VPS de IP 31.97.30.149 que roda no SO AlmaLinux 9 utilizando o CyberPanel. O site já está no ar e rodando normalmente. Porem quero fazer algumas alterações nele.
+IMPORTANTE: Não quero fazer deploy do site no replit e nem usar o replit para rodar o site, apenas quero usar o replit para alterar arquivos para rodar corretamente na minha VPS.
+
+Alteração 1: Remova o bloco''target-section.tsx '' da página principal.
+
+Alteração 2: Na página /admin coloque tag para informar de onde veio formulario se foi da página /formulario ou da página principal do site.
+
+Alteração 3: Crie um usuario com login '' marquez@evolutoficial.com '' e senha '' @M4rqu3z851311 '' expecificamente esse usuario tera o poder de excluir qualquer formulario que ele quiser da página /admin. Quando ele exclui da página admin dele tambem exclui da página admin dos outros usuarios.
+
+Alteração 4: Coloque filtros inteligentes na página /admin para poder filtrar todas as possibilidades.
+
+Alteração 5: Na página /formulario altere o trecho do texto que fica embaixo do formulario de '' Diagnóstico Grátis '' para '' Diagnóstico Gratuito ''.
+
+Alteração 6: Na página /formulario faça a imagem '' https://i.ibb.co/rf3PXc8r/LOGO-Evolut-IA-com-texto-na-horizontal.png '' que é logo ficar fazendo movimento de looping subindo e descendo devagar como se fosse uma animação bem clean e legal.
+
+Alteração 7: Coloque o pixel do facebook corretamente na página /formulario:
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '706592518905036');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=706592518905036&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
