@@ -29,7 +29,7 @@ export default function AdminPage() {
   const { user, logoutMutation } = useAuth();
   const [selectedResponse, setSelectedResponse] =
     useState<DiagnosticResponse | null>(null);
-  const [showFilters, setShowFilters] = useState(true);
+  const [showFilters, setShowFilters] = useState(false);
   const [filters, setFilters] = useState({
     search: "",
     status: "",
@@ -348,9 +348,12 @@ export default function AdminPage() {
               </div>
               <div className="flex gap-2">
                 <Button
-                  onClick={() => setShowFilters(!showFilters)}
+                  onClick={() => {
+                    console.log('Toggle filters clicked. Current state:', showFilters);
+                    setShowFilters(!showFilters);
+                  }}
                   variant="outline"
-                  className={`border-gray-700 text-white hover:bg-gray-700 ${showFilters ? 'bg-blue-600 border-blue-500' : 'bg-gray-800'}`}
+                  className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700"
                 >
                   <Filter className="w-4 h-4 mr-2" />
                   {showFilters ? 'Ocultar' : 'Mostrar'} Filtros
