@@ -11,6 +11,7 @@ declare global {
   interface Window {
     fbq: any;
     gtag: any;
+    dataLayer: any[];
   }
 }
 
@@ -183,20 +184,17 @@ export default function DiagnosticForm({ onClose }: { onClose: () => void }) {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      // Disparar pixel de conversão antes de enviar o formulário
-      if (typeof window.fbq !== 'undefined') {
-        window.fbq('track', 'Lead');
-        console.log('Pixel Facebook disparado: Lead - ID: 706592518905036');
-      }
-      
-      // Disparar evento do Google Analytics se disponível
-      if (typeof gtag !== 'undefined') {
-        gtag('event', 'conversion', {
-          'send_to': 'AW-CONVERSION_ID/CONVERSION_LABEL', // Substitua pelos seus IDs
+      // Disparar evento de conversão via Google Tag Manager
+      if (typeof window.dataLayer !== 'undefined') {
+        window.dataLayer.push({
+          'event': 'form_conversion',
           'event_category': 'formulario',
-          'event_label': 'agendamento_reuniao'
+          'event_action': 'agendamento_reuniao',
+          'event_label': 'lead_gerado',
+          'conversion_type': 'lead',
+          'form_source': 'modal_diagnostico'
         });
-        console.log('Conversão Google Ads disparada');
+        console.log('Evento de conversão disparado via GTM: form_conversion');
       }
       
       // Handle final submission
