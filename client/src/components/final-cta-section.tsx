@@ -14,7 +14,31 @@ export default function FinalCTASection() {
 
   return (
     <section id="nao-fique-para-tras" className="py-24 sm:py-32 bg-[#060606]">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
+        {/* Seta animada apenas no mobile */}
+        <motion.div 
+          className="block sm:hidden absolute -top-16 left-1/2 transform -translate-x-1/2 z-20"
+          initial={{ y: -20, opacity: 0 }}
+          whileInView={{ y: 0, opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+        >
+          <motion.div
+            animate={{ 
+              y: [0, -10, 0],
+              rotate: [0, 5, -5, 0]
+            }}
+            transition={{ 
+              repeat: Infinity, 
+              duration: 2, 
+              ease: "easeInOut" 
+            }}
+            className="text-white text-4xl"
+          >
+            ⬇️
+          </motion.div>
+        </motion.div>
+
         <motion.div 
           className="gradient-bg rounded-3xl p-8 sm:p-12 relative overflow-hidden glow-effect"
           initial={{ scale: 0.9, opacity: 0 }}
