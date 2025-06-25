@@ -17,7 +17,7 @@ export default function FinalCTASection() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
         {/* Seta animada apenas no mobile */}
         <motion.div 
-          className="block sm:hidden absolute -top-20 left-1/2 transform -translate-x-1/2 z-20"
+          className="block sm:hidden absolute -top-24 left-1/2 transform -translate-x-1/2 z-20"
           initial={{ y: -30, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           viewport={{ once: true }}
@@ -25,45 +25,80 @@ export default function FinalCTASection() {
         >
           <motion.div
             animate={{ 
-              y: [0, -8, 0],
-              scale: [1, 1.1, 1]
+              y: [0, 12, 0]
             }}
             transition={{ 
               repeat: Infinity, 
-              duration: 2.5, 
+              duration: 2, 
               ease: "easeInOut" 
             }}
-            className="flex justify-center"
+            className="flex justify-center items-center"
           >
             <svg 
-              width="40" 
-              height="40" 
-              viewBox="0 0 24 24" 
+              width="48" 
+              height="48" 
+              viewBox="0 0 48 48" 
               fill="none" 
               xmlns="http://www.w3.org/2000/svg"
-              className="drop-shadow-lg"
+              className="drop-shadow-2xl"
             >
+              {/* Círculo externo com gradiente */}
+              <motion.circle
+                cx="24"
+                cy="24"
+                r="22"
+                stroke="url(#arrowGradient)"
+                strokeWidth="2"
+                fill="transparent"
+                initial={{ rotate: 0 }}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+              />
+              
+              {/* Círculo interno */}
+              <circle
+                cx="24"
+                cy="24"
+                r="18"
+                fill="rgba(255, 255, 255, 0.1)"
+                stroke="rgba(255, 255, 255, 0.3)"
+                strokeWidth="1"
+              />
+              
+              {/* Seta principal */}
               <motion.path
-                d="M7 10L12 15L17 10"
+                d="M16 20L24 28L32 20"
                 stroke="white"
                 strokeWidth="3"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ pathLength: 1, opacity: 1 }}
+                fill="none"
+                initial={{ pathLength: 0 }}
+                animate={{ pathLength: 1 }}
                 transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
               />
-              <motion.circle
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="white"
+              
+              {/* Seta secundária (mais sutil) */}
+              <motion.path
+                d="M18 16L24 22L30 16"
+                stroke="rgba(255, 255, 255, 0.6)"
                 strokeWidth="2"
-                fill="transparent"
-                initial={{ scale: 0.8, opacity: 0.3 }}
-                animate={{ scale: [0.8, 1, 0.8], opacity: [0.3, 0.7, 0.3] }}
-                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                fill="none"
+                initial={{ pathLength: 0, opacity: 0.6 }}
+                animate={{ pathLength: 1, opacity: [0.6, 1, 0.6] }}
+                transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut", delay: 0.3 }}
               />
+              
+              {/* Definição do gradiente */}
+              <defs>
+                <linearGradient id="arrowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style={{stopColor: "#3064EF", stopOpacity: 1}} />
+                  <stop offset="50%" style={{stopColor: "#FFFFFF", stopOpacity: 0.8}} />
+                  <stop offset="100%" style={{stopColor: "#1A3B93", stopOpacity: 1}} />
+                </linearGradient>
+              </defs>
             </svg>
           </motion.div>
         </motion.div>
