@@ -75,32 +75,8 @@ export default function AdminPage() {
     dateTo: ""
   });
 
-  // Show loading while checking authentication
-  if (authLoading) {
-    console.log('AdminPage - Showing auth loading...');
-    return (
-      <div className="min-h-screen bg-[#060606] flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="h-8 w-8 animate-spin text-white mx-auto mb-4" />
-          <p className="text-white">Verificando autenticação...</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Redirect if not authenticated
-  if (!user) {
-    console.log('AdminPage - No user, redirecting to auth...');
-    window.location.href = '/auth';
-    return (
-      <div className="min-h-screen bg-[#060606] flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="h-8 w-8 animate-spin text-white mx-auto mb-4" />
-          <p className="text-white">Redirecionando para login...</p>
-        </div>
-      </div>
-    );
-  }
+  // Auth is handled by ProtectedRoute wrapper, so user is guaranteed to exist here
+  console.log('AdminPage - User authenticated:', user?.username);
 
   const { data: responses = [], isLoading, error, refetch } = useQuery<ExtendedDiagnosticResponse[]>({
     queryKey: ['responses'],
@@ -166,6 +142,8 @@ export default function AdminPage() {
       window.location.href = '/auth';
     } catch (error) {
       console.error('Logout failed:', error);
+      // Fallback redirect even if logout fails
+      window.location.href = '/auth';
     }
   };
 
@@ -301,10 +279,10 @@ export default function AdminPage() {
               Tentar Novamente
             </Button>
             <Button 
-              onClick={() => window.location.href = '/auth'} 
+              onClick={handleLogout} 
               className="bg-gray-600 hover:bg-gray-700"
             >
-              Voltar ao Login
+              Fazer Login Novamente
             </Button>
           </div>
         </div>

@@ -16,8 +16,7 @@ export default function AuthPage() {
 
   // Se já está autenticado, redireciona para admin
   if (user && !isLoading) {
-    window.location.href = '/admin';
-    return null;
+    return <Redirect to="/admin" />;
   }
 
   const handleSubmit = (e: React.FormEvent) => {
