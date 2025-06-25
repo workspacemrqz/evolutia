@@ -2,7 +2,9 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { createContext, useContext, ReactNode } from 'react';
 
 interface User {
+  id: number;
   username: string;
+  canDelete?: boolean;
 }
 
 interface AuthContextType {

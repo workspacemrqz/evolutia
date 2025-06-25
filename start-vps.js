@@ -44,6 +44,20 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Admin credentials
+const ADMIN_CREDENTIALS = [
+  {
+    id: 1,
+    username: "contato@evolutoficial.com",
+    password: "@Ev0luTi42025",
+    canDelete: false,
+  },
+  {
+    id: 2,
+    username: "marquez@evolutoficial.com", 
+    password: "@M4rqu3z851311",
+    canDelete: true,
+  }
+];
 const ADMIN_CREDENTIALS = {
   username: "contato@evolutoficial.com",
   password: "@Ev0luTi42025",

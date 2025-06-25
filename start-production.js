@@ -62,10 +62,20 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Admin credentials (in production, use database)
-const ADMIN_CREDENTIALS = {
-  username: "contato@evolutoficial.com",
-  password: "@Ev0luTi42025",
-};
+const ADMIN_CREDENTIALS = [
+  {
+    id: 1,
+    username: "contato@evolutoficial.com",
+    password: "@Ev0luTi42025",
+    canDelete: false,
+  },
+  {
+    id: 2,
+    username: "marquez@evolutoficial.com", 
+    password: "@M4rqu3z851311",
+    canDelete: true,
+  }
+];
 
 // Passport Local Strategy
 passport.use(
@@ -75,11 +85,16 @@ passport.use(
       passwordField: "password",
     },
     (username, password, done) => {
-      if (
-        username === ADMIN_CREDENTIALS.username &&
-        password === ADMIN_CREDENTIALS.password
-      ) {
-        return done(null, { id: 1, username: username });
+      const user = ADMIN_CREDENTIALS.find(
+        cred => cred.username === username && cred.password === password
+      );
+      
+      if (user) {
+        return done(null, { 
+          id: user.id, 
+          username: user.username,
+          canDelete: user.canDelete 
+        });
       }
       return done(null, false, { message: "Invalid credentials" });
     },
@@ -91,8 +106,13 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-  if (id === 1) {
-    done(null, { id: 1, username: ADMIN_CREDENTIALS.username });
+  const user = ADMIN_CREDENTIALS.find(cred => cred.id === id);
+  if (user) {
+    done(null, { 
+      id: user.id, 
+      username: user.username,
+      canDelete: user.canDelete 
+    });
   } else {
     done(null, false);
   }
@@ -290,6 +310,36 @@ app.patch("/api/admin/responses/:id/status", requireAuth, async (req, res) => {
   } catch (error) {
     console.error("Error updating status:", error);
     res.status(500).json({ error: "Failed to update status" });
+  }
+});
+
+// Delete diagnostic response (only for users with canDelete permission)
+app.delete("/api/admin/responses/:id", requireAuth, async (req, res) => {
+  try {
+    // Check if user has delete permission
+    if (!req.user.canDelete) {
+      return res.status(403).json({ error: "Permission denied. Only specific users can delete responses." });
+    }
+
+    const { id } = req.params;
+
+    const query = `
+      DELETE FROM diagnostic_responses 
+      WHERE id = $1
+      RETURNING *
+    `;
+
+    const result = await pool.query(query, [parseInt(id)]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "Response not found" });
+    }
+
+    console.log(`Response ${id} deleted by user ${req.user.username}`);
+    res.json({ message: "Response deleted successfully", deletedResponse: result.rows[0] });
+  } catch (error) {
+    console.error("Error deleting response:", error);
+    res.status(500).json({ error: "Failed to delete response" });
   }
 });
 

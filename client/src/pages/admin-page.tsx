@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Loader2, LogOut, Download, Eye } from "lucide-react";
+import { Loader2, LogOut, Download, Eye, Trash2 } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { useState } from "react";
 
@@ -48,6 +48,25 @@ export default function AdminPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/responses"] });
+    },
+  });
+
+  const deleteResponseMutation = useMutation({
+    mutationFn: async (id: number) => {
+      const response = await apiRequest("DELETE", `/api/admin/responses/${id}`);
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || "Failed to delete response");
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/responses"] });
+      setSelectedResponse(null);
+    },
+    onError: (error: Error) => {
+      console.error("Delete error:", error.message);
+      alert(error.message);
     },
   });
 
@@ -310,6 +329,22 @@ export default function AdminPage() {
                             <Eye className="w-4 h-4 mr-1" />
                             Ver Detalhes
                           </Button>
+                          {user?.canDelete && (
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => {
+                                if (window.confirm("Tem certeza que deseja excluir esta resposta? Esta ação não pode ser desfeita.")) {
+                                  deleteResponseMutation.mutate(response.id);
+                                }
+                              }}
+                              className="bg-red-600 border-red-500 text-white hover:bg-red-700"
+                              disabled={deleteResponseMutation.isPending}
+                            >
+                              <Trash2 className="w-4 h-4 mr-1" />
+                              Excluir
+                            </Button>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -378,6 +413,21 @@ export default function AdminPage() {
                     >
                       <FaWhatsapp className="w-4 h-4 mr-2" />
                       Iniciar Conversa
+                    </Button>
+                  )}
+                  {user?.canDelete && (
+                    <Button
+                      onClick={() => {
+                        if (window.confirm("Tem certeza que deseja excluir esta resposta? Esta ação não pode ser desfeita.")) {
+                          deleteResponseMutation.mutate(selectedResponse.id);
+                        }
+                      }}
+                      className="bg-red-600 hover:bg-red-700 text-white"
+                      size="sm"
+                      disabled={deleteResponseMutation.isPending}
+                    >
+                      <Trash2 className="w-4 h-4 mr-2" />
+                      {deleteResponseMutation.isPending ? "Excluindo..." : "Excluir"}
                     </Button>
                   )}
                   <Button

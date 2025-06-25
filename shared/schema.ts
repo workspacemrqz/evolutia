@@ -32,9 +32,10 @@ export const insertUserSchema = createInsertSchema(users).pick({
   password: true,
 });
 
-export const insertDiagnosticResponseSchema = createInsertSchema(diagnosticResponses).omit({
-  id: true,
-  createdAt: true,
+export const insertDiagnosticResponseSchema = createInsertSchema(diagnosticResponses);
+
+export const deleteDiagnosticResponseSchema = z.object({
+  id: z.number().positive(),
 });
 
 // Partial schema for auto-save functionality
