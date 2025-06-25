@@ -19,7 +19,7 @@ export default function FinalCTASection() {
         <motion.div 
           className="block sm:hidden absolute -top-24 z-20"
           style={{
-            left: 'calc(50% - 20px)',
+            left: 'calc(50% - 22px)',
             transform: 'translateX(-50%)'
           }}
           initial={{ y: -30, opacity: 0 }}
