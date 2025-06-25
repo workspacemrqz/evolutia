@@ -183,6 +183,66 @@
       transform: translateY(-10px);
     }
   }
+
+  /* Animação do relógio */
+  .clock-animation {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  .clock-face {
+    width: 18px;
+    height: 18px;
+    border: 2px solid white;
+    border-radius: 50%;
+    position: relative;
+    background: transparent;
+  }
+
+  .clock-hand {
+    position: absolute;
+    background: white;
+    transform-origin: bottom center;
+    border-radius: 1px;
+  }
+
+  .hour-hand {
+    width: 1.5px;
+    height: 6px;
+    left: 50%;
+    bottom: 50%;
+    margin-left: -0.75px;
+    animation: clock-hour-rotation 12s linear infinite;
+  }
+
+  .minute-hand {
+    width: 1px;
+    height: 8px;
+    left: 50%;
+    bottom: 50%;
+    margin-left: -0.5px;
+    animation: clock-minute-rotation 1s linear infinite;
+  }
+
+  @keyframes clock-hour-rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes clock-minute-rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 }
 
 @keyframes gradient-pulse {
