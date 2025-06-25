@@ -422,20 +422,17 @@ function FormularioPage() {
       </div>
 
       <div className="mt-8 text-center">
-        <div className="bg-gradient-to-r from-[#1A3B93] to-[#3064EF] text-white px-5 py-3 rounded-lg text-base font-semibold shadow-lg shadow-blue-500/20 inline-flex items-center gap-3">
-          <div className="clock-animation">
+        <div className="bg-gradient-to-r from-[#1A3B93] to-[#3064EF] text-white px-5 py-3 rounded-lg text-base font-semibold shadow-lg shadow-blue-500/20 inline-flex items-center gap-3 max-w-full">
+          <div className="clock-animation flex-shrink-0">
             <div className="clock-face">
-              <div className="clock-numbers">
-                <div className="clock-number">12</div>
-                <div className="clock-number">3</div>
-                <div className="clock-number">6</div>
-                <div className="clock-number">9</div>
-              </div>
               <div className="clock-hand hour-hand"></div>
               <div className="clock-hand minute-hand"></div>
             </div>
           </div>
-          <span>Só Hoje {getCurrentDate()} Diagnóstico Gratuito com Vagas Limitadas</span>
+          <span className="md:whitespace-nowrap">
+            <span className="block md:inline">Só Hoje {getCurrentDate()}</span>
+            <span className="block md:inline md:ml-1">Diagnóstico Gratuito com Vagas Limitadas</span>
+          </span>
         </div>
       </div>
     </div>
