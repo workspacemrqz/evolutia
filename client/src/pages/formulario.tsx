@@ -147,7 +147,7 @@ function FormularioPage() {
           'form_source': 'formulario_diagnostico',
           'pixel_id': '706592518905036'
         });
-        
+
         // Evento específico para Facebook Pixel (Lead)
         window.dataLayer.push({
           'event': 'facebook_lead',
@@ -155,10 +155,10 @@ function FormularioPage() {
           'pixel_id': '706592518905036',
           'lead_source': 'formulario_diagnostico'
         });
-        
+
         console.log('Eventos de conversão disparados via GTM: form_conversion e facebook_lead');
       }
-      
+
       // Disparar evento Lead diretamente no Meta Pixel
       if (typeof window.fbq !== 'undefined') {
         window.fbq('track', 'Lead', {
@@ -169,7 +169,7 @@ function FormularioPage() {
         });
         console.log('Evento Lead disparado diretamente via Meta Pixel');
       }
-      
+
       submitMutation.mutate(formData);
     }
   };
@@ -425,6 +425,12 @@ function FormularioPage() {
         <div className="bg-gradient-to-r from-[#1A3B93] to-[#3064EF] text-white px-5 py-3 rounded-lg text-base font-semibold shadow-lg shadow-blue-500/20 inline-flex items-center gap-3">
           <div className="clock-animation">
             <div className="clock-face">
+              <div className="clock-numbers">
+                <div className="clock-number">12</div>
+                <div className="clock-number">3</div>
+                <div className="clock-number">6</div>
+                <div className="clock-number">9</div>
+              </div>
               <div className="clock-hand hour-hand"></div>
               <div className="clock-hand minute-hand"></div>
             </div>
