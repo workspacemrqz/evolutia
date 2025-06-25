@@ -9,8 +9,10 @@ interface AuthContextType {
   user: User | null;
   login: (username: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  logoutMutation: any;
   isLoading: boolean;
   isAuthenticated: boolean;
+  error: Error | null;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -34,7 +36,7 @@ const fetchUser = async (): Promise<User | null> => {
 export function AuthProvider({ children }: { children: ReactNode }) {
   const queryClient = useQueryClient();
 
-  const { data: user, isLoading } = useQuery<User | null>({
+  const { data: user, isLoading, error } = useQuery<User | null>({
     queryKey: ['user'],
     queryFn: fetchUser,
     retry: false,
@@ -106,8 +108,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         user: user || null,
         login,
         logout,
+        logoutMutation,
         isLoading: isLoading || loginMutation.isPending || logoutMutation.isPending,
         isAuthenticated: !!user,
+        error: error as Error | null,
       }}
     >
       {children}

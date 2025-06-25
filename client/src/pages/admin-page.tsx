@@ -1,12 +1,15 @@
+
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { motion } from "framer-motion";
 import { useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { MoreHorizontal, LogOut, Eye, CheckCircle, Clock, User } from 'lucide-react';
-import { useState } from 'react';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Loader2, LogOut, Download, Eye } from 'lucide-react';
+import { FaWhatsapp } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
 
 interface DiagnosticResponse {
   id: number;
@@ -25,19 +28,6 @@ interface DiagnosticResponse {
   status: string;
   createdAt: string;
 }
-
-import { useQuery, useMutation } from "@tanstack/react-query";
-import { motion } from "framer-motion";
-import { useAuth } from "@/hooks/use-auth";
-import { DiagnosticResponse } from "@shared/schema";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Loader2, LogOut, Download, Eye } from "lucide-react";
-import { FaWhatsapp } from "react-icons/fa";
-import { useState, useEffect } from "react";
 
 async function apiRequest(
   method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH",
@@ -65,7 +55,8 @@ async function apiRequest(
 export default function AdminPage() {
   console.log('AdminPage component rendering...');
 
-  const { user, logoutMutation, isLoading: authLoading, error: authError } = useAuth();
+  const { user, logout, isLoading: authLoading, error: authError } = useAuth();
+  const queryClient = useQueryClient();
   const [selectedResponse, setSelectedResponse] = useState<DiagnosticResponse | null>(null);
 
   console.log('AdminPage - user:', user);
@@ -88,7 +79,7 @@ export default function AdminPage() {
     }
   }, [user, authLoading]);
 
-  const { data: responses = [], isLoading, error } = useQuery<DiagnosticResponse[]>({
+  const { data: responses = [], isLoading, error, refetch } = useQuery<DiagnosticResponse[]>({
     queryKey: ['responses'],
     queryFn: async (): Promise<DiagnosticResponse[]> => {
       const response = await fetch('/api/admin/responses', {
@@ -103,32 +94,6 @@ export default function AdminPage() {
     },
     refetchOnWindowFocus: false,
   });
-
-  const updateStatusMutation = useMutation<any, Error, { id: number; status: string }>({
-    mutationFn: async ({ id, status }) => {
-      const response = await fetch(`/api/admin/responses/${id}/status`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ status }),
-        credentials: 'include',
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to update status');
-      }
-
-      return response.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['responses'] });
-    },
-  });
-
-  const handleLogout = () => {
-    logoutMutation.mutate();
-  };
 
   const updateStatusMutation = useMutation({
     mutationFn: async ({ id, status }: { id: number; status: string }) => {
@@ -171,6 +136,15 @@ export default function AdminPage() {
       console.error('Delete response error:', error.message);
     }
   });
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      window.location.href = '/auth';
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
