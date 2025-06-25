@@ -39,7 +39,7 @@ export default function DiagnosticForm({ onClose }: { onClose: () => void }) {
     areas: [],
     timeConsumingProcess: "",
     lostOpportunities: "",
-    source: "homepage",
+    source: window.location.pathname === "/formulario" ? "formulario" : "homepage",
   });
 
   const submitMutation = useMutation({
@@ -174,10 +174,7 @@ export default function DiagnosticForm({ onClose }: { onClose: () => void }) {
       setCurrentStep(currentStep + 1);
     } else {
       // Handle final submission
-       submitMutation.mutate({
-          ...formData,
-          source: window.location.pathname === "/formulario" ? "página de formulário" : "página principal"
-        });
+      submitMutation.mutate(formData);
     }
   };
 

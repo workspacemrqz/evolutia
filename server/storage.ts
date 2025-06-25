@@ -57,12 +57,10 @@ export class DatabaseStorage implements IStorage {
   }
 
   async createDiagnosticResponse(data: InsertDiagnosticResponse | PartialDiagnosticResponse): Promise<DiagnosticResponse> {
-    console.log("Saving diagnostic response with data:", data);
     const [diagnosticResponse] = await db
       .insert(diagnosticResponses)
       .values(data)
       .returning();
-    console.log("Saved diagnostic response:", diagnosticResponse);
     return diagnosticResponse;
   }
 
