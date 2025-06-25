@@ -31,6 +31,12 @@ export default function AdminPage() {
   const { data: responses, isLoading } = useQuery<DiagnosticResponse[]>({
     queryKey: ["/api/admin/responses"],
     queryFn: getQueryFn({ on401: "throw" }),
+    onSuccess: (data) => {
+      console.log("Respostas recebidas:", data);
+      data?.forEach((response, index) => {
+        console.log(`Resposta ${index + 1} - source:`, response.source);
+      });
+    }
   });
 
   const handleLogout = () => {
