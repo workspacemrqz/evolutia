@@ -183,6 +183,7 @@ app.post("/api/diagnostic", async (req, res) => {
       areas,
       timeConsumingProcess,
       lostOpportunities,
+      source,
     } = req.body;
 
     // Insert into database using correct table structure
@@ -190,8 +191,8 @@ app.post("/api/diagnostic", async (req, res) => {
       INSERT INTO diagnostic_responses (
         name, email, phone, company, position, custom_position, 
         revenue, employees, erp, areas, time_consuming_process, 
-        lost_opportunities, status, created_at
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, NOW())
+        lost_opportunities, status, source, created_at
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, NOW())
       RETURNING *
     `;
 
@@ -209,6 +210,7 @@ app.post("/api/diagnostic", async (req, res) => {
       timeConsumingProcess,
       lostOpportunities,
       "Pendente",
+      source,
     ];
 
     const result = await pool.query(query, values);
@@ -248,6 +250,7 @@ app.get("/api/admin/responses", requireAuth, async (req, res) => {
         time_consuming_process as "timeConsumingProcess",
         lost_opportunities as "lostOpportunities",
         status,
+        source,
         created_at as "createdAt"
       FROM diagnostic_responses 
       ORDER BY created_at DESC

@@ -48,6 +48,8 @@ export default function DiagnosticForm({ onClose }: { onClose: () => void }) {
         ...data,
         areas: JSON.stringify(data.areas)
       };
+      console.log("Enviando dados do formulário:", submitData);
+      console.log("Origem detectada:", data.source);
       const response = await apiRequest("POST", "/api/diagnostic", submitData);
       return response.json();
     },

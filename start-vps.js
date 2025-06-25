@@ -144,14 +144,15 @@ app.post("/api/diagnostic", async (req, res) => {
       areas,
       timeConsumingProcess,
       lostOpportunities,
+      source,
     } = req.body;
 
     const query = `
       INSERT INTO diagnostic_responses (
         name, email, phone, company, position, custom_position, 
         revenue, employees, erp, areas, time_consuming_process, 
-        lost_opportunities, status, created_at
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, NOW())
+        lost_opportunities, status, source, created_at
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, NOW())
       RETURNING *
     `;
 
@@ -169,6 +170,7 @@ app.post("/api/diagnostic", async (req, res) => {
       timeConsumingProcess,
       lostOpportunities,
       "Pendente",
+      source,
     ];
 
     const result = await pool.query(query, values);
