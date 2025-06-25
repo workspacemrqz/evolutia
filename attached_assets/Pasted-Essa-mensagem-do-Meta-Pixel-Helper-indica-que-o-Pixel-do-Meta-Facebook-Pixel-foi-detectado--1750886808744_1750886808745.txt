@@ -1,0 +1,56 @@
+Essa mensagem do **Meta Pixel Helper** indica que o Pixel do Meta (Facebook Pixel) **foi detectado** na sua página (neste caso, `evolutiaoficial.com`), **mas não está enviando eventos corretamente**, como o `PageView`.
+
+### O que está acontecendo:
+
+O Pixel está instalado, mas **não está ativando corretamente o evento**. Isso pode ocorrer por alguns motivos:
+
+---
+
+### ⚠️ Causas mais comuns:
+
+1. **Erro no código**: O código do Pixel pode estar mal posicionado ou com algum erro de sintaxe.
+2. **Evento carregado de forma dinâmica**: Se o evento (`PageView`, por exemplo) é disparado após uma ação do usuário (como clicar em um botão ou carregar algo via JavaScript), ele pode não estar sendo reconhecido automaticamente.
+3. **Carregamento fora do tempo esperado**: O Pixel pode estar carregando **depois** que a página já foi interpretada, especialmente se for carregado via JavaScript dinâmico.
+4. **Bloqueio por extensões ou navegadores**: Algumas extensões de navegador, como ad blockers, podem bloquear o carregamento do Pixel (menos comum, mas possível).
+
+---
+
+### ✅ Como resolver:
+
+1. **Teste com a ferramenta de eventos** do Meta:
+
+   * Vá para o [Test Events tool](https://www.facebook.com/events_manager2/list/test-events).
+   * Acesse o site por lá e veja se os eventos estão sendo capturados.
+
+2. **Verifique o código** no seu site:
+
+   * Certifique-se de que o código do Pixel está colocado no `<head>` da página (antes do fechamento do `</head>`).
+   * O código deve conter um evento `fbq('track', 'PageView');`.
+
+   Exemplo básico:
+
+   ```html
+   <!-- Meta Pixel Code -->
+   <script>
+     !function(f,b,e,v,n,t,s)
+     {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+     n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+     if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+     n.queue=[];t=b.createElement(e);t.async=!0;
+     t.src=v;s=b.getElementsByTagName(e)[0];
+     s.parentNode.insertBefore(t,s)}(window, document,'script',
+     'https://connect.facebook.net/en_US/fbevents.js');
+     fbq('init', '706592518905036');
+     fbq('track', 'PageView');
+   </script>
+   <noscript><img height="1" width="1" style="display:none"
+     src="https://www.facebook.com/tr?id=706592518905036&ev=PageView&noscript=1"
+   /></noscript>
+   <!-- End Meta Pixel Code -->
+   ```
+
+3. **Confirme se está no domínio certo**: Se o site redireciona para outro domínio ou subdomínio, o Pixel pode não funcionar corretamente.
+
+---
+
+Se quiser, posso te ajudar a revisar o código do seu site. Basta copiar aqui o trecho onde o Pixel foi instalado ou me explicar onde exatamente ele foi inserido (WordPress, HTML direto, etc.).
