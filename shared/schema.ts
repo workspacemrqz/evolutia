@@ -23,6 +23,7 @@ export const diagnosticResponses = pgTable("diagnostic_responses", {
   timeConsumingProcess: text("time_consuming_process"),
   lostOpportunities: text("lost_opportunities"),
   status: text("status").default("Pendente"), // Pendente, Visto, Atendido
+  source: text("source"), // origem do formulário: homepage, formulario
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
