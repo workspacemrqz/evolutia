@@ -27,7 +27,7 @@ function App() {
             <Route path="/politica-de-privacidade" component={PrivacyPolicyPage} />
             <Route path="/termos-de-uso" component={TermsOfUsePage} />
             <Route path="/auth" component={AuthPage} />
-            <Route path="/admin" component={() => <ProtectedRoute path="/admin" component={AdminPage} />} />
+            <ProtectedRoute path="/admin" component={AdminPage} />
             <Route component={NotFound} />
           </Switch>
           <Toaster />
