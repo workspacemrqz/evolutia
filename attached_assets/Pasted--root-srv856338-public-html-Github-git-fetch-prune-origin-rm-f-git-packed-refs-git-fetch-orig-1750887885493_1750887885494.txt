@@ -1,0 +1,152 @@
+[root@srv856338 public_html]# #Github
+git fetch --prune origin
+rm -f .git/packed-refs
+git fetch origin
+git reset --hard origin/main
+git pull origin main
+
+#Redeploy
+rm -rf node_modules/.cache && npm run build
+npm run build
+node start-production.js
+pm2 delete evolut-site
+pm2 start ecosystem.config.cjs
+pm2 save
+
+#Verificações
+pm2 status
+curl -I http://localhost:3001
+remote: Enumerating objects: 23, done.
+remote: Counting objects: 100% (23/23), done.
+remote: Compressing objects: 100% (8/8), done.
+remote: Total 16 (delta 9), reused 15 (delta 8), pack-reused 0 (from 0)
+Unpacking objects: 100% (16/16), 190.82 KiB | 800.00 KiB/s, done.
+From github.com:workspacemrqz/evolutia
+   fda3fa22..82a8e3a9  main       -> origin/main
+HEAD is now at 82a8e3a9 Assistant checkpoint: Adicionar Meta Pixel nativo ao HTML e eventos diretos
+From github.com:workspacemrqz/evolutia
+ * branch              main       -> FETCH_HEAD
+Already up to date.
+
+> rest-express@1.0.0 build
+> vite build
+
+vite v5.4.14 building for production...
+✓ 0 modules transformed.
+x Build failed in 50ms
+error during build:
+[vite:build-html] Unable to parse HTML; parse5 error code disallowed-content-in-noscript-in-head
+ at /home/evolutiaoficial.com/public_html/client/index.html:26:15
+24 |      fbq('track', 'PageView');
+25 |      </script>
+26 |      <noscript><img height="1" width="1" style="display:none"
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+27 |      src="https://www.facebook.com/tr?id=706592518905036&ev=PageView&noscript=1"
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+28 |      /></noscript>
+   |  ^^^^^^^
+file: /home/evolutiaoficial.com/public_html/client/index.html
+    at handleParseError (file:///home/evolutiaoficial.com/public_html/node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:35172:9)
+    at Parser.onParseError (file:///home/evolutiaoficial.com/public_html/node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:35097:7)
+    at Parser._err (file:///home/evolutiaoficial.com/public_html/node_modules/vite/dist/node/chunks/dep-D-7KCb9p.js:4932:14)
+    at tokenInHeadNoScript (file:///home/evolutiaoficial.com/public_html/node_modules/vite/dist/node/chunks/dep-D-7KCb9p.js:6266:7)
+    at startTagInHeadNoScript (file:///home/evolutiaoficial.com/public_html/node_modules/vite/dist/node/chunks/dep-D-7KCb9p.js:6244:13)
+    at Parser._startTagOutsideForeignContent (file:///home/evolutiaoficial.com/public_html/node_modules/vite/dist/node/chunks/dep-D-7KCb9p.js:5600:17)
+    at Parser._processStartTag (file:///home/evolutiaoficial.com/public_html/node_modules/vite/dist/node/chunks/dep-D-7KCb9p.js:5578:18)
+    at Parser.onStartTag (file:///home/evolutiaoficial.com/public_html/node_modules/vite/dist/node/chunks/dep-D-7KCb9p.js:5558:14)
+    at Tokenizer.emitCurrentTagToken (file:///home/evolutiaoficial.com/public_html/node_modules/vite/dist/node/chunks/dep-D-7KCb9p.js:1346:26)
+    at Tokenizer._stateSelfClosingStartTag (file:///home/evolutiaoficial.com/public_html/node_modules/vite/dist/node/chunks/dep-D-7KCb9p.js:2774:22)
+
+> rest-express@1.0.0 build
+> vite build
+
+vite v5.4.14 building for production...
+✓ 0 modules transformed.
+x Build failed in 31ms
+error during build:
+[vite:build-html] Unable to parse HTML; parse5 error code disallowed-content-in-noscript-in-head
+ at /home/evolutiaoficial.com/public_html/client/index.html:26:15
+24 |      fbq('track', 'PageView');
+25 |      </script>
+26 |      <noscript><img height="1" width="1" style="display:none"
+   |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+27 |      src="https://www.facebook.com/tr?id=706592518905036&ev=PageView&noscript=1"
+   |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+28 |      /></noscript>
+   |  ^^^^^^^
+file: /home/evolutiaoficial.com/public_html/client/index.html
+    at handleParseError (file:///home/evolutiaoficial.com/public_html/node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:35172:9)
+    at Parser.onParseError (file:///home/evolutiaoficial.com/public_html/node_modules/vite/dist/node/chunks/dep-CHZK6zbr.js:35097:7)
+    at Parser._err (file:///home/evolutiaoficial.com/public_html/node_modules/vite/dist/node/chunks/dep-D-7KCb9p.js:4932:14)
+    at tokenInHeadNoScript (file:///home/evolutiaoficial.com/public_html/node_modules/vite/dist/node/chunks/dep-D-7KCb9p.js:6266:7)
+    at startTagInHeadNoScript (file:///home/evolutiaoficial.com/public_html/node_modules/vite/dist/node/chunks/dep-D-7KCb9p.js:6244:13)
+    at Parser._startTagOutsideForeignContent (file:///home/evolutiaoficial.com/public_html/node_modules/vite/dist/node/chunks/dep-D-7KCb9p.js:5600:17)
+    at Parser._processStartTag (file:///home/evolutiaoficial.com/public_html/node_modules/vite/dist/node/chunks/dep-D-7KCb9p.js:5578:18)
+    at Parser.onStartTag (file:///home/evolutiaoficial.com/public_html/node_modules/vite/dist/node/chunks/dep-D-7KCb9p.js:5558:14)
+    at Tokenizer.emitCurrentTagToken (file:///home/evolutiaoficial.com/public_html/node_modules/vite/dist/node/chunks/dep-D-7KCb9p.js:1346:26)
+    at Tokenizer._stateSelfClosingStartTag (file:///home/evolutiaoficial.com/public_html/node_modules/vite/dist/node/chunks/dep-D-7KCb9p.js:2774:22)
+Warning: connect.session() MemoryStore is not
+designed for a production environment, as it will leak
+memory, and will not scale past a single process.
+node:events:502
+      throw er; // Unhandled 'error' event
+      ^
+
+Error: listen EADDRINUSE: address already in use 0.0.0.0:3001
+    at Server.setupListenHandle [as _listen2] (node:net:1908:16)
+    at listenInCluster (node:net:1965:12)
+    at doListen (node:net:2139:7)
+    at process.processTicksAndRejections (node:internal/process/task_queues:83:21)
+Emitted 'error' event on Server instance at:
+    at emitErrorNT (node:net:1944:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21) {
+  code: 'EADDRINUSE',
+  errno: -98,
+  syscall: 'listen',
+  address: '0.0.0.0',
+  port: 3001
+}
+
+Node.js v20.19.3
+[PM2] Applying action deleteProcessId on app [evolut-site](ids: [ 97 ])
+[PM2] [evolut-site](97) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19 │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.3mb  │
+│ 37 │ rotacaicara        │ fork     │ 1    │ online    │ 0%       │ 101.2mb  │
+│ 16 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 35.9mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[PM2][WARN] Applications evolut-site not running, starting...
+[PM2] App [evolut-site] launched (1 instances)
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19 │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.3mb  │
+│ 98 │ evolut-site        │ fork     │ 0    │ online    │ 0%       │ 18.6mb   │
+│ 37 │ rotacaicara        │ fork     │ 1    │ online    │ 0%       │ 101.2mb  │
+│ 16 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 35.9mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[PM2] Saving current process list...
+[PM2] Successfully saved in /root/.pm2/dump.pm2
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19 │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.3mb  │
+│ 98 │ evolut-site        │ fork     │ 0    │ online    │ 0%       │ 72.4mb   │
+│ 37 │ rotacaicara        │ fork     │ 1    │ online    │ 0%       │ 101.2mb  │
+│ 16 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 35.9mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Wed, 25 Jun 2025 21:44:30 GMT
+ETag: W/"782-197a90cb05f"
+Content-Type: text/html; charset=UTF-8
+Content-Length: 1922
+Date: Wed, 25 Jun 2025 21:44:34 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+[root@srv856338 public_html]# 
