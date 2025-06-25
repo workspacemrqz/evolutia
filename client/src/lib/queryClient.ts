@@ -42,7 +42,7 @@ export const getQueryFn: <T>(options: {
     console.log('getQueryFn - Making request to:', url);
     const response = await apiRequest("GET", url);
     console.log('getQueryFn - Response status:', response.status);
-    
+
     if (response.status === 401) {
       console.log('getQueryFn - 401 detected, behavior:', on401);
       if (on401 === "throw") {
@@ -84,3 +84,4 @@ export const queryClient = new QueryClient({
     },
   },
 });
+```

@@ -9,6 +9,7 @@ interface AuthContextType {
   user: User | null;
   login: (username: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  loginMutation: any;
   logoutMutation: any;
   isLoading: boolean;
   isAuthenticated: boolean;
@@ -108,6 +109,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         user: user || null,
         login,
         logout,
+        loginMutation,
         logoutMutation,
         isLoading: isLoading || loginMutation.isPending || logoutMutation.isPending,
         isAuthenticated: !!user,
