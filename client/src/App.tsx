@@ -1,42 +1,49 @@
 import { Switch, Route } from "wouter";
-import { queryClient } from "./lib/queryClient";
-import { QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/hooks/use-auth";
-import { ProtectedRoute } from "@/lib/protected-route";
-import Home from "@/pages/home";
-import NotFound from "@/pages/not-found";
-import TermsOfUse from "@/pages/terms-of-use";
-import PrivacyPolicy from "@/pages/privacy-policy";
-import LGPD from "@/pages/lgpd";
+import HomePage from "@/pages/home";
+import FormularioPage from "@/pages/formulario";
+import LGPDPage from "@/pages/lgpd";
+import PrivacyPolicyPage from "@/pages/privacy-policy";
+import TermsOfUsePage from "@/pages/terms-of-use";
 import AuthPage from "@/pages/auth-page";
 import AdminPage from "@/pages/admin-page";
-import FormularioPage from "@/pages/formulario";
+import { ProtectedRoute } from "@/lib/protected-route";
+import NotFound from "@/pages/not-found";
 
-function Router() {
-  return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/formulario" component={FormularioPage} />
-      <Route path="/termos-de-uso" component={TermsOfUse} />
-      <Route path="/politica-de-privacidade" component={PrivacyPolicy} />
-      <Route path="/lgpd" component={LGPD} />
-      <Route path="/auth" component={AuthPage} />
-      <ProtectedRoute path="/admin" component={AdminPage} />
-      <Route component={NotFound} />
-    </Switch>
-  );
-}
+const queryClient = new QueryClient();
 
 function App() {
+  console.log('App rendering...');
+
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
-        <TooltipProvider>
+        <div className="App">
+          <Switch>
+            <Route path="/" component={HomePage} />
+            <Route path="/formulario" component={FormularioPage} />
+            <Route path="/lgpd" component={LGPDPage} />
+            <Route path="/politica-de-privacidade" component={PrivacyPolicyPage} />
+            <Route path="/termos-de-uso" component={TermsOfUsePage} />
+            <Route path="/auth" component={AuthPage} />
+            <Route path="/admin-test" component={() => {
+              console.log('Admin test route accessed');
+              return (
+                <div className="min-h-screen bg-[#060606] flex items-center justify-center">
+                  <div className="text-center">
+                    <h1 className="text-white text-2xl">Teste da Rota Admin</h1>
+                    <p className="text-gray-400 mt-4">Se você vê isso, o roteamento está funcionando</p>
+                  </div>
+                </div>
+              );
+            }} />
+            <ProtectedRoute path="/admin" component={AdminPage} />
+            <Route component={NotFound} />
+          </Switch>
           <Toaster />
-          <Router />
-        </TooltipProvider>
+        </div>
       </AuthProvider>
     </QueryClientProvider>
   );

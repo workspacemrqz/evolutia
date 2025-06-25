@@ -13,11 +13,15 @@ import { FaWhatsapp } from "react-icons/fa";
 import { useState } from "react";
 
 export default function AdminPage() {
-  const { user, logoutMutation } = useAuth();
+  console.log('AdminPage component rendering...');
+  
+  const { user, logoutMutation, isLoading: authLoading, error: authError } = useAuth();
   const [selectedResponse, setSelectedResponse] = useState<DiagnosticResponse | null>(null);
   
   // Debug logs
   console.log('AdminPage - user:', user);
+  console.log('AdminPage - authLoading:', authLoading);
+  console.log('AdminPage - authError:', authError);
   console.log('AdminPage - user loading state:', user === undefined);
   const [filters, setFilters] = useState({
     search: "",
@@ -149,13 +153,46 @@ export default function AdminPage() {
     return matchesSearch && matchesStatus && matchesSource && matchesDateFrom && matchesDateTo;
   }) || [];
 
-  // Se não há usuário, mostrar loading
-  if (!user) {
+  // Se está carregando autenticação
+  if (authLoading) {
+    console.log('AdminPage - Showing auth loading...');
     return (
       <div className="min-h-screen bg-[#060606] flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="h-8 w-8 animate-spin text-white mx-auto mb-4" />
           <p className="text-white">Verificando autenticação...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Se houve erro na autenticação
+  if (authError) {
+    console.log('AdminPage - Auth error:', authError);
+    return (
+      <div className="min-h-screen bg-[#060606] flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-400 mb-4">Erro na autenticação: {authError.message}</p>
+          <Button 
+            onClick={() => window.location.href = '/auth'} 
+            className="bg-blue-600 hover:bg-blue-700"
+          >
+            Ir para Login
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  // Se não há usuário após carregamento
+  if (!user) {
+    console.log('AdminPage - No user, redirecting to auth...');
+    window.location.href = '/auth';
+    return (
+      <div className="min-h-screen bg-[#060606] flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin text-white mx-auto mb-4" />
+          <p className="text-white">Redirecionando para login...</p>
         </div>
       </div>
     );
