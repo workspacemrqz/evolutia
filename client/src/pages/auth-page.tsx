@@ -21,6 +21,7 @@ export default function AuthPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('Attempting login with:', credentials);
     loginMutation.mutate(credentials);
   };
 
@@ -66,6 +67,11 @@ export default function AuthPage() {
                     required
                   />
                 </div>
+                {loginMutation.error && (
+                  <div className="text-red-400 text-sm mb-4">
+                    {loginMutation.error.message}
+                  </div>
+                )}
                 <Button
                   type="submit"
                   className="w-full bg-blue-600 hover:bg-blue-700"

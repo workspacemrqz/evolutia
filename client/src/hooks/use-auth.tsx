@@ -42,15 +42,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const loginMutation = useMutation({
     mutationFn: async (credentials: LoginData) => {
       const res = await apiRequest("POST", "/api/login", credentials);
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Login failed");
+      }
       return await res.json();
     },
     onSuccess: (user: SelectUser) => {
+      console.log('Login successful, user:', user);
       queryClient.setQueryData(["/api/user"], user);
+      // Force redirect to admin page
+      window.location.href = '/admin';
     },
     onError: (error: Error) => {
+      console.error('Login error:', error);
       toast({
-        title: "Login failed",
-        description: error.message,
+        title: "Erro no login",
+        description: error.message || "Credenciais inválidas",
         variant: "destructive",
       });
     },

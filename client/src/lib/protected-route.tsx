@@ -27,7 +27,17 @@ export function ProtectedRoute({
   if (!user) {
     return (
       <Route path={path}>
-        <Redirect to="/auth" />
+        {() => {
+          window.location.href = '/auth';
+          return (
+            <div className="flex items-center justify-center min-h-screen bg-[#060606]">
+              <div className="text-center">
+                <Loader2 className="h-8 w-8 animate-spin text-white mx-auto mb-4" />
+                <p className="text-white">Redirecionando para login...</p>
+              </div>
+            </div>
+          );
+        }}
       </Route>
     );
   }

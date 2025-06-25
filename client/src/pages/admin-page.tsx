@@ -187,7 +187,6 @@ export default function AdminPage() {
   // Se não há usuário após carregamento
   if (!user) {
     console.log('AdminPage - No user, redirecting to auth...');
-    window.location.href = '/auth';
     return (
       <div className="min-h-screen bg-[#060606] flex items-center justify-center">
         <div className="text-center">
