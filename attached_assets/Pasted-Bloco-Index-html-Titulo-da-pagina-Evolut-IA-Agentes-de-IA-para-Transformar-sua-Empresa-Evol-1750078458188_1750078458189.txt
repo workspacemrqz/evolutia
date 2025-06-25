@@ -1,0 +1,114 @@
+Bloco Index.html
+
+* Titulo da pagina: Evolut IA - Agentes de IA para Transformar sua Empresa (Evolut IA – Agentes de IA para Evoluir sua Empresa).
+* Meta descricao: Transforme sua empresa com...operação com solucoes de inteligencia artificial sob medida. (Evolua sua operação com agentes de inteligência artificial sob medida. Mais produtividade, menos custo e decisões melhores.)
+
+Bloco HeroSection
+
+* Titulo: Transforme sua Empresa com Agentes de IA (Evolua sua Empresa com Agentes de IA).
+* Botao: Comecar Transformacao Agora (Começar Evolução).
+
+Bloco HelpSection
+
+* Titulo: Transforme sua empresa (Sua empresa está parada? A IA faz ela evoluir.).
+* Descricao: Processos manuais lentos, falta de insights e custos altos travam o seu crescimento. Nossa solucao une automacao inteligente, analise de dados e otimizacao de despesas. Ganhe tempo, tome decisoes certeiras e maximize seu ROI hoje mesmo. (Processos manuais, decisões lentas e custos altos travam seu crescimento. Com nossos agentes de IA, você automatiza tarefas, entende seus dados e economiza. Mais agilidade, decisões mais certeiras e lucro maior.)
+* Botao: Quero Acelerar Meus Resultados (Quero Evoluir Agora).
+
+Bloco AgentsSection
+Agente Analista
+
+* Descricao: Analisa dados complexos, identifica padroes e gera insights acionaveis para tomada de decisao estrategica. (Analisa dados, encontra padrões e entrega insights prontos para decisão estrategica.)
+
+Agente Atendimento
+
+* Descricao: Automatiza o atendimento ao cliente com respostas inteligentes e resolucao eficiente de problemas. (Atende seus clientes com rapidez, 24h por dia, sem perder a qualidade.)
+
+Agente Vendas
+
+* Descricao: Otimiza o processo de vendas identificando leads qualificados e automatizando follow-ups. (Encontra os leads certos e automatiza follow-ups para vender mais, no piloto automático.)
+
+Agente Conteudo
+
+* Descricao: Cria e otimiza conteudo automaticamente, desde posts em redes sociais ate relatorios tecnicos. (Gera e otimiza conteúdo para redes sociais, blogs ou relatórios.)
+
+Agente Operacoes
+
+* Descricao: Gerencia e otimiza processos operacionais, automatizando tarefas repetitivas e fluxos de trabalho. (Executa tarefas repetitivas e organiza fluxos para sua equipe ganhar tempo.)
+
+Agente Seguranca
+
+* Descricao: Monitora e protege sistemas contra ameacas, garantindo seguranca e conformidade dos dados. (Protege seus sistemas e garante que tudo esteja em dia com segurança e conformidade.)
+
+Bloco AdvantagesSection
+Implementacao Rapida
+
+* Descricao: Seus agentes ficam prontos em ate 30 dias, com suporte completo durante todo o processo.
+
+ROI Garantido
+
+* Descricao: Reduza custos em ate 70 por cento e aumente a produtividade em ate 300 por cento com nossas soluções.
+
+Suporte
+
+* Descricao: Equipe especializada disponivel todos os dia para garantir que tudo funcione perfeitamente.
+
+Qualidade Premium
+
+* Descricao: Tecnologia de ponta com os melhores modelos de IA do mercado.
+
+Bloco TargetSection
+
+Empresas Medias - De 20 a 500 funcionarios que precisam escalar operacoes sem aumentar custos proporcionalmente.
+Startups em Crescimento - Empresas inovadoras que querem automatizar desde cedo e crescer de forma inteligente.
+Empresas Tradicionais - Negocios estabelecidos que querem se modernizar e manter competitividade no mercado.
+Equipes Remotas - Times distribuidos que precisam de automacao para manter produtividade e coordenacao.
+Reducao de Custos - Organizacoes focadas em otimizar custos operacionais e aumentar margem de lucro.
+Orientadas por Dados - Empresas que valorizam decisoes baseadas em dados e analises preditivas.
+
+* Botao: Verificar Se E Para Minha Empresa (Ver Se É Ideal Para Minha Empresa).
+
+Bloco IntegrationsSection
+
+* Botao: Ver Todas as Integracoes.
+
+Bloco HowItWorksSection
+Consultoria Gratuita
+
+* Descricao: Agendamos uma reuniao para entender suas necessidades e mapear oportunidades de automacao. (Entendemos sua operação e mapeamos onde a IA pode ajudar.)
+
+Analise e Proposta
+
+* Descricao: Nossa equipe faz uma analise detalhada e apresenta uma proposta personalizada para sua empresa. (Criamos uma proposta clara, personalizada para o seu negócio.)
+
+Desenvolvimento
+
+* Descricao: Desenvolvemos e configuramos seus agentes de IA de acordo com suas necessidades especificas. (Montamos e treinamos seus agentes sob medida.)
+
+Implementacao
+
+* Descricao: Realizamos testes e treinamento para garantir a eficacia dos agentes em ambiente real. (Testamos tudo e ensinamos como usar.)
+
+Suporte Continuo
+
+* Descricao: Oferecemos manutencao e atualizacoes para manter seus agentes sempre operando com alta performance. (Monitoramos, atualizamos e melhoramos seus agentes sempre.)
+
+* Botao: Comecar Agora.
+
+Bloco PoweredBySection
+
+* Titulo: Powered by.
+* Descricao: Utilizamos as tecnologias mais avancadas e confiaveis do mercado para garantir a melhor performance dos seus agentes de IA.
+
+Bloco FinalCTASection
+
+* Titulo: Nao deixe seus concorrentes sairem na frente. (Não fique para trás.)
+* Descricao: De o primeiro passo rumo a automacao inteligente. Agende sua consultoria gratuita e transforme sua operacao com IA. (Seus concorrentes já estão usando IA. Agende sua consultoria gratuita e veja como evoluir seu negócio agora.)
+* Botao: Comecar Transformacao AGORA. (Quero Evoluir com IA.)
+* Beneficios listados:
+  Sem compromisso.
+  Consultoria gratuita.
+  Resultado garantido. (Resultados comprovados.)
+
+Bloco Footer
+
+* Texto: 2024 Evolut IA. Todos os direitos reservados.

@@ -1,0 +1,108 @@
+Crie uma landing page responsiva com a identidade visual e estrutura abaixo. A landing page se chama Evolut IA e deve ter um visual sofisticado e sóbrio. Toda a estrutura deve ser fiel às seguintes diretrizes:
+
+Use este logo no header e no footer, com link para https://i.ibb.co/rf3PXc8r/LOGO-Evolut-IA-com-texto-na-horizontal.png
+Tamanho recomendado: 150px largura (desktop), 120px largura (mobile).
+Fundo transparente sempre que possível.
+
+O background geral de toda a página deve ser a cor #060606 fixa.
+
+Estrutura por blocos:
+
+Bloco Hero:
+Background #060606
+Título em #FFFFFF
+Subtítulo e descrição em #BCBCBC
+Botão CTA com fundo gradiente vertical de #1A3B93 a #3064EF, texto em #FFFFFF. No hover, escurecer levemente o gradiente.
+
+Bloco Você precisa de ajuda:
+Mesmo padrão de cores e botão igual ao Bloco Hero.
+
+Bloco Nosso Método Evolut:
+Título em #FFFFFF
+Descrição em #BCBCBC
+Embed de vídeo com player com fundo transparente ou preto.
+Botão CTA igual.
+
+Bloco Agentes Evolut IA:
+Título em #FFFFFF
+Descrição em #BCBCBC
+Cards com fundo #0D0D0D.
+Título dos cards em #FFFFFF
+Texto dos cards em #BCBCBC
+Botão em cada card ou único abaixo dos cards, igual ao CTA padrão.
+
+Bloco Vantagens da nossa assinatura:
+Mesma hierarquia de cores do bloco anterior.
+Ícones em branco ou azul degradê para destaque.
+
+Bloco É para você?:
+Título em #FFFFFF
+Descrição em #BCBCBC
+Cards com estilo semelhante aos do bloco anterior.
+Botão igual ao CTA padrão.
+
+Bloco Integrações:
+Título em #FFFFFF
+Ícones coloridos originais. Se não ficar harmônico, usar versão branca dos ícones.
+Botão igual ao CTA padrão.
+
+Bloco Como funciona:
+Título em #FFFFFF
+Passos destacados em branco ou azul gradiente.
+Descrição em #BCBCBC
+Botão CTA.
+
+Bloco Sua nova rotina:
+Título em #FFFFFF
+Descrição em #BCBCBC
+Botão CTA.
+
+Bloco Assinatura (consultoria gratuita):
+Título em #FFFFFF
+Texto em #BCBCBC
+Botão CTA — este deve ser o principal CTA da página, mais destacado que os demais.
+
+Bloco Garantia:
+Título em #FFFFFF
+Texto em #BCBCBC
+Botão CTA.
+
+Bloco Quem somos:
+Título em #FFFFFF
+Texto em #BCBCBC
+Foto da equipe (se houver), com borda ou filtro para integrar ao fundo escuro.
+
+Bloco Powered by:
+Título em #FFFFFF
+Logos em branco ou coloridos conforme harmonia com o fundo.
+
+Bloco Fundadores:
+Título em #FFFFFF
+Texto em #BCBCBC
+Botões/link para LinkedIn em #FFFFFF ou com borda gradiente.
+
+Bloco FAQ:
+Título em #FFFFFF
+Perguntas e respostas com textos em #BCBCBC
+Botão CTA ao final.
+
+Bloco Último CTA:
+Título em #FFFFFF
+Subtítulo em #BCBCBC
+Botão CTA igual ao padrão, mas com um leve destaque extra, como um glow no botão.
+
+Footer:
+Fundo em #060606
+Links em #BCBCBC ou #FFFFFF
+Copyright em #BCBCBC
+Botão final (opcional) igual ao CTA padrão.
+Logo no footer igual à do header.
+
+Resumo geral:
+Background geral: #060606
+Textos principais: #FFFFFF
+Textos complementares: #BCBCBC
+Botões CTA: gradiente de #1A3B93 para #3064EF com texto em #FFFFFF
+Logo sempre visível no header e no footer com o link indicado.
+
+Importante: mantenha a página responsiva para desktop e mobile. No mobile, o header deve ter a logo centralizada ou no menu hamburger.

@@ -1,0 +1,78 @@
+Substitua o icone que fica acima de '' Implementação Rápida '' por essa imagem: https://i.ibb.co/zVWf8zFs/Implementa-o-R-pida.png
+
+Substitua o icone que fica acima de '' ROI Garantido '' por essa imagem: https://i.ibb.co/DfdNT6hY/ROI-Garantido.png
+
+Substitua o icone que fica acima de '' Suporte '' por essa imagem: https://i.ibb.co/x87MCn5j/Suporte.png
+
+Substitua o icone que fica acima de '' Qualidade Premium '' por essa imagem: https://i.ibb.co/V06vns99/Qualidade.png
+
+Na sessão '' Como funciona '' remova o passo 5 o '' Suporte Contínuo ''.
+
+Remova a sessão de '' Quem somos ''.
+
+Coloque esse link como o link da rede social linkedin: https://www.linkedin.com/company/evolutoficial
+
+Substitua o icone de mensagem pelo icone do logo do whatsapp.
+
+Quando alguem clicar no botão '' Crie seu próprio agente '', Ver se é Ideal para minha empresa '', ''Começar agora '' deve ser arrastado para parte do site que começa com '' Não fique para trás '' acima do rodapé.
+
+Quando alguem clicar no botão '' Quero Evoluir com IA '' que fica acima do rodapé deve ser redirecionado para um formulário com essas etapas:
+1. Titulo: Diagnóstico gratuito
+Descrição: Descubra onde a IA pode destravar crescimento na sua empresa.
+Botão '' Começar ''
+
+2. Titulo: Qual seu nome?
+Botão '' OK ''
+
+2. Titulo: Qual o seu melhor e-mail para contato?
+Botão '' OK ''
+
+3. Titulo: Show. Poderia me informar seu telefone?
+Botão '' OK ''
+
+4. Titulo: De qual empresa você fala?
+Botão '' OK ''
+
+5. Titulo: Qual o seu cargo?
+Mutipla escolha:
+CEO / Founder
+Diretor(a) / Gerente
+Coordenador(a)
+Analista / Técnico
+Outro (Campo para especificar)
+
+6. Titulo: Qual o faturamento anual da empresa?
+Mutipla escolha:
+Até R$ 500 mil
+De R$ 500 mil a R$ 2 milhões
+De R$ 2 a R$ 10 milhões
+Acima de R$ 10 milhões
+
+7. Titulo: Quantos colaboradores trabalham hoje na empresa?
+Botão '' OK ''
+
+
+8. Titulo: Qual ERP vocês utilizam?
+Botão '' OK ''
+
+9. Titulo: Quais áreas da empresa enfrentam mais gargalos hoje?
+Escolha quantos quiser
+Atendimento
+Vendas / Comercial
+Financeiro
+RH
+Logística
+Operações
+Marketing
+Outro
+
+10. Titulo: Existe algum processo que consome tempo demais da equipe? *Qual?
+Botão '' OK ''
+
+11. Titulo: Onde você sente que está perdendo mais dinheiro ou oportunidade?
+Botão '' OK ''
+
+Após responder as 11 questões:
+Titulo: Nosso time vai analisar cada detalhe para montar seu diagnóstico completo.
+Substituo: Clique no botão abaixo para agendar sua reunião estratégica e conhecer o resultado final deste processo.
+Botão: AGENDAR MINHA REUNIÃO

@@ -1,0 +1,86 @@
+Relatório das aplicações de animações e efeitos avançados para a landing page Evolut IA
+
+Header
+Aplicar fade-in suave na logo ao carregar a página
+Aplicar leve escala no hover da logo
+
+Hero
+Adicionar animação contínua no background gradiente
+Aplicar entrada com efeito slide up e fade in no título principal e subtítulo
+Aplicar glow animado contínuo no botão CTA com intensificação no hover
+
+Bloco 2 - Você precisa de ajuda
+Aplicar entrada dos textos com slide up e fade in progressivo
+Adicionar efeito parallax leve nos elementos ou cards ao rolar
+
+Bloco 3 - Nosso Método Evolut
+Aplicar efeito de máscara animada (clip-path) para revelar o vídeo ao entrar na viewport
+Aplicar animação de entrada nos textos com slide up e fade
+Adicionar glow contínuo no botão CTA
+
+Bloco 4 - Agentes Evolut IA
+Aplicar entrada dos cards com stagger fade in e scale in usando GSAP
+Adicionar tilt 3D no hover dos cards com leve sombra e movimento fluido
+
+Bloco 5 - Vantagens da nossa assinatura
+Substituir ícones estáticos por animações Lottie com microinterações no scroll
+Aplicar entrada fade in com leve scale nos textos e conteúdos do bloco
+
+Bloco 6 - É para você?
+Aplicar as mesmas animações dos cards do bloco 4 para manter consistência visual
+Adicionar glow contínuo no botão CTA
+
+Bloco 7 - Integrações
+Implementar slider horizontal com loop infinito das logos das integrações
+Aplicar máscara linear gradient nas laterais do slider para efeito de fade
+Adicionar animação de entrada dos ícones em stagger fade-scale in
+Adicionar leve efeito de hover pulse nos ícones
+
+Bloco 8 - Como funciona
+Animar a entrada de cada passo com fade in e scale in no scroll
+Animar linhas ou conectores entre passos com path animation SVG
+
+Bloco 9 - Sua nova rotina
+Repetir animação do hero para manter consistência
+Aplicar glow e leve oscilação no botão CTA em idle
+
+Bloco 10 - Assinatura (consultoria gratuita)
+Aplicar entrada com overshoot no título principal
+Aplicar animação mais intensa no botão CTA com pulse, glow e leve movimento contínuo
+
+Bloco 11 - Garantia
+Aplicar entrada padrão nos textos
+Se houver selo gráfico, aplicar efeito shimmer animado
+
+Bloco 12 - Quem somos
+Aplicar efeito clip-path reveal na imagem da equipe com leve escala
+Aplicar entrada fade in com stagger nos textos
+
+Bloco 13 - Powered by
+Aplicar fade-scale in nos logos das empresas
+Adicionar leve brilho no hover de cada logo
+
+Bloco 14 - Fundadores
+Aplicar entrada fade in nos textos
+Nos botões de LinkedIn, aplicar efeito de border gradient shift e entrada suave do ícone
+
+Bloco 15 - FAQ
+Aplicar animação de accordion com transição suave de altura e opacity
+Adicionar rotação suave no ícone de expandir/colapsar
+
+Bloco 16 - Último CTA
+Aplicar entrada de textos com fade-slide padrão
+Adicionar glow oscilante contínuo no botão CTA
+
+Footer
+Aplicar fade in suave do footer ao entrar na viewport
+Adicionar underline animado nos links no hover
+
+Considerações gerais
+Utilizar GSAP e ScrollTrigger para animações de entrada e controle de scroll
+Utilizar Framer Motion para interações locais como hover e animações de botões e cards
+Utilizar Lottie para substituir ícones estáticos por microanimações
+Garantir que as animações sejam suaves e não excessivas
+Manter a performance da página alta com lazy load de elementos pesados como Lottie
+Utilizar máscara linear gradient para criar efeitos de fade nas bordas onde necessário
+Adicionar transições CSS simples para microinterações quando possível para manter a leveza
