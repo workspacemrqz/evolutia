@@ -19,6 +19,7 @@ interface FormData {
   areas: string[];
   timeConsumingProcess: string;
   lostOpportunities: string;
+  source: string;
 }
 
 export default function DiagnosticForm({ onClose }: { onClose: () => void }) {
@@ -37,7 +38,8 @@ export default function DiagnosticForm({ onClose }: { onClose: () => void }) {
     erp: "",
     areas: [],
     timeConsumingProcess: "",
-    lostOpportunities: ""
+    lostOpportunities: "",
+    source: "homepage",
   });
 
   const submitMutation = useMutation({

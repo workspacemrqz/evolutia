@@ -15,6 +15,7 @@ interface FormData {
   areas: string[];
   timeConsumingProcess: string;
   lostOpportunities: string;
+  source: string;
 }
 
 function FormularioPage() {
@@ -31,7 +32,8 @@ function FormularioPage() {
     erp: "",
     areas: [],
     timeConsumingProcess: "",
-    lostOpportunities: ""
+    lostOpportunities: "",
+    source: "formulario"
   });
 
   const submitMutation = useMutation({

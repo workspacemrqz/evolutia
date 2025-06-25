@@ -106,6 +106,7 @@ export default function AdminPage() {
       "Áreas com Gargalos",
       "Processo Demorado",
       "Oportunidades Perdidas",
+      "Origem",
     ];
 
     const csvContent = [
@@ -124,6 +125,7 @@ export default function AdminPage() {
           `"${response.areas}"`,
           `"${response.timeConsumingProcess}"`,
           `"${response.lostOpportunities}"`,
+          `"${response.source === "formulario" ? "Página Formulário" : response.source === "homepage" ? "Página Principal" : response.source || "Não informado"}"`,
         ].join(","),
       ),
     ].join("\n");
@@ -311,7 +313,7 @@ export default function AdminPage() {
                         </div>
                       </div>
                     </div>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm">
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-2 text-sm">
                       <div>
                         <span className="text-gray-400">Email:</span>
                         <p className="text-white">{response.email}</p>
@@ -331,6 +333,14 @@ export default function AdminPage() {
                       <div>
                         <span className="text-gray-400">Faturamento:</span>
                         <p className="text-white">{response.revenue}</p>
+                      </div>
+                      <div>
+                        <span className="text-gray-400">Origem:</span>
+                        <p className="text-white">
+                          {response.source === "formulario" ? "Página Formulário" : 
+                           response.source === "homepage" ? "Página Principal" : 
+                           response.source || "Não informado"}
+                        </p>
                       </div>
                     </div>
                   </motion.div>
@@ -450,6 +460,15 @@ export default function AdminPage() {
                   </label>
                   <p className="text-white">
                     {selectedResponse.lostOpportunities}
+                  </p>
+                </div>
+
+                <div>
+                  <label className="text-gray-400">Origem do Formulário:</label>
+                  <p className="text-white">
+                    {selectedResponse.source === "formulario" ? "Página Formulário" : 
+                     selectedResponse.source === "homepage" ? "Página Principal" : 
+                     selectedResponse.source || "Não informado"}
                   </p>
                 </div>
 
