@@ -1,4 +1,3 @@
-
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { motion } from "framer-motion";
 import { useAuth } from '@/hooks/use-auth';
@@ -27,6 +26,11 @@ interface DiagnosticResponse {
   lostOpportunities: string;
   status: string;
   createdAt: string;
+}
+
+// Extend the DiagnosticResponse interface to include the 'source' property
+interface ExtendedDiagnosticResponse extends DiagnosticResponse {
+  source?: string;
 }
 
 async function apiRequest(
@@ -79,9 +83,9 @@ export default function AdminPage() {
     }
   }, [user, authLoading]);
 
-  const { data: responses = [], isLoading, error, refetch } = useQuery<DiagnosticResponse[]>({
+  const { data: responses = [], isLoading, error, refetch } = useQuery<ExtendedDiagnosticResponse[]>({
     queryKey: ['responses'],
-    queryFn: async (): Promise<DiagnosticResponse[]> => {
+    queryFn: async (): Promise<ExtendedDiagnosticResponse[]> => {
       const response = await fetch('/api/admin/responses', {
         credentials: 'include',
       });
@@ -208,7 +212,7 @@ export default function AdminPage() {
     link.click();
   };
 
-  const filteredData = responses?.filter((response: DiagnosticResponse) => {
+  const filteredData = responses?.filter((response: ExtendedDiagnosticResponse) => {
     try {
       const name = String(response.name || '').toLowerCase();
       const email = String(response.email || '').toLowerCase();
@@ -480,6 +484,11 @@ export default function AdminPage() {
                                 timeZone: 'America/Sao_Paulo'
                               }) : "Data inválida"}
                           </Badge>
+                        </div>
+                        <div>
+                            <Badge variant={response.source === 'form' ? 'default' : 'secondary'}>
+                                {response.source === 'form' ? 'Formulário' : response.source === 'chat' ? 'Chat' : 'Desconhecido'}
+                            </Badge>
                         </div>
                         <div className="flex gap-2 items-center">
                           <Select
