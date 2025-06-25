@@ -75,7 +75,32 @@ export default function AdminPage() {
     dateTo: ""
   });
 
-  // Auth is handled by ProtectedRoute wrapper
+  // Show loading while checking authentication
+  if (authLoading) {
+    console.log('AdminPage - Showing auth loading...');
+    return (
+      <div className="min-h-screen bg-[#060606] flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin text-white mx-auto mb-4" />
+          <p className="text-white">Verificando autenticação...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Redirect if not authenticated
+  if (!user) {
+    console.log('AdminPage - No user, redirecting to auth...');
+    window.location.href = '/auth';
+    return (
+      <div className="min-h-screen bg-[#060606] flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin text-white mx-auto mb-4" />
+          <p className="text-white">Redirecionando para login...</p>
+        </div>
+      </div>
+    );
+  }
 
   const { data: responses = [], isLoading, error, refetch } = useQuery<ExtendedDiagnosticResponse[]>({
     queryKey: ['responses'],
@@ -250,8 +275,6 @@ export default function AdminPage() {
       return false;
     }
   }) || [];
-
-  // Auth loading is handled by ProtectedRoute wrapper
 
   if (isLoading) {
     return (
