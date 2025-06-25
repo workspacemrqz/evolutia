@@ -422,7 +422,7 @@ function FormularioPage() {
       </div>
 
       <div className="mt-8 text-center">
-        <div className="bg-gradient-to-r from-[#1A3B93] to-[#3064EF] text-white px-5 py-3 rounded-lg text-base font-semibold shadow-lg shadow-blue-500/20 inline-flex items-center gap-3 max-w-full">
+        <div className="bg-gradient-to-r from-[#1A3B93] to-[#3064EF] text-white px-3 py-2 md:px-5 md:py-3 rounded-lg text-sm md:text-base font-semibold shadow-lg shadow-blue-500/20 inline-flex items-center gap-2 md:gap-3 max-w-full">
           <div className="clock-animation flex-shrink-0">
             <div className="clock-face">
               <div className="clock-hand hour-hand"></div>
