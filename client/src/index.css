@@ -186,16 +186,16 @@
 
   /* Animação do relógio */
   .clock-animation {
-    width: 24px;
-    height: 24px;
+    width: 12px;
+    height: 12px;
     display: inline-block;
     flex-shrink: 0;
   }
 
   .clock-face {
-    width: 24px;
-    height: 24px;
-    border: 2px solid white;
+    width: 12px;
+    height: 12px;
+    border: 1px solid white;
     border-radius: 50%;
     position: relative;
     background: transparent;
@@ -209,20 +209,20 @@
   }
 
   .hour-hand {
-    width: 2px;
-    height: 8px;
+    width: 1px;
+    height: 4px;
     left: 50%;
     bottom: 50%;
-    margin-left: -1px;
+    margin-left: -0.5px;
     animation: clock-hour-rotation 120s linear infinite;
   }
 
   .minute-hand {
-    width: 1.5px;
-    height: 10px;
+    width: 0.75px;
+    height: 5px;
     left: 50%;
     bottom: 50%;
-    margin-left: -0.75px;
+    margin-left: -0.375px;
     animation: clock-minute-rotation 20s linear infinite;
   }
 
@@ -247,26 +247,26 @@
   /* Tamanho maior do relógio no mobile */
   @media (max-width: 768px) {
     .clock-animation {
-      width: 96px;
-      height: 96px;
+      width: 48px;
+      height: 48px;
     }
 
     .clock-face {
-      width: 96px;
-      height: 96px;
-      border: 6px solid white;
+      width: 48px;
+      height: 48px;
+      border: 3px solid white;
     }
 
     .hour-hand {
-      width: 6px;
-      height: 32px;
-      margin-left: -3px;
+      width: 3px;
+      height: 16px;
+      margin-left: -1.5px;
     }
 
     .minute-hand {
-      width: 4px;
-      height: 40px;
-      margin-left: -2px;
+      width: 2px;
+      height: 20px;
+      margin-left: -1px;
     }
   }
 }
