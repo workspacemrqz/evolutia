@@ -26,7 +26,7 @@ export default function FinalCTASection() {
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse"></div>
           <div className="relative z-10">
             <motion.h2 
-              className="text-4xl sm:text-6xl lg:text-7xl font-bold text-white mb-4 sm:mb-6 uppercase leading-tight"
+              className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 uppercase leading-tight"
               initial={{ y: 30, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
               viewport={{ once: true }}
@@ -35,7 +35,7 @@ export default function FinalCTASection() {
               Não fique para trás
             </motion.h2>
             <motion.p 
-              className="text-xl sm:text-3xl lg:text-4xl text-white/90 mb-3 sm:mb-4 leading-tight"
+              className="hidden sm:block text-xl sm:text-3xl lg:text-4xl text-white/90 mb-3 sm:mb-4 leading-tight"
               initial={{ y: 20, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
               viewport={{ once: true }}
