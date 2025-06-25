@@ -192,32 +192,6 @@
     flex-shrink: 0;
   }
 
-  /* Tamanho maior do relógio no mobile */
-  @media (max-width: 768px) {
-    .clock-animation {
-      width: 48px;
-      height: 48px;
-    }
-
-    .clock-face {
-      width: 48px;
-      height: 48px;
-      border: 4px solid white;
-    }
-
-    .hour-hand {
-      width: 4px;
-      height: 16px;
-      margin-left: -2px;
-    }
-
-    .minute-hand {
-      width: 3px;
-      height: 20px;
-      margin-left: -1.5px;
-    }
-  }
-
   .clock-face {
     width: 24px;
     height: 24px;
@@ -240,7 +214,7 @@
     left: 50%;
     bottom: 50%;
     margin-left: -1px;
-    animation: clock-hour-rotation 60s linear infinite;
+    animation: clock-hour-rotation 24s linear infinite;
   }
 
   .minute-hand {
@@ -249,7 +223,7 @@
     left: 50%;
     bottom: 50%;
     margin-left: -0.75px;
-    animation: clock-minute-rotation 10s linear infinite;
+    animation: clock-minute-rotation 4s linear infinite;
   }
 
   @keyframes clock-hour-rotation {
