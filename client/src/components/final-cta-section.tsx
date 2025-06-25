@@ -14,10 +14,15 @@ export default function FinalCTASection() {
 
   return (
     <section id="nao-fique-para-tras" className="py-24 sm:py-32 bg-[#060606]">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative flex justify-center">
         {/* Seta animada apenas no mobile */}
         <motion.div 
-          className="block sm:hidden absolute -top-24 left-1/2 transform -translate-x-1/2 z-20"
+          className="block sm:hidden absolute -top-24 z-20"
+          style={{ 
+            left: '50%', 
+            transform: 'translateX(-50%)',
+            position: 'absolute'
+          }}
           initial={{ y: -30, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           viewport={{ once: true }}
