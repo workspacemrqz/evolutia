@@ -422,14 +422,14 @@ function FormularioPage() {
       </div>
 
       <div className="mt-8 text-center">
-        <div className="bg-gradient-to-r from-[#1A3B93] to-[#3064EF] text-white px-5 py-3 rounded-lg text-base font-semibold shadow-lg shadow-blue-500/20 inline-flex items-center gap-2">
+        <div className="bg-gradient-to-r from-[#1A3B93] to-[#3064EF] text-white px-5 py-3 rounded-lg text-base font-semibold shadow-lg shadow-blue-500/20 inline-flex items-center gap-3">
           <div className="clock-animation">
             <div className="clock-face">
               <div className="clock-hand hour-hand"></div>
               <div className="clock-hand minute-hand"></div>
             </div>
           </div>
-          Só Hoje {getCurrentDate()} Diagnóstico Gratuito com Vagas Limitadas
+          <span>Só Hoje {getCurrentDate()} Diagnóstico Gratuito com Vagas Limitadas</span>
         </div>
       </div>
     </div>

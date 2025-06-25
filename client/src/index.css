@@ -186,15 +186,15 @@
 
   /* Animação do relógio */
   .clock-animation {
-    width: 18px;
-    height: 18px;
+    width: 24px;
+    height: 24px;
     display: inline-block;
     flex-shrink: 0;
   }
 
   .clock-face {
-    width: 18px;
-    height: 18px;
+    width: 24px;
+    height: 24px;
     border: 2px solid white;
     border-radius: 50%;
     position: relative;
@@ -209,21 +209,21 @@
   }
 
   .hour-hand {
-    width: 1.5px;
-    height: 6px;
-    left: 50%;
-    bottom: 50%;
-    margin-left: -0.75px;
-    animation: clock-hour-rotation 12s linear infinite;
-  }
-
-  .minute-hand {
-    width: 1px;
+    width: 2px;
     height: 8px;
     left: 50%;
     bottom: 50%;
-    margin-left: -0.5px;
-    animation: clock-minute-rotation 1s linear infinite;
+    margin-left: -1px;
+    animation: clock-hour-rotation 24s linear infinite;
+  }
+
+  .minute-hand {
+    width: 1.5px;
+    height: 10px;
+    left: 50%;
+    bottom: 50%;
+    margin-left: -0.75px;
+    animation: clock-minute-rotation 4s linear infinite;
   }
 
   @keyframes clock-hour-rotation {
