@@ -39,9 +39,12 @@ export const getQueryFn: <T>(options: {
   async ({ queryKey }) => {
   const url = queryKey[0];
   try {
+    console.log('getQueryFn - Making request to:', url);
     const response = await apiRequest("GET", url);
+    console.log('getQueryFn - Response status:', response.status);
+    
     if (response.status === 401) {
-      console.log('getQueryFn - 401 detected, handling...');
+      console.log('getQueryFn - 401 detected, behavior:', on401);
       if (on401 === "throw") {
         throw new Error("Unauthorized - 401");
       } else {
@@ -51,13 +54,16 @@ export const getQueryFn: <T>(options: {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    return await response.json();
+    const data = await response.json();
+    console.log('getQueryFn - Response data:', data);
+    return data;
   } catch (error) {
     console.error('getQueryFn error:', error);
     if (on401 === "throw" && (error as Error).message.includes('401')) {
       throw error;
     }
     if ((error as Error).message.includes('401') || (error as Error).message.includes('Unauthorized')) {
+      console.log('getQueryFn - Returning null due to 401');
       return null;
     }
     throw error;
