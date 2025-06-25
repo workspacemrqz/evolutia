@@ -184,17 +184,28 @@ export default function DiagnosticForm({ onClose }: { onClose: () => void }) {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      // Disparar evento de conversão via Google Tag Manager
+      // Disparar eventos de conversão via Google Tag Manager
       if (typeof window.dataLayer !== 'undefined') {
+        // Evento principal de conversão
         window.dataLayer.push({
           'event': 'form_conversion',
           'event_category': 'formulario',
           'event_action': 'agendamento_reuniao',
           'event_label': 'lead_gerado',
           'conversion_type': 'lead',
-          'form_source': 'modal_diagnostico'
+          'form_source': 'modal_diagnostico',
+          'pixel_id': '706592518905036'
         });
-        console.log('Evento de conversão disparado via GTM: form_conversion');
+        
+        // Evento específico para Facebook Pixel (Lead)
+        window.dataLayer.push({
+          'event': 'facebook_lead',
+          'fb_event_type': 'Lead',
+          'pixel_id': '706592518905036',
+          'lead_source': 'modal_diagnostico'
+        });
+        
+        console.log('Eventos de conversão disparados via GTM: form_conversion e facebook_lead');
       }
       
       // Handle final submission

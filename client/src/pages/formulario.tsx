@@ -135,17 +135,28 @@ function FormularioPage() {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      // Disparar evento de conversão via Google Tag Manager
+      // Disparar eventos de conversão via Google Tag Manager
       if (typeof window.dataLayer !== 'undefined') {
+        // Evento principal de conversão
         window.dataLayer.push({
           'event': 'form_conversion',
           'event_category': 'formulario',
           'event_action': 'agendamento_reuniao',
           'event_label': 'lead_gerado',
           'conversion_type': 'lead',
-          'form_source': 'formulario_diagnostico'
+          'form_source': 'formulario_diagnostico',
+          'pixel_id': '706592518905036'
         });
-        console.log('Evento de conversão disparado via GTM: form_conversion');
+        
+        // Evento específico para Facebook Pixel (Lead)
+        window.dataLayer.push({
+          'event': 'facebook_lead',
+          'fb_event_type': 'Lead',
+          'pixel_id': '706592518905036',
+          'lead_source': 'formulario_diagnostico'
+        });
+        
+        console.log('Eventos de conversão disparados via GTM: form_conversion e facebook_lead');
       }
       
       submitMutation.mutate(formData);
@@ -335,6 +346,20 @@ function FormularioPage() {
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [currentStep, formData]);
+
+  // Disparar PageView quando a página carrega
+  useEffect(() => {
+    if (typeof window.dataLayer !== 'undefined') {
+      window.dataLayer.push({
+        'event': 'facebook_pageview',
+        'fb_event_type': 'PageView',
+        'pixel_id': '706592518905036',
+        'page_location': window.location.href,
+        'page_title': document.title
+      });
+      console.log('PageView disparado via GTM para Facebook Pixel');
+    }
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#060606] text-white flex flex-col items-center justify-center p-5">
