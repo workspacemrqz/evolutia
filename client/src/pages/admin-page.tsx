@@ -348,10 +348,7 @@ export default function AdminPage() {
               </div>
               <div className="flex gap-2">
                 <Button
-                  onClick={() => {
-                    console.log('Toggle filters clicked. Current state:', showFilters);
-                    setShowFilters(!showFilters);
-                  }}
+                  onClick={() => setShowFilters(!showFilters)}
                   variant="outline"
                   className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700"
                 >
