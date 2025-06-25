@@ -29,7 +29,7 @@ export default function AdminPage() {
   const { user, logoutMutation } = useAuth();
   const [selectedResponse, setSelectedResponse] =
     useState<DiagnosticResponse | null>(null);
-  const [showFilters, setShowFilters] = useState(false);
+  const [showFilters, setShowFilters] = useState(true);
   const [filters, setFilters] = useState({
     search: "",
     status: "",
@@ -350,7 +350,7 @@ export default function AdminPage() {
                 <Button
                   onClick={() => setShowFilters(!showFilters)}
                   variant="outline"
-                  className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700"
+                  className={`border-gray-700 text-white hover:bg-gray-700 ${showFilters ? 'bg-blue-600 border-blue-500' : 'bg-gray-800'}`}
                 >
                   <Filter className="w-4 h-4 mr-2" />
                   {showFilters ? 'Ocultar' : 'Mostrar'} Filtros
