@@ -1,0 +1,208 @@
+[root@srv856338 public_html]# cd /home/evolutiaoficial.com/public_html
+
+# 1. Remova referências remotas obsoletas
+git fetch --prune origin
+
+# 2. Apague o arquivo de refs empacotadas para forçar rebuild
+rm -f .git/packed-refs
+
+# 3. Busque todas as refs do remoto
+git fetch origin
+
+# 4. Alinhe seu workspace à branch main
+git reset --hard origin/main
+
+# 5. Puxe mudanças (não deve mais dar erro)
+git pull origin main
+
+# 6. Instale dependências
+npm install
+
+# 7. Build da aplicação
+npm run build
+
+# 8. Execute o script de build para VPS
+node build-for-vps.js
+
+# 9. Pare o processo atual do PM2
+pm2 delete evolut-site
+
+# 10. Inicie o novo processo
+pm2 start ecosystem.config.cjs
+
+# 11. Salve a configuração do PM2
+pm2 save
+
+# 12. Verifique o status
+pm2 status
+
+# 13. Teste se o servidor está respondendo na porta correta
+curl -I http://localhost:3001
+remote: Enumerating objects: 34, done.
+remote: Counting objects: 100% (34/34), done.
+remote: Compressing objects: 100% (8/8), done.
+remote: Total 24 (delta 16), reused 24 (delta 16), pack-reused 0 (from 0)
+Unpacking objects: 100% (24/24), 18.35 KiB | 2.29 MiB/s, done.
+From github.com:workspacemrqz/evolutia
+   37145d10..b2729f9b  main       -> origin/mainHEAD is now at b2729f9b Assistant checkpoint: Adicionar logs detalhados ao build process
+From github.com:workspacemrqz/evolutia
+ * branch              main       -> FETCH_HEAD
+Already up to date.
+
+up to date, audited 486 packages in 2s
+
+66 packages are looking for funding
+  run `npm fund` for details
+
+7 vulnerabilities (1 low, 6 moderate)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+> rest-express@1.0.0 build
+> vite build
+
+vite v5.4.14 building for production...
+transforming (1) index.htmlBrowserslist: browsers data (caniuse-lite) is 8 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+✓ 2069 modules transformed.
+../dist/public/index.html                   1.92 kB │ gzip:   1.03 kB
+../dist/public/assets/index-D8fzKg9s.css   88.39 kB │ gzip:  14.69 kB
+../dist/public/assets/index-BUmwUbCv.js   515.81 kB │ gzip: 160.28 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 5.47s
+🔨 Building application for production...
+⏰ Started at: 2025-06-25T18:08:48.564Z
+📍 Working directory: /home/evolutiaoficial.com/public_html
+
+📦 Installing dependencies...
+🔄 Running: npm install
+
+up to date, audited 486 packages in 1s
+
+66 packages are looking for funding
+  run `npm fund` for details
+
+7 vulnerabilities (1 low, 6 moderate)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+✅ Dependencies installed in 1448ms
+
+🏗️ Building client application...
+🔄 Running: npm run build
+
+> rest-express@1.0.0 build
+> vite build
+
+vite v5.4.14 building for production...
+transforming (1) index.htmlBrowserslist: browsers data (caniuse-lite) is 8 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+✓ 2069 modules transformed.
+../dist/public/index.html                   1.92 kB │ gzip:   1.03 kB
+../dist/public/assets/index-D8fzKg9s.css   88.39 kB │ gzip:  14.69 kB
+../dist/public/assets/index-BUmwUbCv.js   515.81 kB │ gzip: 160.28 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 5.64s
+✅ Client built successfully in 6047ms
+
+📋 Copying files to dist directory...
+📂 Target directory: /home/evolutiaoficial.com/public_html/dist
+📁 Dist directory already exists
+📄 Files to copy: 5
+
+[1/5] Processing: package.json
+✅ Copied package.json (3534 bytes → 3534 bytes)
+[2/5] Processing: package-lock.json
+✅ Copied package-lock.json (309591 bytes → 309591 bytes)
+
+[3/5] Processing: start-vps.js
+✅ Copied start-vps.js (6436 bytes → 6436 bytes)
+[4/5] Processing: ecosystem.config.cjs
+✅ Copied ecosystem.config.cjs (575 bytes → 575 bytes)
+
+[5/5] Processing: .env
+✅ Copied .env (107 bytes → 107 bytes)
+
+📊 Build artifacts verification:
+📂 Dist directory exists: true
+📂 Build directory exists: true
+📁 Files in dist: 6
+   - FILE: .env (107 bytes)
+   - FILE: ecosystem.config.cjs (575 bytes)
+   - FILE: package-lock.json (309591 bytes)
+   - FILE: package.json (3534 bytes)
+   - DIR: public
+   - FILE: start-vps.js (6436 bytes)
+📁 Files in build: 3
+   - DIR: server
+   - DIR: shared
+   - FILE: vite.config.js (1060 bytes)
+
+🎉 Build completed successfully!
+📁 Files ready in ./dist directory
+📊 Summary: 5 files copied, 0 files skipped
+⏱️  Total build time: 7499ms
+✅ Finished at: 2025-06-25T18:08:56.064Z
+[PM2] Applying action deleteProcessId on app [evolut-site](ids: [ 64 ])
+[PM2] [evolut-site](64) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19 │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.7mb  │
+│ 37 │ rotacaicara        │ fork     │ 1    │ online    │ 0%       │ 100.4mb  │
+│ 16 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 34.3mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[PM2][WARN] Applications evolut-site not running, starting...
+[PM2] App [evolut-site] launched (1 instances)
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19 │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.7mb  │
+│ 65 │ evolut-site        │ fork     │ 0    │ online    │ 0%       │ 18.1mb   │
+│ 37 │ rotacaicara        │ fork     │ 1    │ online    │ 0%       │ 100.4mb  │
+│ 16 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 34.3mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[PM2] Saving current process list...
+[PM2] Successfully saved in /root/.pm2/dump.pm2
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19 │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.7mb  │
+│ 65 │ evolut-site        │ fork     │ 0    │ online    │ 0%       │ 72.8mb   │
+│ 37 │ rotacaicara        │ fork     │ 1    │ online    │ 0%       │ 100.4mb  │
+│ 16 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 34.3mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Wed, 25 Jun 2025 18:08:55 GMT
+ETag: W/"782-197a84752a4"
+Content-Type: text/html; charset=UTF-8
+Content-Length: 1922
+Date: Wed, 25 Jun 2025 18:08:56 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+[root@srv856338 public_html]# 
