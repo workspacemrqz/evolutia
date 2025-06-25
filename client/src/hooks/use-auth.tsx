@@ -30,7 +30,8 @@ const fetchUser = async (): Promise<User | null> => {
       return null;
     }
 
-    return await response.json();
+    const data = await response.json();
+    return data.user || data;
   } catch (error) {
     return null;
   }
@@ -66,8 +67,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      // Force refetch user data to get the complete user object with canDelete
       queryClient.invalidateQueries({ queryKey: ['user'] });
+      queryClient.refetchQueries({ queryKey: ['user'] });
     },
   });
 

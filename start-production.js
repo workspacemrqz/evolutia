@@ -155,7 +155,14 @@ app.post("/api/login", (req, res, next) => {
         return res.status(500).json({ error: "Login failed" });
       }
       console.log("Login successful:", user.username);
-      return res.json({ success: true, user: { username: user.username } });
+      return res.json({ 
+        success: true, 
+        user: { 
+          id: user.id,
+          username: user.username,
+          canDelete: user.canDelete || false
+        }
+      });
     });
   })(req, res, next);
 });
@@ -171,7 +178,13 @@ app.post("/api/logout", (req, res) => {
 
 app.get("/api/user", (req, res) => {
   if (req.isAuthenticated()) {
-    res.json({ user: req.user });
+    res.json({ 
+      user: {
+        id: req.user.id,
+        username: req.user.username,
+        canDelete: req.user.canDelete || false
+      }
+    });
   } else {
     res.status(401).json({ error: "Not authenticated" });
   }
