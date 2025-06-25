@@ -6,6 +6,14 @@ import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
 
+// Declarações para pixels de conversão
+declare global {
+  interface Window {
+    fbq: any;
+    gtag: any;
+  }
+}
+
 interface FormData {
   name: string;
   email: string;
@@ -175,6 +183,22 @@ export default function DiagnosticForm({ onClose }: { onClose: () => void }) {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
+      // Disparar pixel de conversão antes de enviar o formulário
+      if (typeof fbq !== 'undefined') {
+        fbq('track', 'Lead');
+        console.log('Pixel de conversão disparado: Lead');
+      }
+      
+      // Disparar evento do Google Analytics se disponível
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'conversion', {
+          'send_to': 'AW-CONVERSION_ID/CONVERSION_LABEL', // Substitua pelos seus IDs
+          'event_category': 'formulario',
+          'event_label': 'agendamento_reuniao'
+        });
+        console.log('Conversão Google Ads disparada');
+      }
+      
       // Handle final submission
       submitMutation.mutate(formData);
     }
