@@ -1,0 +1,169 @@
+[root@srv856338 public_html]# cd /home/evolutiaoficial.com/public_html
+
+# 1. Remova referências remotas obsoletas
+git fetch --prune origin
+
+# 2. Apague o arquivo de refs empacotadas para forçar rebuild
+rm -f .git/packed-refs
+
+# 3. Busque todas as refs do remoto
+git fetch origin
+
+# 4. Alinhe seu workspace à branch main
+git reset --hard origin/main
+
+# 5. Puxe mudanças (não deve mais dar erro)
+git pull origin main
+
+# 6. Instale dependências
+npm install
+
+# 7. Build da aplicação
+npm run build
+
+# 8. Execute o script de build para VPS
+node build-for-vps.js
+
+# 9. Pare o processo atual do PM2
+pm2 delete evolut-site
+
+# 10. Inicie o novo processo
+pm2 start ecosystem.config.cjs
+
+# 11. Salve a configuração do PM2
+pm2 save
+
+# 12. Verifique o status
+pm2 status
+
+# 13. Teste se o servidor está respondendo na porta correta
+curl -I http://localhost:3001
+remote: Enumerating objects: 25, done.
+remote: Counting objects: 100% (25/25), done.
+remote: Compressing objects: 100% (6/6), done.
+remote: Total 15 (delta 9), reused 15 (delta 9), pack-reused 0 (from 0)
+Unpacking objects: 100% (15/15), 10.62 KiB | 2.12 MiB/s, done.
+From github.com:workspacemrqz/evolutia
+   a5330ac3..ee00e3d8  main       -> origin/mainHEAD is now at ee00e3d8 Assistant checkpoint: Corrigir tela preta com debug e melhor tratamento de erros
+From github.com:workspacemrqz/evolutia
+ * branch              main       -> FETCH_HEAD
+Already up to date.
+
+up to date, audited 486 packages in 2s
+
+66 packages are looking for funding
+  run `npm fund` for details
+
+7 vulnerabilities (1 low, 6 moderate)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+
+> rest-express@1.0.0 build
+> vite build
+
+vite v5.4.14 building for production...
+transforming (3) src/main.tsxBrowserslist: browsers data (caniuse-lite) is 8 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+✓ 2072 modules transformed.
+../dist/public/index.html                   1.92 kB │ gzip:   1.03 kB
+../dist/public/assets/index-BRlIuTEb.css   88.57 kB │ gzip:  14.71 kB
+../dist/public/assets/index-4__9RaiZ.js   519.91 kB │ gzip: 163.00 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 5.74s
+🔨 Building application for production...
+📦 Installing dependencies...
+
+up to date, audited 486 packages in 1s
+
+66 packages are looking for funding
+  run `npm fund` for details
+
+7 vulnerabilities (1 low, 6 moderate)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+🏗️ Building client application...
+
+> rest-express@1.0.0 build
+> vite build
+
+vite v5.4.14 building for production...
+transforming (1) index.htmlBrowserslist: browsers data (caniuse-lite) is 8 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+✓ 2072 modules transformed.
+../dist/public/index.html                   1.92 kB │ gzip:   1.03 kB
+../dist/public/assets/index-BRlIuTEb.css   88.57 kB │ gzip:  14.71 kB
+../dist/public/assets/index-4__9RaiZ.js   519.91 kB │ gzip: 163.00 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 5.70s
+📋 Copying files...
+✅ Copied package.json
+✅ Copied package-lock.json
+✅ Copied start-vps.js
+✅ Copied ecosystem.config.cjs
+✅ Copied .env
+🎉 Build completed successfully!
+📁 Files ready in ./dist directory
+[PM2] Applying action deleteProcessId on app [evolut-site](ids: [ 59 ])
+[PM2] [evolut-site](59) ✓
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19 │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.3mb  │
+│ 37 │ rotacaicara        │ fork     │ 1    │ online    │ 0%       │ 100.4mb  │
+│ 16 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 35.9mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[PM2][WARN] Applications evolut-site not running, starting...
+[PM2] App [evolut-site] launched (1 instances)
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19 │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.3mb  │
+│ 60 │ evolut-site        │ fork     │ 0    │ online    │ 0%       │ 18.5mb   │
+│ 37 │ rotacaicara        │ fork     │ 1    │ online    │ 0%       │ 100.4mb  │
+│ 16 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 35.9mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[PM2] Saving current process list...
+[PM2] Successfully saved in /root/.pm2/dump.pm2
+┌────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19 │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.3mb  │
+│ 60 │ evolut-site        │ fork     │ 0    │ online    │ 0%       │ 72.3mb   │
+│ 37 │ rotacaicara        │ fork     │ 1    │ online    │ 0%       │ 100.4mb  │
+│ 16 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 35.9mb   │
+└────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+HTTP/1.1 200 OK
+X-Powered-By: Express
+Accept-Ranges: bytes
+Cache-Control: public, max-age=0
+Last-Modified: Wed, 25 Jun 2025 17:25:36 GMT
+ETag: W/"782-197a81fa77c"
+Content-Type: text/html; charset=UTF-8
+Content-Length: 1922
+Date: Wed, 25 Jun 2025 17:25:37 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
+[root@srv856338 public_html]# 
