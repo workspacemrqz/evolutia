@@ -336,10 +336,12 @@ export default function AdminPage() {
                       </div>
                       <div>
                         <span className="text-gray-400">Origem:</span>
-                        <p className="text-white">
-                          {response.source === "formulario" ? "Página Formulário" : 
-                           response.source === "homepage" ? "Página Principal" : 
-                           response.source || "Não informado"}
+                         <p className="text-white">
+                          {response.source === "página principal" 
+                          ? "Página Principal" 
+                          : response.source === "página de formulário" 
+                          ? "Página Formulário" 
+                          : response.source || "Não informado"}
                         </p>
                       </div>
                     </div>
@@ -466,9 +468,11 @@ export default function AdminPage() {
                 <div>
                   <label className="text-gray-400">Origem do Formulário:</label>
                   <p className="text-white">
-                    {selectedResponse.source === "formulario" ? "Página Formulário" : 
-                     selectedResponse.source === "homepage" ? "Página Principal" : 
-                     selectedResponse.source || "Não informado"}
+                  {selectedResponse.source === "página principal" 
+                          ? "Página Principal" 
+                          : selectedResponse.source === "página de formulário" 
+                          ? "Página Formulário" 
+                          : selectedResponse.source || "Não informado"}
                   </p>
                 </div>
 

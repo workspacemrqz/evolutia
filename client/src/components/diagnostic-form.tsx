@@ -39,7 +39,7 @@ export default function DiagnosticForm({ onClose }: { onClose: () => void }) {
     areas: [],
     timeConsumingProcess: "",
     lostOpportunities: "",
-    source: window.location.pathname === "/formulario" ? "formulario" : "homepage",
+    source: window.location.pathname === "/" ? "página principal" : window.location.pathname === "/formulario" ? "página de formulário" : "não informado",
   });
 
   const submitMutation = useMutation({
