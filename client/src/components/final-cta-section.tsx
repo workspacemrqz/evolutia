@@ -17,25 +17,54 @@ export default function FinalCTASection() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
         {/* Seta animada apenas no mobile */}
         <motion.div 
-          className="block sm:hidden absolute -top-16 left-1/2 transform -translate-x-1/2 z-20"
-          initial={{ y: -20, opacity: 0 }}
+          className="block sm:hidden absolute -top-20 left-1/2 transform -translate-x-1/2 z-20"
+          initial={{ y: -30, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.3 }}
         >
           <motion.div
             animate={{ 
-              y: [0, -10, 0],
-              rotate: [0, 5, -5, 0]
+              y: [0, -8, 0],
+              scale: [1, 1.1, 1]
             }}
             transition={{ 
               repeat: Infinity, 
-              duration: 2, 
+              duration: 2.5, 
               ease: "easeInOut" 
             }}
-            className="text-white text-4xl"
+            className="flex justify-center"
           >
-            ⬇️
+            <svg 
+              width="40" 
+              height="40" 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg"
+              className="drop-shadow-lg"
+            >
+              <motion.path
+                d="M7 10L12 15L17 10"
+                stroke="white"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                initial={{ pathLength: 0, opacity: 0 }}
+                animate={{ pathLength: 1, opacity: 1 }}
+                transition={{ duration: 1.5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
+              />
+              <motion.circle
+                cx="12"
+                cy="12"
+                r="10"
+                stroke="white"
+                strokeWidth="2"
+                fill="transparent"
+                initial={{ scale: 0.8, opacity: 0.3 }}
+                animate={{ scale: [0.8, 1, 0.8], opacity: [0.3, 0.7, 0.3] }}
+                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+              />
+            </svg>
           </motion.div>
         </motion.div>
 
