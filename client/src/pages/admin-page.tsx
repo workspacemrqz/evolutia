@@ -75,13 +75,7 @@ export default function AdminPage() {
     dateTo: ""
   });
 
-  // Verificar se o usuário não está autenticado e redirecionar
-  useEffect(() => {
-    if (!authLoading && !user) {
-      console.log('AdminPage - No user detected, redirecting...');
-      window.location.href = '/auth';
-    }
-  }, [user, authLoading]);
+  // Auth is handled by ProtectedRoute wrapper
 
   const { data: responses = [], isLoading, error, refetch } = useQuery<ExtendedDiagnosticResponse[]>({
     queryKey: ['responses'],
@@ -257,30 +251,7 @@ export default function AdminPage() {
     }
   }) || [];
 
-  // Loading states
-  if (authLoading) {
-    console.log('AdminPage - Showing auth loading...');
-    return (
-      <div className="min-h-screen bg-[#060606] flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="h-8 w-8 animate-spin text-white mx-auto mb-4" />
-          <p className="text-white">Verificando autenticação...</p>
-        </div>
-      </div>
-    );
-  }
-
-  if (!user) {
-    console.log('AdminPage - No user, showing redirect message...');
-    return (
-      <div className="min-h-screen bg-[#060606] flex items-center justify-center">
-        <div className="text-center">
-          <Loader2 className="h-8 w-8 animate-spin text-white mx-auto mb-4" />
-          <p className="text-white">Redirecionando para login...</p>
-        </div>
-      </div>
-    );
-  }
+  // Auth loading is handled by ProtectedRoute wrapper
 
   if (isLoading) {
     return (
