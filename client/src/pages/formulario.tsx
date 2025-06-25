@@ -431,9 +431,9 @@ function FormularioPage() {
           </div>
           <span className="leading-tight text-center">
             <span className="hidden md:inline">Só Hoje {getCurrentDate()} Diagnóstico Gratuito com Vagas Limitadas</span>
-            <span className="md:hidden text-xs leading-tight">
-              <span className="block">Só Hoje {getCurrentDate()}</span>
-              <span className="block">Diagnóstico Gratuito com Vagas Limitadas</span>
+            <span className="md:hidden text-sm leading-tight">
+              <span className="block">Só Hoje {getCurrentDate()} Diagnóstico</span>
+              <span className="block">Gratuito com Vagas Limitadas</span>
             </span>
           </span>
         </div>
