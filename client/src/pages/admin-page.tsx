@@ -1,3 +1,30 @@
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useAuth } from '@/hooks/use-auth';
+import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { MoreHorizontal, LogOut, Eye, CheckCircle, Clock, User } from 'lucide-react';
+import { useState } from 'react';
+
+interface DiagnosticResponse {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  company: string;
+  position: string;
+  customPosition: string | null;
+  revenue: string;
+  employees: string;
+  erp: string;
+  areas: string;
+  timeConsumingProcess: string;
+  lostOpportunities: string;
+  status: string;
+  createdAt: string;
+}
 
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { motion } from "framer-motion";
@@ -37,10 +64,10 @@ async function apiRequest(
 
 export default function AdminPage() {
   console.log('AdminPage component rendering...');
-  
+
   const { user, logoutMutation, isLoading: authLoading, error: authError } = useAuth();
   const [selectedResponse, setSelectedResponse] = useState<DiagnosticResponse | null>(null);
-  
+
   console.log('AdminPage - user:', user);
   console.log('AdminPage - authLoading:', authLoading);
   console.log('AdminPage - authError:', authError);
@@ -61,64 +88,42 @@ export default function AdminPage() {
     }
   }, [user, authLoading]);
 
-  const { data: responses, isLoading: responsesLoading, error: responsesError, refetch } = useQuery<DiagnosticResponse[]>({
-    queryKey: ["/api/admin/responses"],
-    queryFn: async () => {
-      try {
-        console.log('Fetching admin responses...');
-        const response = await apiRequest("GET", "/api/admin/responses");
-        
-        if (response.status === 401) {
-          console.log('401 detected, redirecting to auth...');
-          window.location.href = '/auth';
-          return [];
-        }
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        console.log('Admin responses data:', data);
-        
-        // Validate and ensure data is an array
-        if (!Array.isArray(data)) {
-          console.error('Expected array but got:', typeof data, data);
-          return [];
-        }
-        
-        // Validate each response object
-        return data.map((item: any) => ({
-          id: Number(item.id) || 0,
-          name: String(item.name || ''),
-          email: String(item.email || ''),
-          phone: String(item.phone || ''),
-          company: String(item.company || ''),
-          position: String(item.position || ''),
-          customPosition: String(item.customPosition || ''),
-          revenue: String(item.revenue || ''),
-          employees: String(item.employees || ''),
-          erp: String(item.erp || ''),
-          areas: String(item.areas || '[]'),
-          timeConsumingProcess: String(item.timeConsumingProcess || ''),
-          lostOpportunities: String(item.lostOpportunities || ''),
-          status: String(item.status || 'Pendente'),
-          source: String(item.source || ''),
-          createdAt: item.createdAt ? String(item.createdAt) : new Date().toISOString(),
-        }));
-      } catch (error) {
-        console.error('Error fetching responses:', error);
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-        if (errorMessage.includes('401')) {
-          window.location.href = '/auth';
-          return [];
-        }
-        throw new Error(errorMessage);
+  const { data: responses = [], isLoading, error } = useQuery<DiagnosticResponse[]>({
+    queryKey: ['responses'],
+    queryFn: async (): Promise<DiagnosticResponse[]> => {
+      const response = await fetch('/api/admin/responses', {
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch responses');
       }
+
+      return response.json();
     },
-    enabled: !!user && !authLoading,
-    retry: 2,
-    retryDelay: 1000,
+    refetchOnWindowFocus: false,
+  });
+
+  const updateStatusMutation = useMutation<any, Error, { id: number; status: string }>({
+    mutationFn: async ({ id, status }) => {
+      const response = await fetch(`/api/admin/responses/${id}/status`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status }),
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update status');
+      }
+
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['responses'] });
+    },
   });
 
   const handleLogout = () => {
@@ -235,7 +240,7 @@ export default function AdminPage() {
       const email = String(response.email || '').toLowerCase();
       const company = String(response.company || '').toLowerCase();
       const searchTerm = String(filters.search || '').toLowerCase();
-      
+
       const matchesSearch = !filters.search || 
         name.includes(searchTerm) ||
         email.includes(searchTerm) ||
@@ -246,7 +251,7 @@ export default function AdminPage() {
 
       let matchesDateFrom = true;
       let matchesDateTo = true;
-      
+
       if (filters.dateFrom && response.createdAt) {
         try {
           const responseDate = new Date(response.createdAt);
@@ -256,7 +261,7 @@ export default function AdminPage() {
           matchesDateFrom = true;
         }
       }
-      
+
       if (filters.dateTo && response.createdAt) {
         try {
           const responseDate = new Date(response.createdAt);
@@ -299,7 +304,7 @@ export default function AdminPage() {
     );
   }
 
-  if (responsesLoading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-[#060606] flex items-center justify-center">
         <div className="text-center">
@@ -310,12 +315,12 @@ export default function AdminPage() {
     );
   }
 
-  if (responsesError) {
-    console.log('AdminPage - Responses error:', responsesError);
+  if (error) {
+    console.log('AdminPage - Responses error:', error);
     return (
       <div className="min-h-screen bg-[#060606] flex items-center justify-center">
         <div className="text-center">
-          <p className="text-red-400 mb-4">Erro ao carregar dados: {responsesError.message}</p>
+          <p className="text-red-400 mb-4">Erro ao carregar dados: {error.message}</p>
           <div className="flex gap-2 justify-center">
             <Button 
               onClick={() => refetch()} 
