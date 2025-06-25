@@ -40,7 +40,8 @@ async function apiRequest(
     return response;
   } catch (error) {
     console.error('API Request failed:', error);
-    throw error;
+    const errorMessage = error instanceof Error ? error.message : 'API request failed';
+    throw new Error(errorMessage);
   }
 }
 

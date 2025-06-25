@@ -80,14 +80,40 @@ export default function AdminPage() {
         
         const data = await response.json();
         console.log('Admin responses data:', data);
-        return data;
+        
+        // Validate and ensure data is an array
+        if (!Array.isArray(data)) {
+          console.error('Expected array but got:', typeof data, data);
+          return [];
+        }
+        
+        // Validate each response object
+        return data.map((item: any) => ({
+          id: Number(item.id) || 0,
+          name: String(item.name || ''),
+          email: String(item.email || ''),
+          phone: String(item.phone || ''),
+          company: String(item.company || ''),
+          position: String(item.position || ''),
+          customPosition: String(item.customPosition || ''),
+          revenue: String(item.revenue || ''),
+          employees: String(item.employees || ''),
+          erp: String(item.erp || ''),
+          areas: String(item.areas || '[]'),
+          timeConsumingProcess: String(item.timeConsumingProcess || ''),
+          lostOpportunities: String(item.lostOpportunities || ''),
+          status: String(item.status || 'Pendente'),
+          source: String(item.source || ''),
+          createdAt: item.createdAt ? String(item.createdAt) : new Date().toISOString(),
+        }));
       } catch (error) {
         console.error('Error fetching responses:', error);
-        if (error.message.includes('401')) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        if (errorMessage.includes('401')) {
           window.location.href = '/auth';
           return [];
         }
-        throw error;
+        throw new Error(errorMessage);
       }
     },
     enabled: !!user && !authLoading,
@@ -101,21 +127,43 @@ export default function AdminPage() {
 
   const updateStatusMutation = useMutation({
     mutationFn: async ({ id, status }: { id: number; status: string }) => {
-      const response = await apiRequest("PATCH", `/api/admin/responses/${id}/status`, { status });
-      return response.json();
+      try {
+        const response = await apiRequest("PATCH", `/api/admin/responses/${id}/status`, { status });
+        if (!response.ok) {
+          throw new Error(`Failed to update status: ${response.status}`);
+        }
+        return await response.json();
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Failed to update status';
+        throw new Error(errorMessage);
+      }
     },
     onSuccess: () => {
       refetch();
+    },
+    onError: (error: Error) => {
+      console.error('Update status error:', error.message);
     }
   });
 
   const deleteResponseMutation = useMutation({
     mutationFn: async (id: number) => {
-      const response = await apiRequest("DELETE", `/api/admin/responses/${id}`);
-      return response.json();
+      try {
+        const response = await apiRequest("DELETE", `/api/admin/responses/${id}`);
+        if (!response.ok) {
+          throw new Error(`Failed to delete response: ${response.status}`);
+        }
+        return await response.json();
+      } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Failed to delete response';
+        throw new Error(errorMessage);
+      }
     },
     onSuccess: () => {
       refetch();
+    },
+    onError: (error: Error) => {
+      console.error('Delete response error:', error.message);
     }
   });
 
@@ -181,21 +229,49 @@ export default function AdminPage() {
     link.click();
   };
 
-  const filteredData = responses?.filter((response: any) => {
-    const matchesSearch = !filters.search || 
-      response.name.toLowerCase().includes(filters.search.toLowerCase()) ||
-      response.email.toLowerCase().includes(filters.search.toLowerCase()) ||
-      response.company.toLowerCase().includes(filters.search.toLowerCase());
+  const filteredData = responses?.filter((response: DiagnosticResponse) => {
+    try {
+      const name = String(response.name || '').toLowerCase();
+      const email = String(response.email || '').toLowerCase();
+      const company = String(response.company || '').toLowerCase();
+      const searchTerm = String(filters.search || '').toLowerCase();
+      
+      const matchesSearch = !filters.search || 
+        name.includes(searchTerm) ||
+        email.includes(searchTerm) ||
+        company.includes(searchTerm);
 
-    const matchesStatus = !filters.status || response.status === filters.status;
-    const matchesSource = !filters.source || response.source === filters.source;
+      const matchesStatus = !filters.status || String(response.status || '') === filters.status;
+      const matchesSource = !filters.source || String(response.source || '') === filters.source;
 
-    const matchesDateFrom = !filters.dateFrom || 
-      new Date(response.createdAt) >= new Date(filters.dateFrom);
-    const matchesDateTo = !filters.dateTo || 
-      new Date(response.createdAt) <= new Date(filters.dateTo);
+      let matchesDateFrom = true;
+      let matchesDateTo = true;
+      
+      if (filters.dateFrom && response.createdAt) {
+        try {
+          const responseDate = new Date(response.createdAt);
+          const fromDate = new Date(filters.dateFrom);
+          matchesDateFrom = !isNaN(responseDate.getTime()) && !isNaN(fromDate.getTime()) && responseDate >= fromDate;
+        } catch (e) {
+          matchesDateFrom = true;
+        }
+      }
+      
+      if (filters.dateTo && response.createdAt) {
+        try {
+          const responseDate = new Date(response.createdAt);
+          const toDate = new Date(filters.dateTo);
+          matchesDateTo = !isNaN(responseDate.getTime()) && !isNaN(toDate.getTime()) && responseDate <= toDate;
+        } catch (e) {
+          matchesDateTo = true;
+        }
+      }
 
-    return matchesSearch && matchesStatus && matchesSource && matchesDateFrom && matchesDateTo;
+      return matchesSearch && matchesStatus && matchesSource && matchesDateFrom && matchesDateTo;
+    } catch (error) {
+      console.error('Error filtering response:', error, response);
+      return false;
+    }
   }) || [];
 
   // Loading states
