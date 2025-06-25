@@ -5,23 +5,28 @@ import { Redirect } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function AuthPage() {
-  const { user, loginMutation, isLoading } = useAuth();
+  const { user, loginMutation } = useAuth();
   const [credentials, setCredentials] = useState({
     username: "",
-    password: ""
+    password: "",
   });
 
-  // Se já está autenticado, redireciona para admin
-  if (user && !isLoading) {
+  // Redirect if already logged in
+  if (user) {
     return <Redirect to="/admin" />;
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Attempting login with:', credentials);
     loginMutation.mutate(credentials);
   };
 
@@ -44,34 +49,43 @@ export default function AuthPage() {
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
-                  <Label htmlFor="username" className="text-white">Email</Label>
+                  <Label htmlFor="username" className="text-white">
+                    Email
+                  </Label>
                   <Input
                     id="username"
                     type="email"
                     value={credentials.username}
-                    onChange={(e) => setCredentials(prev => ({ ...prev, username: e.target.value }))}
+                    onChange={(e) =>
+                      setCredentials((prev) => ({
+                        ...prev,
+                        username: e.target.value,
+                      }))
+                    }
                     className="bg-gray-800 border-gray-700 text-white"
                     placeholder="contato@evolutoficial.com"
                     required
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="text-white">Senha</Label>
+                  <Label htmlFor="password" className="text-white">
+                    Senha
+                  </Label>
                   <Input
                     id="password"
                     type="password"
                     value={credentials.password}
-                    onChange={(e) => setCredentials(prev => ({ ...prev, password: e.target.value }))}
+                    onChange={(e) =>
+                      setCredentials((prev) => ({
+                        ...prev,
+                        password: e.target.value,
+                      }))
+                    }
                     className="bg-gray-800 border-gray-700 text-white"
                     placeholder="••••••••"
                     required
                   />
                 </div>
-                {loginMutation.error && (
-                  <div className="text-red-400 text-sm mb-4">
-                    {loginMutation.error.message}
-                  </div>
-                )}
                 <Button
                   type="submit"
                   className="w-full bg-blue-600 hover:bg-blue-700"
@@ -92,9 +106,9 @@ export default function AuthPage() {
           className="text-center lg:text-left"
         >
           <div className="mb-8">
-            <img 
-              src="https://i.ibb.co/rf3PXc8r/LOGO-Evolut-IA-com-texto-na-horizontal.png" 
-              alt="Evolut IA" 
+            <img
+              src="https://i.ibb.co/rf3PXc8r/LOGO-Evolut-IA-com-texto-na-horizontal.png"
+              alt="Evolut IA"
               className="h-12 w-auto mx-auto lg:mx-0 mb-8"
             />
           </div>
@@ -102,7 +116,8 @@ export default function AuthPage() {
             Painel Administrativo
           </h1>
           <p className="text-xl text-gray-400 mb-8">
-            Gerencie as respostas do diagnóstico e acompanhe os leads da Evolut IA
+            Gerencie as respostas do diagnóstico e acompanhe os leads da Evolut
+            IA
           </p>
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div className="bg-gray-900 p-4 rounded-lg border border-gray-800">
