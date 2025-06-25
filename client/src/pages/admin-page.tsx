@@ -140,7 +140,10 @@ export default function AdminPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-[#060606] flex items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-white" />
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin text-white mx-auto mb-4" />
+          <p className="text-white">Carregando...</p>
+        </div>
       </div>
     );
   }
