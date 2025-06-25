@@ -186,17 +186,17 @@
 
   /* Animação do relógio moderno */
   .clock-animation {
-    width: 14px;
-    height: 14px;
+    width: 18px;
+    height: 18px;
     display: inline-block;
     flex-shrink: 0;
     filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.3));
   }
 
   .clock-face {
-    width: 14px;
-    height: 14px;
-    border: 1.5px solid white;
+    width: 18px;
+    height: 18px;
+    border: 2px solid white;
     border-radius: 50%;
     position: relative;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
@@ -231,21 +231,21 @@
   }
 
   .hour-hand {
-    width: 1px;
-    height: 4px;
+    width: 1.5px;
+    height: 6px;
     left: 50%;
     bottom: 50%;
-    margin-left: -0.5px;
+    margin-left: -0.75px;
     animation: clock-hour-rotation 180s linear infinite;
     z-index: 2;
   }
 
   .minute-hand {
-    width: 0.8px;
-    height: 5px;
+    width: 1px;
+    height: 7px;
     left: 50%;
     bottom: 50%;
-    margin-left: -0.4px;
+    margin-left: -0.5px;
     animation: clock-minute-rotation 30s linear infinite;
     z-index: 1;
   }
