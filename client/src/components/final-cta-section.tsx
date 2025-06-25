@@ -16,7 +16,7 @@ export default function FinalCTASection() {
     <section id="nao-fique-para-tras" className="py-24 sm:py-32 bg-[#060606]">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <motion.div 
-          className="gradient-bg rounded-3xl p-6 sm:p-8 relative overflow-hidden glow-effect"
+          className="gradient-bg rounded-3xl p-8 sm:p-12 relative overflow-hidden glow-effect"
           initial={{ scale: 0.9, opacity: 0 }}
           whileInView={{ scale: 1, opacity: 1 }}
           viewport={{ once: true, amount: 0.3 }}
@@ -26,7 +26,7 @@ export default function FinalCTASection() {
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent animate-pulse"></div>
           <div className="relative z-10">
             <motion.h2 
-              className="text-3xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 uppercase leading-tight"
+              className="text-2xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 uppercase leading-tight"
               initial={{ y: 30, opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
               viewport={{ once: true }}
