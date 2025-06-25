@@ -1,3 +1,4 @@
+
 import { createContext, ReactNode, useContext } from "react";
 import {
   useQuery,
@@ -5,7 +6,6 @@ import {
   UseMutationResult,
 } from "@tanstack/react-query";
 import { insertUserSchema, User as SelectUser, InsertUser } from "@shared/schema";
-import { getQueryFn, apiRequest, queryClient } from "../lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
 type AuthContextType = {
@@ -20,27 +20,74 @@ type AuthContextType = {
 type LoginData = Pick<InsertUser, "username" | "password">;
 
 export const AuthContext = createContext<AuthContextType | null>(null);
+
+async function apiRequest(
+  method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH",
+  url: string,
+  data?: any
+): Promise<Response> {
+  try {
+    const response = await fetch(url, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: data ? JSON.stringify(data) : undefined,
+      credentials: "include",
+    });
+
+    console.log('API Request:', method, url, 'Status:', response.status);
+    return response;
+  } catch (error) {
+    console.error('API Request failed:', error);
+    throw error;
+  }
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { toast } = useToast();
+  
   const {
     data: user,
     error,
     isLoading,
   } = useQuery<SelectUser | null, Error>({
     queryKey: ["/api/user"],
-    queryFn: getQueryFn({ on401: "returnNull" }),
+    queryFn: async () => {
+      try {
+        console.log('AuthProvider - Fetching user...');
+        const response = await apiRequest("GET", "/api/user");
+        
+        if (response.status === 401) {
+          console.log('AuthProvider - 401, returning null');
+          return null;
+        }
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const userData = await response.json();
+        console.log('AuthProvider - User data:', userData);
+        return userData;
+      } catch (error) {
+        console.error('AuthProvider - Error fetching user:', error);
+        if (error.message.includes('401')) {
+          return null;
+        }
+        throw error;
+      }
+    },
     retry: (failureCount, error) => {
-      // Não retry em caso de 401 (não autorizado)
       if (error.message.includes('401') || error.message.includes('Unauthorized')) {
         return false;
       }
       return failureCount < 2;
     },
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
   });
 
-  // Debug logs
   console.log('AuthProvider - user:', user);
   console.log('AuthProvider - isLoading:', isLoading);
   console.log('AuthProvider - error:', error);
@@ -54,14 +101,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
       return await res.json();
     },
-    onSuccess: (user: SelectUser) => {
-      console.log('Login successful, user:', user);
-      queryClient.setQueryData(["/api/user"], user);
-      queryClient.invalidateQueries({ queryKey: ["/api/user"] });
-      // Aguardar um pouco antes do redirect para garantir que o estado foi atualizado
-      setTimeout(() => {
-        window.location.href = '/admin';
-      }, 100);
+    onSuccess: (userData: any) => {
+      console.log('Login successful, user:', userData);
+      // Recarregar a página para garantir que tudo seja atualizado
+      window.location.href = '/admin';
     },
     onError: (error: Error) => {
       console.error('Login error:', error);
@@ -78,9 +121,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const res = await apiRequest("POST", "/api/register", credentials);
       return await res.json();
     },
-    onSuccess: (user: SelectUser) => {
-      queryClient.setQueryData(["/api/user"], user);
-    },
     onError: (error: Error) => {
       toast({
         title: "Registration failed",
@@ -95,7 +135,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       await apiRequest("POST", "/api/logout");
     },
     onSuccess: () => {
-      queryClient.setQueryData(["/api/user"], null);
+      window.location.href = '/auth';
     },
     onError: (error: Error) => {
       toast({

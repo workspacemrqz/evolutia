@@ -1,16 +1,39 @@
+
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/use-auth";
-import { getQueryFn, apiRequest, queryClient } from "@/lib/queryClient";
 import { DiagnosticResponse } from "@shared/schema";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Loader2, LogOut, Download, Eye } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+async function apiRequest(
+  method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH",
+  url: string,
+  data?: any
+): Promise<Response> {
+  try {
+    const response = await fetch(url, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: data ? JSON.stringify(data) : undefined,
+      credentials: "include",
+    });
+
+    console.log('API Request:', method, url, 'Status:', response.status);
+    return response;
+  } catch (error) {
+    console.error('API Request failed:', error);
+    throw error;
+  }
+}
 
 export default function AdminPage() {
   console.log('AdminPage component rendering...');
@@ -18,11 +41,10 @@ export default function AdminPage() {
   const { user, logoutMutation, isLoading: authLoading, error: authError } = useAuth();
   const [selectedResponse, setSelectedResponse] = useState<DiagnosticResponse | null>(null);
   
-  // Debug logs
   console.log('AdminPage - user:', user);
   console.log('AdminPage - authLoading:', authLoading);
   console.log('AdminPage - authError:', authError);
-  console.log('AdminPage - user loading state:', user === undefined);
+
   const [filters, setFilters] = useState({
     search: "",
     status: "",
@@ -31,18 +53,47 @@ export default function AdminPage() {
     dateTo: ""
   });
 
-  const { data: responses, isLoading: responsesLoading, error: responsesError } = useQuery<DiagnosticResponse[]>({
+  // Verificar se o usuário não está autenticado e redirecionar
+  useEffect(() => {
+    if (!authLoading && !user) {
+      console.log('AdminPage - No user detected, redirecting...');
+      window.location.href = '/auth';
+    }
+  }, [user, authLoading]);
+
+  const { data: responses, isLoading: responsesLoading, error: responsesError, refetch } = useQuery<DiagnosticResponse[]>({
     queryKey: ["/api/admin/responses"],
-    queryFn: getQueryFn({ on401: "throw" }),
-    enabled: !!user, // Só carrega se o usuário estiver autenticado
+    queryFn: async () => {
+      try {
+        console.log('Fetching admin responses...');
+        const response = await apiRequest("GET", "/api/admin/responses");
+        
+        if (response.status === 401) {
+          console.log('401 detected, redirecting to auth...');
+          window.location.href = '/auth';
+          return [];
+        }
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        console.log('Admin responses data:', data);
+        return data;
+      } catch (error) {
+        console.error('Error fetching responses:', error);
+        if (error.message.includes('401')) {
+          window.location.href = '/auth';
+          return [];
+        }
+        throw error;
+      }
+    },
+    enabled: !!user && !authLoading,
     retry: 2,
     retryDelay: 1000,
   });
-
-  // Debug logs
-  console.log('AdminPage - responses:', responses);
-  console.log('AdminPage - responsesLoading:', responsesLoading);
-  console.log('AdminPage - responsesError:', responsesError);
 
   const handleLogout = () => {
     logoutMutation.mutate();
@@ -54,7 +105,7 @@ export default function AdminPage() {
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/responses"] });
+      refetch();
     }
   });
 
@@ -64,7 +115,7 @@ export default function AdminPage() {
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/responses"] });
+      refetch();
     }
   });
 
@@ -78,15 +129,10 @@ export default function AdminPage() {
   };
 
   const formatWhatsAppNumber = (phone: string) => {
-    // Remove all non-numeric characters
     const cleanPhone = phone.replace(/\D/g, '');
-
-    // If already starts with 55, use as is
     if (cleanPhone.startsWith('55')) {
       return `https://wa.me/${cleanPhone}`;
     }
-
-    // If doesn't start with 55, add it
     return `https://wa.me/55${cleanPhone}`;
   };
 
@@ -97,7 +143,6 @@ export default function AdminPage() {
         return parsedAreas;
       }
     } catch (e) {
-      // If parsing fails, try to split by comma
       return areas.split(',').map(area => area.trim());
     }
     return [areas];
@@ -153,7 +198,7 @@ export default function AdminPage() {
     return matchesSearch && matchesStatus && matchesSource && matchesDateFrom && matchesDateTo;
   }) || [];
 
-  // Se está carregando autenticação
+  // Loading states
   if (authLoading) {
     console.log('AdminPage - Showing auth loading...');
     return (
@@ -166,12 +211,8 @@ export default function AdminPage() {
     );
   }
 
-  // Se não há usuário após carregamento
-  if (!authLoading && (user === null || user === undefined)) {
-    console.log('AdminPage - No user, redirecting to auth...');
-    setTimeout(() => {
-      window.location.href = '/auth';
-    }, 100);
+  if (!user) {
+    console.log('AdminPage - No user, showing redirect message...');
     return (
       <div className="min-h-screen bg-[#060606] flex items-center justify-center">
         <div className="text-center">
@@ -199,12 +240,9 @@ export default function AdminPage() {
       <div className="min-h-screen bg-[#060606] flex items-center justify-center">
         <div className="text-center">
           <p className="text-red-400 mb-4">Erro ao carregar dados: {responsesError.message}</p>
-          <p className="text-gray-400 mb-4 text-sm">
-            Usuário: {user ? 'Autenticado' : 'Não autenticado'}
-          </p>
           <div className="flex gap-2 justify-center">
             <Button 
-              onClick={() => window.location.reload()} 
+              onClick={() => refetch()} 
               className="bg-blue-600 hover:bg-blue-700"
             >
               Tentar Novamente
@@ -361,17 +399,7 @@ export default function AdminPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {responsesError ? (
-              <div className="text-center py-8">
-                <p className="text-red-400 mb-4">Erro ao carregar dados: {responsesError.message}</p>
-                <Button 
-                  onClick={() => window.location.reload()} 
-                  className="bg-blue-600 hover:bg-blue-700"
-                >
-                  Tentar Novamente
-                </Button>
-              </div>
-            ) : !filteredData || filteredData.length === 0 ? (
+            {!filteredData || filteredData.length === 0 ? (
               <div className="text-center py-8 text-gray-400">
                 {responses === undefined ? "Carregando respostas..." : "Nenhuma resposta encontrada"}
               </div>
@@ -441,46 +469,6 @@ export default function AdminPage() {
                         <span className="text-gray-400">Faturamento:</span>
                         <p className="text-white">{response.revenue}</p>
                       </div>
-                    </div>
-                    <div className="flex gap-2 mt-4">
-                      <Button
-                        size="sm"
-                        variant={response.status === "Pendente" ? "default" : "outline"}
-                        onClick={() => updateStatusMutation.mutate({ id: response.id, status: "Pendente" })}
-                        className="bg-gray-700 border-gray-600 text-white hover:bg-gray-600"
-                      >
-                        Pendente
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant={response.status === "Visto" ? "default" : "outline"}
-                        onClick={() => updateStatusMutation.mutate({ id: response.id, status: "Visto" })}
-                        className="bg-gray-700 border-gray-600 text-white hover:bg-gray-600"
-                      >
-                        Visto
-                      </Button>
-                      <Button
-                        size="sm"
-                        variant={response.status === "Atendido" ? "default" : "outline"}
-                        onClick={() => updateStatusMutation.mutate({ id: response.id, status: "Atendido" })}
-                        className="bg-gray-700 border-gray-600 text-white hover:bg-gray-600"
-                      >
-                        Atendido
-                      </Button>
-                      {user?.canDelete && (
-                        <Button
-                          size="sm"
-                          variant="destructive"
-                          onClick={() => {
-                            if (confirm("Tem certeza que deseja excluir esta resposta?")) {
-                              deleteResponseMutation.mutate(response.id);
-                            }
-                          }}
-                          className="bg-red-700 border-red-600 text-white hover:bg-red-600"
-                        >
-                          Excluir
-                        </Button>
-                      )}
                     </div>
                   </motion.div>
                 ))}

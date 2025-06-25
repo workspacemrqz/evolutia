@@ -1,5 +1,6 @@
-import { Switch, Route } from "wouter";
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Switch, Route } from "wouter";
 import { Toaster } from "@/components/ui/toaster";
 import { AuthProvider } from "@/hooks/use-auth";
 import HomePage from "@/pages/home";
@@ -9,10 +10,26 @@ import PrivacyPolicyPage from "@/pages/privacy-policy";
 import TermsOfUsePage from "@/pages/terms-of-use";
 import AuthPage from "@/pages/auth-page";
 import AdminPage from "@/pages/admin-page";
-import { ProtectedRoute } from "@/lib/protected-route";
 import NotFound from "@/pages/not-found";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchInterval: false,
+      refetchOnWindowFocus: false,
+      staleTime: 5 * 60 * 1000,
+      retry: (failureCount, error) => {
+        if (error.message.includes('401') || error.message.includes('Unauthorized')) {
+          return false;
+        }
+        return failureCount < 2;
+      },
+    },
+    mutations: {
+      retry: false,
+    },
+  },
+});
 
 function App() {
   console.log('App rendering...');
@@ -28,18 +45,7 @@ function App() {
             <Route path="/politica-de-privacidade" component={PrivacyPolicyPage} />
             <Route path="/termos-de-uso" component={TermsOfUsePage} />
             <Route path="/auth" component={AuthPage} />
-            <Route path="/admin-test" component={() => {
-              console.log('Admin test route accessed');
-              return (
-                <div className="min-h-screen bg-[#060606] flex items-center justify-center">
-                  <div className="text-center">
-                    <h1 className="text-white text-2xl">Teste da Rota Admin</h1>
-                    <p className="text-gray-400 mt-4">Se você vê isso, o roteamento está funcionando</p>
-                  </div>
-                </div>
-              );
-            }} />
-            <ProtectedRoute path="/admin" component={AdminPage} />
+            <Route path="/admin" component={AdminPage} />
             <Route component={NotFound} />
           </Switch>
           <Toaster />
