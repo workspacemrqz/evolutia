@@ -19,7 +19,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Loader2, LogOut, Download, Eye, Trash2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Loader2, LogOut, Download, Eye, Trash2, Search, Filter, X } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { useState } from "react";
 
@@ -27,6 +29,17 @@ export default function AdminPage() {
   const { user, logoutMutation } = useAuth();
   const [selectedResponse, setSelectedResponse] =
     useState<DiagnosticResponse | null>(null);
+  const [showFilters, setShowFilters] = useState(false);
+  const [filters, setFilters] = useState({
+    search: "",
+    status: "",
+    source: "",
+    dateFrom: "",
+    dateTo: "",
+    revenue: "",
+    employees: "",
+    position: "",
+  });
 
   const { data: responses, isLoading } = useQuery<DiagnosticResponse[]>({
     queryKey: ["/api/admin/responses"],
@@ -109,8 +122,63 @@ export default function AdminPage() {
     return [areas];
   };
 
+  const clearFilters = () => {
+    setFilters({
+      search: "",
+      status: "",
+      source: "",
+      dateFrom: "",
+      dateTo: "",
+      revenue: "",
+      employees: "",
+      position: "",
+    });
+  };
+
+  const updateFilter = (key: string, value: string) => {
+    setFilters(prev => ({ ...prev, [key]: value }));
+  };
+
+  // Apply filters to responses
+  const filteredResponses = responses?.filter((response) => {
+    // Search filter (nome, email, empresa)
+    const searchMatch = !filters.search || 
+      response.name.toLowerCase().includes(filters.search.toLowerCase()) ||
+      response.email.toLowerCase().includes(filters.search.toLowerCase()) ||
+      response.company.toLowerCase().includes(filters.search.toLowerCase());
+
+    // Status filter
+    const statusMatch = !filters.status || response.status === filters.status;
+
+    // Source filter
+    const sourceMatch = !filters.source || 
+      (filters.source === "página principal" && (response.source === "página principal" || response.source === "homepage")) ||
+      (filters.source === "página de formulário" && (response.source === "página de formulário" || response.source === "formulario")) ||
+      (filters.source === "não informado" && (!response.source || response.source === "não informado"));
+
+    // Date filters
+    const dateFromMatch = !filters.dateFrom || 
+      new Date(response.createdAt) >= new Date(filters.dateFrom);
+    const dateToMatch = !filters.dateTo || 
+      new Date(response.createdAt) <= new Date(filters.dateTo + "T23:59:59");
+
+    // Revenue filter
+    const revenueMatch = !filters.revenue || response.revenue === filters.revenue;
+
+    // Employees filter
+    const employeesMatch = !filters.employees || response.employees === filters.employees;
+
+    // Position filter
+    const positionMatch = !filters.position || 
+      response.position === filters.position ||
+      (response.position === "Outro" && response.customPosition?.toLowerCase().includes(filters.position.toLowerCase()));
+
+    return searchMatch && statusMatch && sourceMatch && dateFromMatch && dateToMatch && revenueMatch && employeesMatch && positionMatch;
+  }) || [];
+
   const exportToCSV = () => {
-    if (!responses || responses.length === 0) return;
+    const dataToExport = filteredResponses.length > 0 ? filteredResponses : responses;
+    if (!dataToExport || dataToExport.length === 0) return;
 
     const headers = [
       "Data",
@@ -130,7 +198,7 @@ export default function AdminPage() {
 
     const csvContent = [
       headers.join(","),
-      ...responses.map((response) =>
+      ...dataToExport.map((response) =>
         [
           new Date(response.createdAt).toLocaleDateString("pt-BR"),
           `"${response.name}"`,
@@ -152,7 +220,7 @@ export default function AdminPage() {
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const link = document.createElement("a");
     link.href = URL.createObjectURL(blob);
-    link.download = `diagnosticos_evolut_ia_${new Date().toISOString().split("T")[0]}.csv`;
+    link.download = `diagnosticos_evolut_ia_${filteredResponses.length > 0 ? 'filtrados_' : ''}${new Date().toISOString().split("T")[0]}.csv`;
     link.click();
   };
 
@@ -204,7 +272,7 @@ export default function AdminPage() {
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <Card className="bg-gray-900 border-gray-800">
             <CardHeader className="pb-2">
               <CardTitle className="text-white text-sm font-medium">
@@ -214,6 +282,18 @@ export default function AdminPage() {
             <CardContent>
               <div className="text-2xl font-bold text-white">
                 {responses?.length || 0}
+              </div>
+            </CardContent>
+          </Card>
+          <Card className="bg-gray-900 border-gray-800">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-white text-sm font-medium">
+                Filtradas
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-blue-400">
+                {filteredResponses.length}
               </div>
             </CardContent>
           </Card>
@@ -253,14 +333,185 @@ export default function AdminPage() {
           </Card>
         </div>
 
+        {/* Filters Section */}
+        <Card className="bg-gray-900 border-gray-800 mb-6">
+          <CardHeader>
+            <div className="flex justify-between items-center">
+              <div>
+                <CardTitle className="text-white flex items-center gap-2">
+                  <Filter className="w-5 h-5" />
+                  Filtros Inteligentes
+                </CardTitle>
+                <CardDescription className="text-gray-400">
+                  Filtre as respostas por qualquer critério
+                </CardDescription>
+              </div>
+              <div className="flex gap-2">
+                <Button
+                  onClick={() => setShowFilters(!showFilters)}
+                  variant="outline"
+                  className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700"
+                >
+                  <Filter className="w-4 h-4 mr-2" />
+                  {showFilters ? 'Ocultar' : 'Mostrar'} Filtros
+                </Button>
+                {(Object.values(filters).some(v => v !== "") || filteredResponses.length !== responses?.length) && (
+                  <Button
+                    onClick={clearFilters}
+                    variant="outline"
+                    className="bg-red-600 border-red-500 text-white hover:bg-red-700"
+                  >
+                    <X className="w-4 h-4 mr-2" />
+                    Limpar Filtros
+                  </Button>
+                )}
+              </div>
+            </div>
+          </CardHeader>
+          {showFilters && (
+            <CardContent className="pt-0">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                {/* Search Filter */}
+                <div className="space-y-2">
+                  <Label className="text-white text-sm">Buscar</Label>
+                  <div className="relative">
+                    <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
+                    <Input
+                      placeholder="Nome, email ou empresa..."
+                      value={filters.search}
+                      onChange={(e) => updateFilter('search', e.target.value)}
+                      className="pl-10 bg-gray-800 border-gray-700 text-white"
+                    />
+                  </div>
+                </div>
+
+                {/* Status Filter */}
+                <div className="space-y-2">
+                  <Label className="text-white text-sm">Status</Label>
+                  <Select value={filters.status} onValueChange={(value) => updateFilter('status', value)}>
+                    <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                      <SelectValue placeholder="Todos os status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">Todos os status</SelectItem>
+                      <SelectItem value="Pendente">Pendente</SelectItem>
+                      <SelectItem value="Visto">Visto</SelectItem>
+                      <SelectItem value="Atendido">Atendido</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Source Filter */}
+                <div className="space-y-2">
+                  <Label className="text-white text-sm">Origem</Label>
+                  <Select value={filters.source} onValueChange={(value) => updateFilter('source', value)}>
+                    <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                      <SelectValue placeholder="Todas as origens" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">Todas as origens</SelectItem>
+                      <SelectItem value="página principal">Página Principal</SelectItem>
+                      <SelectItem value="página de formulário">Página Formulário</SelectItem>
+                      <SelectItem value="não informado">Não informado</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Revenue Filter */}
+                <div className="space-y-2">
+                  <Label className="text-white text-sm">Faturamento</Label>
+                  <Select value={filters.revenue} onValueChange={(value) => updateFilter('revenue', value)}>
+                    <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                      <SelectValue placeholder="Todos os faturamentos" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">Todos os faturamentos</SelectItem>
+                      <SelectItem value="Até R$ 500 mil">Até R$ 500 mil</SelectItem>
+                      <SelectItem value="De R$ 500 mil a R$ 2 milhões">De R$ 500 mil a R$ 2 milhões</SelectItem>
+                      <SelectItem value="De R$ 2 a R$ 10 milhões">De R$ 2 a R$ 10 milhões</SelectItem>
+                      <SelectItem value="Acima de R$ 10 milhões">Acima de R$ 10 milhões</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Employees Filter */}
+                <div className="space-y-2">
+                  <Label className="text-white text-sm">Colaboradores</Label>
+                  <Select value={filters.employees} onValueChange={(value) => updateFilter('employees', value)}>
+                    <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                      <SelectValue placeholder="Todos os tamanhos" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">Todos os tamanhos</SelectItem>
+                      <SelectItem value="1">1</SelectItem>
+                      <SelectItem value="2-10">2-10</SelectItem>
+                      <SelectItem value="11-50">11-50</SelectItem>
+                      <SelectItem value="51-200">51-200</SelectItem>
+                      <SelectItem value="201-500">201-500</SelectItem>
+                      <SelectItem value="500+">500+</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Position Filter */}
+                <div className="space-y-2">
+                  <Label className="text-white text-sm">Cargo</Label>
+                  <Select value={filters.position} onValueChange={(value) => updateFilter('position', value)}>
+                    <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                      <SelectValue placeholder="Todos os cargos" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">Todos os cargos</SelectItem>
+                      <SelectItem value="CEO / Founder">CEO / Founder</SelectItem>
+                      <SelectItem value="Diretor(a) / Gerente">Diretor(a) / Gerente</SelectItem>
+                      <SelectItem value="Coordenador(a)">Coordenador(a)</SelectItem>
+                      <SelectItem value="Analista / Técnico">Analista / Técnico</SelectItem>
+                      <SelectItem value="Outro">Outro</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Date From Filter */}
+                <div className="space-y-2">
+                  <Label className="text-white text-sm">Data Inicial</Label>
+                  <Input
+                    type="date"
+                    value={filters.dateFrom}
+                    onChange={(e) => updateFilter('dateFrom', e.target.value)}
+                    className="bg-gray-800 border-gray-700 text-white"
+                  />
+                </div>
+
+                {/* Date To Filter */}
+                <div className="space-y-2">
+                  <Label className="text-white text-sm">Data Final</Label>
+                  <Input
+                    type="date"
+                    value={filters.dateTo}
+                    onChange={(e) => updateFilter('dateTo', e.target.value)}
+                    className="bg-gray-800 border-gray-700 text-white"
+                  />
+                </div>
+              </div>
+            </CardContent>
+          )}
+        </Card>
+
         {/* Responses List */}
         <Card className="bg-gray-900 border-gray-800">
           <CardHeader>
             <CardTitle className="text-white">
               Respostas do Diagnóstico
+              {filteredResponses.length !== responses?.length && (
+                <span className="text-blue-400 text-sm ml-2">
+                  ({filteredResponses.length} de {responses?.length || 0})
+                </span>
+              )}
             </CardTitle>
             <CardDescription className="text-gray-400">
-              Todas as respostas coletadas através do formulário de diagnóstico
+              {filteredResponses.length !== responses?.length 
+                ? "Respostas filtradas conforme critérios selecionados" 
+                : "Todas as respostas coletadas através do formulário de diagnóstico"}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -268,9 +519,23 @@ export default function AdminPage() {
               <div className="text-center py-8 text-gray-400">
                 Nenhuma resposta encontrada
               </div>
+            ) : filteredResponses.length === 0 ? (
+              <div className="text-center py-8 text-gray-400">
+                <Filter className="w-12 h-12 mx-auto mb-4 text-gray-600" />
+                <p className="text-lg mb-2">Nenhuma resposta encontrada com os filtros aplicados</p>
+                <p className="text-sm">Tente ajustar os critérios de filtro ou limpar os filtros</p>
+                <Button
+                  onClick={clearFilters}
+                  variant="outline"
+                  className="mt-4 bg-gray-800 border-gray-700 text-white hover:bg-gray-700"
+                >
+                  <X className="w-4 h-4 mr-2" />
+                  Limpar Filtros
+                </Button>
+              </div>
             ) : (
               <div className="space-y-4">
-                {responses.map((response) => (
+                {filteredResponses.map((response) => (
                   <motion.div
                     key={response.id}
                     initial={{ opacity: 0, y: 20 }}
