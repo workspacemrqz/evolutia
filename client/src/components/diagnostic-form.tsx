@@ -99,7 +99,7 @@ export default function DiagnosticForm({ onClose }: { onClose: () => void }) {
   const steps = [
     {
       title: "Diagnóstico gratuito",
-      subtitle: "Descubra onde a IA pode destravar crescimento na sua empresa",
+      subtitle: "Você está a poucos passos de descobrir onde sua empresa pode ganhar tempo, reduzir custos e crescer de verdade usando Inteligência Artificial",
       buttonText: "Começar"
     },
     {

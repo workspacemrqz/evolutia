@@ -66,7 +66,7 @@ function FormularioPage() {
   });
 
   const steps = [
-    { title: "Diagnóstico gratuito", subtitle: "Descubra onde a IA pode destravar crescimento na sua empresa", buttonText: "Começar" },
+    { title: "Diagnóstico gratuito", subtitle: "Você está a poucos passos de descobrir onde sua empresa pode ganhar tempo, reduzir custos e crescer de verdade usando Inteligência Artificial", buttonText: "Começar" },
     { title: "Qual seu nome?", buttonText: "OK" },
     { title: "Qual o seu melhor e-mail para contato?", buttonText: "OK" },
     { title: "Show. Poderia me informar seu telefone?", buttonText: "OK" },
