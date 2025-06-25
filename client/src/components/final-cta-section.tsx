@@ -17,7 +17,11 @@ export default function FinalCTASection() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
         {/* Seta animada apenas no mobile */}
         <motion.div 
-          className="block sm:hidden absolute -top-24 left-1/2 transform -translate-x-1/2 z-20"
+          className="block sm:hidden absolute -top-24 z-20"
+          style={{
+            left: 'calc(50% - 20px)',
+            transform: 'translateX(-50%)'
+          }}
           initial={{ y: -30, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           viewport={{ once: true }}
