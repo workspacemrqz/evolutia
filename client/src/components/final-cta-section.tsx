@@ -5,7 +5,7 @@ import DiagnosticForm from "./diagnostic-form";
 
 export default function FinalCTASection() {
   const [showDiagnosticForm, setShowDiagnosticForm] = useState(false);
-  
+
   const benefits = [
     "Sem compromisso",
     "Consultoria gratuita",
@@ -32,7 +32,7 @@ export default function FinalCTASection() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              Não fique<br />para trás
+              Não fique para trás
             </motion.h2>
             <motion.p 
               className="text-xl sm:text-3xl lg:text-4xl text-white/90 mb-3 sm:mb-4 leading-tight"
@@ -41,7 +41,7 @@ export default function FinalCTASection() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              Seus concorrentes<br />já estão usando IA
+              Seus concorrentes já estão usando IA
             </motion.p>
             <motion.p 
               className="text-sm sm:text-base text-white/80 mb-6 sm:mb-8 max-w-2xl mx-auto px-2"
@@ -52,7 +52,7 @@ export default function FinalCTASection() {
             >
               Agende sua consultoria gratuita e veja como evoluir seu negócio agora
             </motion.p>
-            
+
             <motion.button 
               className="bg-white text-[#1A3B93] px-12 py-6 rounded-xl text-xl font-bold hover:bg-gray-100 transition-all duration-300 hover:scale-105 glow-effect inline-flex items-center gap-2"
               initial={{ scale: 0.8, opacity: 0 }}
@@ -81,34 +81,33 @@ export default function FinalCTASection() {
               </motion.div>
               INICIAR AGORA
             </motion.button>
+
             
-            <div className="flex justify-center mt-8">
               <motion.div 
-                className="inline-block"
+                className="hidden sm:flex items-center justify-center gap-6 text-sm text-white/80 mt-4"
                 initial={{ y: 20, opacity: 0 }}
                 whileInView={{ y: 0, opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.6 }}
               >
-                {benefits.map((benefit, index) => (
-                  <motion.div 
-                    key={index} 
-                    className="flex items-center space-x-2 text-white/80 text-sm mb-1 justify-start"
-                    initial={{ scale: 0.8, opacity: 0 }}
-                    whileInView={{ scale: 1, opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: 0.7 + index * 0.1 }}
-                  >
+                 <div className="flex items-center gap-1">
                     <Check className="w-4 h-4 flex-shrink-0" />
-                    <span>{benefit}</span>
-                  </motion.div>
-                ))}
+                    <span>Sem compromisso</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Check className="w-4 h-4 flex-shrink-0" />
+                    <span>Consultoria gratuita</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <Check className="w-4 h-4 flex-shrink-0" />
+                    <span>Resultados comprovados</span>
+                  </div>
               </motion.div>
-            </div>
+            
           </div>
         </motion.div>
       </div>
-      
+
       {showDiagnosticForm && (
         <DiagnosticForm onClose={() => setShowDiagnosticForm(false)} />
       )}
