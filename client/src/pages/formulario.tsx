@@ -429,7 +429,7 @@ function FormularioPage() {
               <div className="clock-hand minute-hand"></div>
             </div>
           </div>
-          <span className="leading-tight">
+          <span className="leading-tight max-w-[280px] text-center">
             <span className="block">Só Hoje {getCurrentDate()}</span>
             <span className="block">Diagnóstico Gratuito com Vagas Limitadas</span>
           </span>
