@@ -4,8 +4,9 @@ import { useAuth } from "@/hooks/use-auth";
 import { getQueryFn, apiRequest, queryClient } from "@/lib/queryClient";
 import { DiagnosticResponse } from "@shared/schema";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Loader2, LogOut, Download, Eye } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
@@ -14,6 +15,13 @@ import { useState } from "react";
 export default function AdminPage() {
   const { user, logoutMutation } = useAuth();
   const [selectedResponse, setSelectedResponse] = useState<DiagnosticResponse | null>(null);
+  const [filters, setFilters] = useState({
+    search: "",
+    status: "",
+    source: "",
+    dateFrom: "",
+    dateTo: ""
+  });
 
   const { data: responses, isLoading } = useQuery<DiagnosticResponse[]>({
     queryKey: ["/api/admin/responses"],
@@ -34,6 +42,16 @@ export default function AdminPage() {
     }
   });
 
+  const deleteResponseMutation = useMutation({
+    mutationFn: async (id: number) => {
+      const response = await apiRequest("DELETE", `/api/admin/responses/${id}`);
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/responses"] });
+    }
+  });
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Atendido": return "bg-green-500 hover:bg-green-600";
@@ -46,12 +64,12 @@ export default function AdminPage() {
   const formatWhatsAppNumber = (phone: string) => {
     // Remove all non-numeric characters
     const cleanPhone = phone.replace(/\D/g, '');
-    
+
     // If already starts with 55, use as is
     if (cleanPhone.startsWith('55')) {
       return `https://wa.me/${cleanPhone}`;
     }
-    
+
     // If doesn't start with 55, add it
     return `https://wa.me/55${cleanPhone}`;
   };
@@ -101,6 +119,23 @@ export default function AdminPage() {
     link.download = `diagnosticos_evolut_ia_${new Date().toISOString().split('T')[0]}.csv`;
     link.click();
   };
+
+  const filteredData = responses?.filter((response: any) => {
+    const matchesSearch = !filters.search || 
+      response.name.toLowerCase().includes(filters.search.toLowerCase()) ||
+      response.email.toLowerCase().includes(filters.search.toLowerCase()) ||
+      response.company.toLowerCase().includes(filters.search.toLowerCase());
+
+    const matchesStatus = !filters.status || response.status === filters.status;
+    const matchesSource = !filters.source || response.source === filters.source;
+
+    const matchesDateFrom = !filters.dateFrom || 
+      new Date(response.createdAt) >= new Date(filters.dateFrom);
+    const matchesDateTo = !filters.dateTo || 
+      new Date(response.createdAt) <= new Date(filters.dateTo);
+
+    return matchesSearch && matchesStatus && matchesSource && matchesDateFrom && matchesDateTo;
+  }) || [];
 
   if (isLoading) {
     return (
@@ -189,6 +224,58 @@ export default function AdminPage() {
           </Card>
         </div>
 
+        {/* Filters */}
+        <Card className="bg-gray-900 border-gray-800 mb-6">
+          <CardHeader>
+            <CardTitle className="text-white">Filtros</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+              <Input
+                placeholder="Buscar por nome, email ou empresa"
+                value={filters.search}
+                onChange={(e) => setFilters({...filters, search: e.target.value})}
+                className="bg-gray-800 border-gray-700 text-white"
+              />
+              <Select value={filters.status} onValueChange={(value) => setFilters({...filters, status: value})}>
+                <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                  <SelectValue placeholder="Status" />
+                </SelectTrigger>
+                <SelectContent className="bg-gray-800 border-gray-700 text-white">
+                  <SelectItem className="text-white" value="">Todos</SelectItem>
+                  <SelectItem className="text-white" value="Pendente">Pendente</SelectItem>
+                  <SelectItem className="text-white" value="Visto">Visto</SelectItem>
+                  <SelectItem className="text-white" value="Atendido">Atendido</SelectItem>
+                </SelectContent>
+              </Select>
+              <Select value={filters.source} onValueChange={(value) => setFilters({...filters, source: value})}>
+                <SelectTrigger className="bg-gray-800 border-gray-700 text-white">
+                  <SelectValue placeholder="Origem" />
+                </SelectTrigger>
+                <SelectContent className="bg-gray-800 border-gray-700 text-white">
+                  <SelectItem className="text-white" value="">Todas</SelectItem>
+                  <SelectItem className="text-white" value="página principal">Página Principal</SelectItem>
+                  <SelectItem className="text-white" value="página de formulário">Página de Formulário</SelectItem>
+                </SelectContent>
+              </Select>
+              <Input
+                type="date"
+                placeholder="Data inicial"
+                value={filters.dateFrom}
+                onChange={(e) => setFilters({...filters, dateFrom: e.target.value})}
+                className="bg-gray-800 border-gray-700 text-white"
+              />
+              <Input
+                type="date"
+                placeholder="Data final"
+                value={filters.dateTo}
+                onChange={(e) => setFilters({...filters, dateTo: e.target.value})}
+                className="bg-gray-800 border-gray-700 text-white"
+              />
+            </div>
+          </CardContent>
+        </Card>
+
         {/* Responses List */}
         <Card className="bg-gray-900 border-gray-800">
           <CardHeader>
@@ -198,13 +285,13 @@ export default function AdminPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {!responses || responses.length === 0 ? (
+            {!filteredData || filteredData.length === 0 ? (
               <div className="text-center py-8 text-gray-400">
                 Nenhuma resposta encontrada
               </div>
             ) : (
               <div className="space-y-4">
-                {responses.map((response) => (
+                {filteredData.map((response) => (
                   <motion.div
                     key={response.id}
                     initial={{ opacity: 0, y: 20 }}
@@ -269,6 +356,46 @@ export default function AdminPage() {
                         <p className="text-white">{response.revenue}</p>
                       </div>
                     </div>
+                    <div className="flex gap-2 mt-4">
+                      <Button
+                        size="sm"
+                        variant={response.status === "Pendente" ? "default" : "outline"}
+                        onClick={() => updateStatusMutation.mutate({ id: response.id, status: "Pendente" })}
+                        className="bg-gray-700 border-gray-600 text-white hover:bg-gray-600"
+                      >
+                        Pendente
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant={response.status === "Visto" ? "default" : "outline"}
+                        onClick={() => updateStatusMutation.mutate({ id: response.id, status: "Visto" })}
+                        className="bg-gray-700 border-gray-600 text-white hover:bg-gray-600"
+                      >
+                        Visto
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant={response.status === "Atendido" ? "default" : "outline"}
+                        onClick={() => updateStatusMutation.mutate({ id: response.id, status: "Atendido" })}
+                        className="bg-gray-700 border-gray-600 text-white hover:bg-gray-600"
+                      >
+                        Atendido
+                      </Button>
+                      {user?.canDelete && (
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          onClick={() => {
+                            if (confirm("Tem certeza que deseja excluir esta resposta?")) {
+                              deleteResponseMutation.mutate(response.id);
+                            }
+                          }}
+                          className="bg-red-700 border-red-600 text-white hover:bg-red-600"
+                        >
+                          Excluir
+                        </Button>
+                      )}
+                    </div>
                   </motion.div>
                 ))}
               </div>
@@ -307,7 +434,7 @@ export default function AdminPage() {
                   </Button>
                 </div>
               </div>
-              
+
               <div className="space-y-4 text-sm">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
@@ -343,7 +470,7 @@ export default function AdminPage() {
                     <p className="text-white">{selectedResponse.erp}</p>
                   </div>
                 </div>
-                
+
                 <div>
                   <label className="text-gray-400">Áreas com Gargalos:</label>
                   <div className="flex flex-wrap gap-2 mt-2">
@@ -357,17 +484,17 @@ export default function AdminPage() {
                     ))}
                   </div>
                 </div>
-                
+
                 <div>
                   <label className="text-gray-400">Processo que Consome Tempo:</label>
                   <p className="text-white">{selectedResponse.timeConsumingProcess}</p>
                 </div>
-                
+
                 <div>
                   <label className="text-gray-400">Onde Está Perdendo Dinheiro/Oportunidades:</label>
                   <p className="text-white">{selectedResponse.lostOpportunities}</p>
                 </div>
-                
+
                 <div>
                   <label className="text-gray-400">Data de Submissão:</label>
                   <p className="text-white">

@@ -172,7 +172,10 @@ export default function DiagnosticForm({ onClose }: { onClose: () => void }) {
       setCurrentStep(currentStep + 1);
     } else {
       // Handle final submission
-      submitMutation.mutate(formData);
+       submitMutation.mutate({
+          ...formData,
+          source: window.location.pathname === "/formulario" ? "página de formulário" : "página principal"
+        });
     }
   };
 
@@ -432,7 +435,7 @@ export default function DiagnosticForm({ onClose }: { onClose: () => void }) {
               Voltar
             </button>
           )}
-          
+
           <button
             onClick={handleNext}
             disabled={!canProceed() || submitMutation.isPending}

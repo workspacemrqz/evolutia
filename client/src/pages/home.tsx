@@ -4,7 +4,7 @@ import ChatWidget from "@/components/chat-widget";
 import ChatPopup from "@/components/chat-popup";
 import AgentsSection from "@/components/agents-section";
 import AdvantagesSection from "@/components/advantages-section";
-import TargetSection from "@/components/target-section";
+
 import IntegrationsSection from "@/components/integrations-section";
 import HowItWorksSection from "@/components/how-it-works-section";
 import PoweredBySection from "@/components/powered-by-section";
@@ -19,7 +19,7 @@ export default function Home() {
       <ChatWidget />
       <AgentsSection />
       <AdvantagesSection />
-      <TargetSection />
+      
       <IntegrationsSection />
       <HowItWorksSection />
       <PoweredBySection />

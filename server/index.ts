@@ -57,7 +57,7 @@ app.use((req, res, next) => {
 
   const port = Number(process.env.PORT) || 3001;
   const host = process.env.NODE_ENV === "production" ? "0.0.0.0" : "localhost";
-  
+
   server.listen(port, host, () => {
     log(`serving on ${host}:${port}`, "express");
   });

@@ -23,7 +23,7 @@
   --destructive-foreground: hsl(0, 0%, 98%);
   --ring: hsl(221, 71.4%, 53.3%);
   --radius: 0.5rem;
-  
+
   /* Custom Evolut IA colors */
   --evolut-dark-bg: hsl(0, 0%, 2.35%);
   --evolut-card-bg: hsl(0, 0%, 5.1%);
@@ -71,75 +71,75 @@
     background: linear-gradient(180deg, #1A3B93 0%, #3064EF 100%);
     animation: gradient-pulse 3s ease-in-out infinite alternate;
   }
-  
+
   .gradient-bg:hover {
     background: linear-gradient(180deg, #153280 0%, #2557D6 100%);
     animation: none;
   }
-  
+
   .glow-effect {
     box-shadow: 0 0 20px rgba(48, 100, 239, 0.3);
     animation: glow-pulse 2s ease-in-out infinite alternate;
   }
-  
+
   .glow-effect:hover {
     box-shadow: 0 0 30px rgba(48, 100, 239, 0.5);
     animation: none;
   }
-  
+
   .text-gradient {
     background: linear-gradient(90deg, #1A3B93 0%, #3064EF 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  
+
   .animated-gradient-bg {
     background: linear-gradient(-45deg, #060606, #1A3B93, #3064EF, #060606);
     background-size: 400% 400%;
     animation: gradient-shift 8s ease infinite;
   }
-  
+
   .tilt-card {
     transform-style: preserve-3d;
     transition: transform 0.3s ease;
   }
-  
+
   .tilt-card:hover {
     transform: rotateX(5deg) rotateY(5deg) scale(1.02);
     box-shadow: 0 10px 30px rgba(48, 100, 239, 0.2);
   }
-  
+
   .slide-in-up {
     opacity: 0;
     transform: translateY(30px);
     animation: slideInUp 0.8s ease-out forwards;
   }
-  
+
   .fade-in {
     opacity: 0;
     animation: fadeIn 1s ease-out forwards;
   }
-  
+
   .scale-in {
     opacity: 0;
     transform: scale(0.9);
     animation: scaleIn 0.6s ease-out forwards;
   }
-  
+
   .glow-continuous {
     animation: glow-continuous 2s ease-in-out infinite alternate;
   }
-  
+
   .pulse-gentle {
     animation: pulse-gentle 2s ease-in-out infinite;
   }
-  
+
   .shimmer {
     position: relative;
     overflow: hidden;
   }
-  
+
   .shimmer::after {
     content: '';
     position: absolute;
@@ -150,21 +150,38 @@
     background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
     animation: shimmer 2s infinite;
   }
-  
+
   .gradient-border {
     position: relative;
     background: linear-gradient(45deg, #1A3B93, #3064EF, #1A3B93);
     background-size: 200% 200%;
     animation: gradient-border-shift 3s ease infinite;
   }
-  
+
   .infinite-scroll {
     animation: infinite-scroll 20s linear infinite;
   }
-  
+
   .mask-fade {
     mask: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
     -webkit-mask: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  }
+
+  .animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
   }
 }
 

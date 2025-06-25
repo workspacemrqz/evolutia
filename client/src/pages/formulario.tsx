@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
@@ -121,7 +120,7 @@ function FormularioPage() {
 
   const goNext = () => {
     if (!canProceed()) return;
-    
+
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     } else {
@@ -319,7 +318,7 @@ function FormularioPage() {
         <img 
           src="https://i.ibb.co/rf3PXc8r/LOGO-Evolut-IA-com-texto-na-horizontal.png" 
           alt="Evolut IA Logo"
-          className="h-auto w-auto max-w-[250px] max-h-[80px] object-contain mx-auto"
+          className="h-auto w-auto max-w-[250px] max-h-[80px] object-contain mx-auto animate-float"
         />
       </div>
 
@@ -359,7 +358,7 @@ function FormularioPage() {
               ← Voltar
             </button>
           )}
-          
+
           <button
             onClick={goNext}
             disabled={!canProceed() || submitMutation.isPending}
