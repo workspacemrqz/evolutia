@@ -166,27 +166,10 @@ export default function AdminPage() {
     );
   }
 
-  // Se houve erro na autenticação
-  if (authError) {
-    console.log('AdminPage - Auth error:', authError);
-    return (
-      <div className="min-h-screen bg-[#060606] flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-red-400 mb-4">Erro na autenticação: {authError.message}</p>
-          <Button 
-            onClick={() => window.location.href = '/auth'} 
-            className="bg-blue-600 hover:bg-blue-700"
-          >
-            Ir para Login
-          </Button>
-        </div>
-      </div>
-    );
-  }
-
-  // Se não há usuário após carregamento
-  if (!user) {
+  // Se não há usuário após carregamento (sem erro específico)
+  if (!authLoading && !user) {
     console.log('AdminPage - No user, redirecting to auth...');
+    window.location.href = '/auth';
     return (
       <div className="min-h-screen bg-[#060606] flex items-center justify-center">
         <div className="text-center">

@@ -29,7 +29,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   } = useQuery<SelectUser | undefined, Error>({
     queryKey: ["/api/user"],
     queryFn: getQueryFn({ on401: "returnNull" }),
-    retry: false,
+    retry: (failureCount, error) => {
+      // Não retry em caso de 401 (não autorizado)
+      if (error.message.includes('401') || error.message.includes('Unauthorized')) {
+        return false;
+      }
+      return failureCount < 2;
+    },
     staleTime: 5 * 60 * 1000, // 5 minutes
     refetchOnWindowFocus: false,
   });
@@ -51,8 +57,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     onSuccess: (user: SelectUser) => {
       console.log('Login successful, user:', user);
       queryClient.setQueryData(["/api/user"], user);
-      // Force redirect to admin page
-      window.location.href = '/admin';
+      queryClient.invalidateQueries({ queryKey: ["/api/user"] });
+      // Aguardar um pouco antes do redirect para garantir que o estado foi atualizado
+      setTimeout(() => {
+        window.location.href = '/admin';
+      }, 100);
     },
     onError: (error: Error) => {
       console.error('Login error:', error);
@@ -100,7 +109,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   return (
     <AuthContext.Provider
       value={{
-        user: user ?? null,
+        user: user || null,
         isLoading,
         error,
         loginMutation,

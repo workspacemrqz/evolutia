@@ -8,15 +8,16 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function AuthPage() {
-  const { user, loginMutation } = useAuth();
+  const { user, loginMutation, isLoading } = useAuth();
   const [credentials, setCredentials] = useState({
     username: "",
     password: ""
   });
 
-  // Redirect if already logged in
-  if (user) {
-    return <Redirect to="/admin" />;
+  // Se já está autenticado, redireciona para admin
+  if (user && !isLoading) {
+    window.location.href = '/admin';
+    return null;
   }
 
   const handleSubmit = (e: React.FormEvent) => {

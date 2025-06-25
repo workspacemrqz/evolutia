@@ -35,35 +35,34 @@ type UnauthorizedBehavior = "returnNull" | "throw";
 export const getQueryFn: <T>(options: {
   on401: UnauthorizedBehavior;
 }) => QueryFunction<T> =
-  ({ on401: unauthorizedBehavior }) =>
+  ({ on401 }) =>
   async ({ queryKey }) => {
-    const res = await fetch(queryKey[0] as string, {
-      credentials: "include",
-    });
-
-    if (!res.ok) {
-    if (res.status === 401 && options?.on401 === "returnNull") {
+  const url = queryKey[0];
+  try {
+    const response = await apiRequest("GET", url);
+    if (response.status === 401) {
+      console.log('getQueryFn - 401 detected, handling...');
+      if (on401 === "throw") {
+        throw new Error("Unauthorized - 401");
+      } else {
+        return null;
+      }
+    }
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('getQueryFn error:', error);
+    if (on401 === "throw" && (error as Error).message.includes('401')) {
+      throw error;
+    }
+    if ((error as Error).message.includes('401') || (error as Error).message.includes('Unauthorized')) {
       return null;
     }
-
-    let message;
-    try {
-      if (res.headers.get("content-type")?.includes("application/json")) {
-        const errorData = await res.json();
-        message = errorData.message || errorData.error || "Request failed";
-      } else {
-        message = res.statusText || "Request failed";
-      }
-    } catch (e) {
-      message = `HTTP ${res.status} - ${res.statusText}`;
-    }
-
-    console.error('API Error:', { status: res.status, message, url: queryKey[0] });
-    throw new Error(message);
+    throw error;
   }
-
-    return await res.json();
-  };
+};
 
 export const queryClient = new QueryClient({
   defaultOptions: {
