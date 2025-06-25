@@ -159,6 +159,17 @@ function FormularioPage() {
         console.log('Eventos de conversão disparados via GTM: form_conversion e facebook_lead');
       }
       
+      // Disparar evento Lead diretamente no Meta Pixel
+      if (typeof window.fbq !== 'undefined') {
+        window.fbq('track', 'Lead', {
+          source: 'formulario_diagnostico',
+          content_name: 'Diagnóstico Gratuito',
+          value: 0,
+          currency: 'BRL'
+        });
+        console.log('Evento Lead disparado diretamente via Meta Pixel');
+      }
+      
       submitMutation.mutate(formData);
     }
   };
@@ -347,19 +358,7 @@ function FormularioPage() {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [currentStep, formData]);
 
-  // Disparar PageView quando a página carrega
-  useEffect(() => {
-    if (typeof window.dataLayer !== 'undefined') {
-      window.dataLayer.push({
-        'event': 'facebook_pageview',
-        'fb_event_type': 'PageView',
-        'pixel_id': '706592518905036',
-        'page_location': window.location.href,
-        'page_title': document.title
-      });
-      console.log('PageView disparado via GTM para Facebook Pixel');
-    }
-  }, []);
+  // O PageView já é disparado automaticamente pelo Meta Pixel no HTML
 
   return (
     <div className="min-h-screen bg-[#060606] text-white flex flex-col items-center justify-center p-5">
