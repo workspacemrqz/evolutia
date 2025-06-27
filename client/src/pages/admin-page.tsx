@@ -22,10 +22,11 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Loader2, LogOut, Download, Eye, Trash2, Plus, DollarSign } from "lucide-react";
+import { Loader2, LogOut, Download, Eye, Trash2, Plus, DollarSign, FileText, Clock, CheckCircle, Calendar, FolderOpen, ExternalLink, X } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/use-toast";
 
 export default function AdminPage() {
   const { user, logoutMutation } = useAuth();
@@ -905,12 +906,11 @@ export default function AdminPage() {
                           id="revenue"
                           value={newProject.revenue}
                           onChange={(e) =>
-                            set```python
-NewProject({ ...newProject, revenue: e.target.value })
+                            setNewProject({ ...newProject, revenue: e.target.value })
                           }
                           className="bg-gray-900 border-gray-600 text-white"
                           placeholder="R$ 0,00"
-                          
+
                         />
                       </div>
                     </div>
