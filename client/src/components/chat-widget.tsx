@@ -114,7 +114,7 @@ export default function ChatWidget() {
         });
       }
 
-      const response = await fetch('https://n8n.srv864082.hstgr.cloud/webhook/evolut', {
+      const response = await fetch('https://n8n.srv864082.hstgr.cloud/webhook-test/evolut', {
         method: 'POST',
         headers: headers,
         body: requestBody
