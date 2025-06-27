@@ -1,7 +1,8 @@
 
-const { drizzle } = require("drizzle-orm/postgres-js");
-const { sql } = require("drizzle-orm");
-const postgres = require("postgres");
+import { drizzle } from "drizzle-orm/postgres-js";
+import { sql } from "drizzle-orm";
+import postgres from "postgres";
+import 'dotenv/config';
 
 const connectionString = process.env.DATABASE_URL;
 
