@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Minimize2, Maximize2, X, Mic, MicOff, Bot, User, Play, Pause } from "lucide-react";
@@ -113,8 +112,11 @@ export default function ChatWidget() {
           timestamp: new Date().toISOString()
         });
       }
+      console.log('Enviando para webhook:', 'https://n8n.srv864082.hstgr.cloud/webhook/evolut');
+      console.log('Headers:', headers);
+      console.log('Body type:', typeof requestBody);
 
-      const response = await fetch('https://n8n.srv864082.hstgr.cloud/webhook/b779798f-25f7-48ba-bf38-cdd7fd6dabb3', {
+      const response = await fetch('https://n8n.srv864082.hstgr.cloud/webhook/evolut', {
         method: 'POST',
         headers: headers,
         body: requestBody
@@ -123,14 +125,14 @@ export default function ChatWidget() {
       if (response.ok) {
         const data = await response.json().catch(() => ({}));
         console.log('Webhook response data:', data);
-        
+
         // Try different possible response fields
         const responseText = data.output || data.response || data.message || data.text || data.answer || data.reply;
-        
+
         if (responseText) {
           // Simulate typing delay
           await new Promise(resolve => setTimeout(resolve, 1000));
-          
+
           const botMessage = {
             id: Date.now() + 1,
             sender: 'bot' as const,
@@ -149,16 +151,16 @@ export default function ChatWidget() {
       }
     } catch (error) {
       console.error('Error sending message to webhook:', error);
-      
+
       // Show different error messages based on error type
       let errorText = "Desculpe, ocorreu um erro ao processar sua mensagem. Tente novamente em alguns instantes.";
-      
+
       if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
         errorText = "Erro de conexão com o servidor. Verifique sua conexão com a internet e tente novamente.";
       } else if (error instanceof Error && error.message.includes('CORS')) {
         errorText = "Erro de configuração do servidor. Nossa equipe foi notificada.";
       }
-      
+
       const errorMessage = {
         id: Date.now() + 1,
         sender: 'bot' as const,
@@ -312,7 +314,7 @@ export default function ChatWidget() {
               </button>
             </div>
           </div>
-          
+
           {/* Blue gradient separator line */}
           <div className="h-px bg-gradient-to-r from-blue-500 to-blue-600"></div>
 
