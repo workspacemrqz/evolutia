@@ -61,7 +61,7 @@ export default function ChatWidget() {
         });
       }
 
-      const response = await fetch('https://n8n.srv864082.hstgr.cloud/webhook-test/evolutia', {
+      const response = await fetch('https://n8n.srv864082.hstgr.cloud/webhook/b779798f-25f7-48ba-bf38-cdd7fd6dabb3', {
         method: 'POST',
         headers: headers,
         body: requestBody
