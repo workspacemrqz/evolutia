@@ -1,0 +1,149 @@
+[root@srv856338 public_html]# git fetch --prune origin
+rm -f .git/packed-refs
+git fetch origin
+git reset --hard origin/main
+git pull origin main
+
+pm2 delete evolut-site
+npm run build
+pm2 start ecosystem.config.cjs
+systemctl reload lsws
+pm2 status
+HEAD is now at fb728d9f Assistant checkpoint: Fix toast import path and rebuild application
+From github.com:workspacemrqz/evolutia
+ * branch              main       -> FETCH_HEAD
+Already up to date.
+[PM2] Applying action deleteProcessId on app [evolut-site](ids: [ 180 ])
+[PM2] [evolut-site](180) ✓
+┌─────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id  │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├─────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19  │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.9mb  │
+│ 142 │ rotacaicara        │ fork     │ 0    │ online    │ 0%       │ 98.0mb   │
+│ 141 │ tempo-real         │ fork     │ 0    │ online    │ 0%       │ 106.4mb  │
+│ 151 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 32.1mb   │
+└─────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+
+> rest-express@1.0.0 build
+> vite build
+
+vite v5.4.14 building for production...
+transforming (3) src/main.tsxBrowserslist: browsers data (caniuse-lite) is 8 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+✓ 2074 modules transformed.
+../dist/public/index.html                   2.66 kB │ gzip:   1.29 kB
+../dist/public/assets/index-FT9m3RBD.css   93.51 kB │ gzip:  15.51 kB
+../dist/public/assets/index-ODSxeFPT.js   545.01 kB │ gzip: 166.36 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 5.84s
+[PM2][WARN] Applications evolut-site not running, starting...
+[PM2] App [evolut-site] launched (1 instances)
+┌─────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id  │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├─────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19  │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.9mb  │
+│ 181 │ evolut-site        │ fork     │ 0    │ online    │ 0%       │ 26.0mb   │
+│ 142 │ rotacaicara        │ fork     │ 0    │ online    │ 0%       │ 98.0mb   │
+│ 141 │ tempo-real         │ fork     │ 0    │ online    │ 0%       │ 106.0mb  │
+│ 151 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 32.1mb   │
+└─────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+┌─────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id  │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├─────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19  │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.5mb  │
+│ 181 │ evolut-site        │ fork     │ 0    │ online    │ 0%       │ 72.8mb   │
+│ 142 │ rotacaicara        │ fork     │ 0    │ online    │ 0%       │ 98.0mb   │
+│ 141 │ tempo-real         │ fork     │ 0    │ online    │ 0%       │ 106.4mb  │
+│ 151 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 32.1mb   │
+└─────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[root@srv856338 public_html]# mkdir -p uploads static static/projects
+[root@srv856338 public_html]# pm2 delete evolut-site
+npm run build
+pm2 start ecosystem.config.cjs
+systemctl reload lsws
+pm2 status
+[PM2] Applying action deleteProcessId on app [evolut-site](ids: [ 181 ])
+[PM2] [evolut-site](181) ✓
+┌─────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id  │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├─────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19  │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.5mb  │
+│ 142 │ rotacaicara        │ fork     │ 0    │ online    │ 0%       │ 98.0mb   │
+│ 141 │ tempo-real         │ fork     │ 0    │ online    │ 0%       │ 106.0mb  │
+│ 151 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 32.1mb   │
+└─────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+
+> rest-express@1.0.0 build
+> vite build
+
+vite v5.4.14 building for production...
+transforming (2) ../vite/modulepreload-polyfill.jsBrowserslist: browsers data (caniuse-lite) is 8 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+transforming (2041) ../node_modules/react-remove-scroll-bar/dist/es2015/constants.^C
+[PM2][WARN] Applications evolut-site not running, starting...
+[PM2] App [evolut-site] launched (1 instances)
+┌─────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id  │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├─────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19  │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.9mb  │
+│ 182 │ evolut-site        │ fork     │ 0    │ online    │ 0%       │ 18.1mb   │
+│ 142 │ rotacaicara        │ fork     │ 0    │ online    │ 0%       │ 98.0mb   │
+│ 141 │ tempo-real         │ fork     │ 0    │ online    │ 0%       │ 106.0mb  │
+│ 151 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 32.1mb   │
+└─────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+┌─────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id  │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├─────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19  │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.5mb  │
+│ 182 │ evolut-site        │ fork     │ 0    │ online    │ 0%       │ 73.1mb   │
+│ 142 │ rotacaicara        │ fork     │ 0    │ online    │ 0%       │ 98.0mb   │
+│ 141 │ tempo-real         │ fork     │ 0    │ online    │ 0%       │ 106.4mb  │
+│ 151 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 32.1mb   │
+└─────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[root@srv856338 public_html]# ls -la
+total 464
+drwxr-xr-x  14 evolu6905 evolu6905   4096 Jun 27 19:50 .
+drwx--x--x   4 evolu6905 evolu6905     37 Jun 26 00:06 ..
+-rw-r--r--   1 root      root        1233 Jun 25 20:12 add-source-column.js
+drwxr-xr-x   2 evolu6905 evolu6905   8192 Jun 27 19:41 attached_assets
+drwxr-xr-x   4 evolu6905 evolu6905     56 Jun 22 14:49 build
+-rw-r--r--   1 root      root        4213 Jun 25 18:08 build-for-vps.js
+drwxr-xr-x   3 evolu6905 evolu6905     35 Jun 25 21:46 client
+-rw-r--r--   1 evolu6905 evolu6905    459 Jun 22 14:49 components.json
+-rw-r--r--   1 evolu6905 evolu6905    131 Jun 22 14:49 cookies.txt
+drwxr-xr-x   3 root      root         125 Jun 25 20:28 dist
+-rw-r--r--   1 evolu6905 evolu6905    325 Jun 22 14:49 drizzle.config.ts
+-rw-r--r--   1 evolu6905 evolu6905    575 Jun 22 15:23 ecosystem.config.cjs
+-rw-r--r--   1 evolu6905 evolu6905    107 Jun 22 14:49 .env
+drwxr-xr-x   8 evolu6905 evolu6905   4096 Jun 27 19:49 .git
+-rw-r--r--   1 evolu6905 evolu6905    752 Jun 22 14:49 index.html
+-rw-r--r--   1 evolu6905 evolu6905   4984 Jun 22 14:49 migrate-database.js
+-rw-r--r--   1 root      root         877 Jun 27 18:41 migrate-description.js
+-rw-r--r--   1 root      root         944 Jun 27 18:24 migrate-expenses.cjs
+-rw-r--r--   1 root      root         953 Jun 27 18:32 migrate-expenses.js
+-rw-r--r--   1 root      root         890 Jun 27 19:06 migrate-project-files.js
+-rw-r--r--   1 root      root        1169 Jun 27 18:53 migrate-projects.js
+drwxr-xr-x 367 evolu6905 evolu6905  20480 Jun 27 19:49 node_modules
+-rw-r--r--   1 root      root        3534 Jun 27 19:49 package.json
+-rw-r--r--   1 root      root      309591 Jun 27 19:49 package-lock.json
+-rw-r--r--   1 evolu6905 evolu6905     80 Jun 22 14:49 postcss.config.js
+drwxr-xr-x   2 root      root         138 Jun 25 16:24 public
+-rw-r--r--   1 root      root         131 Jun 25 17:09 .replit
+drwxr-xr-x   2 evolu6905 evolu6905    100 Jun 27 19:17 server
+-rw-r--r--   1 evolu6905 evolu6905   1736 Jun 22 14:49 setup-database.js
+drwxr-xr-x   2 evolu6905 evolu6905     23 Jun 27 19:17 shared
+-rw-r--r--   1 root      root        9578 Jun 25 20:38 start-production.js
+-rw-r--r--   1 evolu6905 evolu6905    502 Jun 22 14:49 start-server.js
+-rw-r--r--   1 root      root        6740 Jun 25 20:32 start-vps.js
+drwxr-xr-x   3 evolu6905 evolu6905    171 Jun 27 19:06 static
+-rw-r--r--   1 evolu6905 evolu6905   2627 Jun 22 14:49 tailwind.config.ts
+-rw-r--r--   1 evolu6905 evolu6905    932 Jun 22 14:49 tsconfig.json
+drwxr-xr-x   2 evolu6905 evolu6905     27 Jun 22 14:49 types
+drwxr-xr-x   2 root      root           6 Jun 27 19:06 uploads
+-rw-r--r--   1 evolu6905 evolu6905    971 Jun 22 14:49 vite.config.ts
