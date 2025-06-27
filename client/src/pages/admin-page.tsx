@@ -26,7 +26,7 @@ import { Loader2, LogOut, Download, Eye, Trash2, Plus, DollarSign, FileText, Clo
 import { FaWhatsapp } from "react-icons/fa";
 import { useState } from "react";
 import { Textarea } from "@/components/ui/textarea";
-import { toast } from "@/components/ui/use-toast";
+import { toast } from "@/hooks/use-toast";
 
 export default function AdminPage() {
   const { user, logoutMutation } = useAuth();
