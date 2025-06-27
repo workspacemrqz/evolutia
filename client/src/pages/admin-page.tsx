@@ -2,7 +2,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/use-auth";
 import { getQueryFn, apiRequest, queryClient } from "@/lib/queryClient";
-import { DiagnosticResponse, Expense, Project } from "@shared/schema";
+import { DiagnosticResponse } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -19,48 +19,23 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Loader2, LogOut, Download, Eye, Trash2, Plus, DollarSign, FileText, Clock, CheckCircle, Calendar, FolderOpen, ExternalLink, X } from "lucide-react";
+import { Loader2, LogOut, Download, Eye, Trash2 } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { useState } from "react";
-import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/hooks/use-toast";
 
 export default function AdminPage() {
   const { user, logoutMutation } = useAuth();
   const [selectedResponse, setSelectedResponse] =
     useState<DiagnosticResponse | null>(null);
-  const [newExpense, setNewExpense] = useState({
-    item: "",
-    description: "",
-    value: "",
-    paidBy: "",
-    projectId: "",
-  });
-  const [showExpenseForm, setShowExpenseForm] = useState(false);
-  const [newProject, setNewProject] = useState({
-    title: "",
-    description: "",
-    revenue: "",
-  });
-  const [showProjectForm, setShowProjectForm] = useState(false);
+  
 
   const { data: responses, isLoading } = useQuery<DiagnosticResponse[]>({
     queryKey: ["/api/admin/responses"],
     queryFn: getQueryFn({ on401: "throw" }),
   });
 
-  const { data: expenses, isLoading: expensesLoading } = useQuery<Expense[]>({
-    queryKey: ["/api/admin/expenses"],
-    queryFn: getQueryFn({ on401: "throw" }),
-  });
-
-  const { data: projects, isLoading: projectsLoading } = useQuery<Project[]>({
-    queryKey: ["/api/admin/projects"],
-    queryFn: getQueryFn({ on401: "throw" }),
-  });
+  
 
   const handleLogout = () => {
     logoutMutation.mutate();
@@ -99,87 +74,7 @@ export default function AdminPage() {
     },
   });
 
-  const createExpenseMutation = useMutation({
-    mutationFn: async (expense: { item: string; description: string; value: string; paidBy: string; projectId?: number }) => {
-      console.log("🚀 Enviando despesa:", expense);
-      const response = await apiRequest("POST", "/api/admin/expenses", expense);
-      if (!response.ok) {
-        const error = await response.json();
-        console.error("❌ Erro na resposta:", error);
-        throw new Error(error.error || "Failed to create expense");
-      }
-      const result = await response.json();
-      console.log("✅ Despesa criada:", result);
-      return result;
-    },
-    onSuccess: () => {
-      console.log("✅ Despesa criada com sucesso");
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/expenses"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/projects"] });
-      setNewExpense({ item: "", description: "", value: "", paidBy: "", projectId: "" });
-      setShowExpenseForm(false);
-      toast({
-        title: "Sucesso!",
-        description: "Despesa registrada com sucesso.",
-      });
-    },
-    onError: (error: Error) => {
-      console.error("❌ Erro ao criar despesa:", error.message);
-      toast({
-        title: "Erro",
-        description: error.message || "Erro ao registrar despesa",
-        variant: "destructive",
-      });
-    },
-  });
-
-  const deleteExpenseMutation = useMutation({
-    mutationFn: async (id: number) => {
-      const response = await apiRequest("DELETE", `/api/admin/expenses/${id}`);
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || "Failed to delete expense");
-      }
-      return response.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/expenses"] });
-    },
-  });
-
-    const createProjectMutation = useMutation({
-    mutationFn: async (project: { title: string; description: string; revenue: string; }) => {
-      const response = await apiRequest("POST", "/api/admin/projects", project);
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || "Failed to create project");
-      }
-      return response.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/projects"] });
-      setNewProject({ title: "", description: "", revenue: "" });
-      setShowProjectForm(false);
-      toast({
-        title: "Sucesso!",
-        description: "Projeto criado com sucesso.",
-      });
-    },
-  });
-
-  const deleteProjectMutation = useMutation({
-    mutationFn: async (id: number) => {
-      const response = await apiRequest("DELETE", `/api/admin/projects/${id}`);
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || "Failed to delete project");
-      }
-      return response.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/projects"] });
-    },
-  });
+  
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -220,56 +115,7 @@ export default function AdminPage() {
     return [areas];
   };
 
-  const handleCreateExpense = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("📝 Formulário submetido:", newExpense);
-    
-    const value = parseFloat(newExpense.value);
-    if (isNaN(value) || value <= 0) {
-      toast({
-        title: "Erro",
-        description: "Por favor, insira um valor válido",
-        variant: "destructive",
-      });
-      return;
-    }
-    
-    if (!newExpense.item.trim()) {
-      toast({
-        title: "Erro",
-        description: "Nome do item é obrigatório",
-        variant: "destructive",
-      });
-      return;
-    }
-    
-    if (!newExpense.paidBy.trim()) {
-      toast({
-        title: "Erro",
-        description: "Responsável pelo pagamento é obrigatório",
-        variant: "destructive",
-      });
-      return;
-    }
-    
-    const projectId = newExpense.projectId ? parseInt(newExpense.projectId) : undefined;
-    
-    const expenseData = {
-      item: newExpense.item.trim(),
-      description: newExpense.description.trim(),
-      value: newExpense.value, // Manter como string
-      paidBy: newExpense.paidBy,
-      projectId,
-    };
-    
-    console.log("🚀 Enviando dados:", expenseData);
-    createExpenseMutation.mutate(expenseData);
-  };
-
-    const handleCreateProject = (e: React.FormEvent) => {
-    e.preventDefault();
-    createProjectMutation.mutate(newProject);
-  };
+  
 
   const exportToCSV = () => {
     if (!responses || responses.length === 0) return;
@@ -318,37 +164,9 @@ export default function AdminPage() {
     link.click();
   };
 
-  const exportExpensesToCSV = () => {
-    if (!expenses || expenses.length === 0) return;
+  
 
-    const headers = ["Data", "Item", "Descrição", "Valor", "Responsável"];
-
-    const csvContent = [
-      headers.join(","),
-      ...expenses.map((expense) =>
-        [
-          new Date(expense.createdAt).toLocaleDateString("pt-BR"),
-          `"${expense.item}"`,
-          `"${expense.description || ''}"`,
-          `"R$ ${parseFloat(expense.value.toString()).toFixed(2).replace('.', ',')}"`,
-          `"${expense.paidBy}"`,
-        ].join(","),
-      ),
-    ].join("\n");
-
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = `gastos_evolut_ia_${new Date().toISOString().split("T")[0]}.csv`;
-    link.click();
-  };
-
-  const handleDownloadProject = (projectId: number) => {
-    // Placeholder function for downloading the project as a ZIP file
-    alert(`Download do projeto ${projectId} em formato .zip`);
-  };
-
-  if (isLoading || expensesLoading || projectsLoading) {
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-[#060606] flex items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-white" />
@@ -445,31 +263,18 @@ export default function AdminPage() {
           </Card>
         </div>
 
-        {/* Main Content with Tabs */}
-        <Tabs defaultValue="responses" className="w-full">
-          <TabsList className="grid w-full grid-cols-3 bg-gray-900 border border-gray-800">
-            <TabsTrigger value="responses" className="text-white data-[state=active]:bg-gray-800">
-              Respostas do Diagnóstico
-            </TabsTrigger>
-            <TabsTrigger value="expenses" className="text-white data-[state=active]:bg-gray-800">
-              Controle Financeiro
-            </TabsTrigger>
-             <TabsTrigger value="projects" className="text-white data-[state=active]:bg-gray-800">
-              Projetos
-            </TabsTrigger>
-          </TabsList>
+        {/* Main Content */}
+        <div className="w-full">
 
-          {/* Responses Tab */}
-          <TabsContent value="responses" className="mt-6">
-            <Card className="bg-gray-900 border-gray-800">
-              <CardHeader>
-                <CardTitle className="text-white">
-                  Respostas do Diagnóstico
-                </CardTitle>
-                <CardDescription className="text-gray-400">
-                  Todas as respostas coletadas através do formulário de diagnóstico
-                </CardDescription>
-              </CardHeader>
+          <Card className="bg-gray-900 border-gray-800 mt-6">
+            <CardHeader>
+              <CardTitle className="text-white">
+                Respostas do Diagnóstico
+              </CardTitle>
+              <CardDescription className="text-gray-400">
+                Todas as respostas coletadas através do formulário de diagnóstico
+              </CardDescription>
+            </CardHeader>
               <CardContent>
                 {!responses || responses.length === 0 ? (
                   <div className="text-center py-8 text-gray-400">
@@ -592,492 +397,8 @@ export default function AdminPage() {
                   </div>
                 )}
               </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* Expenses Tab */}
-          <TabsContent value="expenses" className="mt-6">
-            <Card className="bg-gray-900 border-gray-800">
-              <CardHeader>
-                <div className="flex justify-between items-center">
-                  <div>
-                    <CardTitle className="text-white">
-                      Controle Financeiro
-                    </CardTitle>
-                    <CardDescription className="text-gray-400">
-                      Registre e acompanhe todos os gastos da empresa
-                    </CardDescription>
-                  </div>
-                  <div className="flex gap-2">
-                    <Button
-                      onClick={exportExpensesToCSV}
-                      variant="outline"
-                      className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700"
-                      disabled={!expenses || expenses.length === 0}
-                    >
-                      <Download className="w-4 h-4 mr-2" />
-                      Exportar CSV
-                    </Button>
-                    <Button
-                      onClick={() => setShowExpenseForm(!showExpenseForm)}
-                      className="bg-blue-600 hover:bg-blue-700 text-white"
-                    >
-                      <Plus className="w-4 h-4 mr-2" />
-                      Novo Gasto
-                    </Button>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                {/* Expense Form */}
-                {showExpenseForm && (
-                  <form
-                    onSubmit={handleCreateExpense}
-                    className="bg-gray-800 p-6 rounded-lg border border-gray-700 mb-6"
-                  >
-                    <h3 className="text-white text-lg font-semibold mb-4">
-                      Registrar Novo Gasto
-                    </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                      <div>
-                        <Label htmlFor="item" className="text-white">
-                          Nome do Item
-                        </Label>
-                        <Input
-                          id="item"
-                          value={newExpense.item}
-                          onChange={(e) =>
-                            setNewExpense({ ...newExpense, item: e.target.value })
-                          }
-                          className="bg-gray-900 border-gray-600 text-white"
-                          placeholder="Nome do item ou serviço"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="value" className="text-white">
-                          Valor (R$)
-                        </Label>
-                        <Input
-                          id="value"
-                          type="number"
-                          step="0.01"
-                          value={newExpense.value}
-                          onChange={(e) =>
-                            setNewExpense({ ...newExpense, value: e.target.value })
-                          }
-                          className="bg-gray-900 border-gray-600 text-white"
-                          placeholder="0,00"
-                          required
-                        />
-                      </div>
-                    </div>
-                    <div className="mb-4">
-                      <Label htmlFor="description" className="text-white">
-                        Descrição (opcional)
-                      </Label>
-                      <Input
-                        id="description"
-                        value={newExpense.description}
-                        onChange={(e) =>
-                          setNewExpense({ ...newExpense, description: e.target.value })
-                        }
-                        className="bg-gray-900 border-gray-600 text-white"
-                        placeholder="Detalhes sobre o item ou serviço"
-                      />
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                      <div>
-                        <Label htmlFor="paidBy" className="text-white">
-                          Responsável pelo Pagamento
-                        </Label>
-                          <Select
-                              onValueChange={(value) =>
-                                setNewExpense({ ...newExpense, paidBy: value })
-                              }
-                            >
-                              <SelectTrigger className="bg-gray-900 border-gray-600 text-white w-full">
-                                <SelectValue placeholder="Selecione o responsável" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="Gabriel Camargo">Gabriel Camargo</SelectItem>
-                                <SelectItem value="Gabriel Marquez">Gabriel Marquez</SelectItem>
-                              </SelectContent>
-                            </Select>
-                      </div>
-                      <div>
-                        <Label htmlFor="projectSelect" className="text-white">
-                          Projeto (opcional)
-                        </Label>
-                        <Select
-                          onValueChange={(value) =>
-                            setNewExpense({ ...newExpense, projectId: value })
-                          }
-                        >
-                          <SelectTrigger className="bg-gray-900 border-gray-600 text-white w-full">
-                            <SelectValue placeholder="Selecione um projeto" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="">Nenhum projeto</SelectItem>
-                            {projects?.map((project) => (
-                              <SelectItem key={project.id} value={project.id.toString()}>
-                                {project.title}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
-                    <div className="flex gap-2">
-                      <Button
-                        type="submit"
-                        disabled={createExpenseMutation.isPending}
-                        className="bg-green-600 hover:bg-green-700 text-white"
-                      >
-                        {createExpenseMutation.isPending ? (
-                          <Loader2 className="w-4 h-4 animate-spin" />
-                        ) : (
-                          "Registrar Gasto"
-                        )}
-                      </Button>
-                      <Button
-                        type="button"
-                        onClick={() => {
-                          setShowExpenseForm(false);
-                          setNewExpense({ item: "", description: "", value: "", paidBy: "", projectId: "" });
-                        }}
-                        variant="outline"
-                        className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700"
-                      >
-                        Cancelar
-                      </Button>
-                    </div>
-                  </form>
-                )}
-
-                {/* Expenses Summary */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                  <Card className="bg-gray-800 border-gray-700">
-                    <CardContent className="pt-6">
-                      <div className="flex items-center">
-                        <DollarSign className="h-4 w-4 text-green-500" />
-                        <span className="ml-2 text-sm font-medium text-gray-400">Total de Gastos</span>
-                      </div>
-                      <div className="text-2xl font-bold text-white">
-                        R$ {expenses?.reduce((sum, expense) => sum + parseFloat(expense.value.toString()), 0).toFixed(2).replace('.', ',') || "0,00"}
-                      </div>
-                    </CardContent>
-                  </Card>
-                  <Card className="bg-gray-800 border-gray-700">
-                    <CardContent className="pt-6">
-                      <div className="flex items-center">
-                        <span className="ml-2 text-sm font-medium text-gray-400">Número de Itens</span>
-                      </div>
-                      <div className="text-2xl font-bold text-white">
-                        {expenses?.length || 0}
-                      </div>
-                    </CardContent>
-                  </Card>
-                  <Card className="bg-gray-800 border-gray-700">
-                    <CardContent className="pt-6">
-                      <div className="flex items-center">
-                        <span className="ml-2 text-sm font-medium text-gray-400">Este Mês</span>
-                      </div>
-                      <div className="text-2xl font-bold text-white">
-                        R$ {expenses?.filter(expense => {
-                          const expenseDate = new Date(expense.createdAt);
-                          const now = new Date();
-                          return expenseDate.getMonth() === now.getMonth() && 
-                                 expenseDate.getFullYear() === now.getFullYear();
-                        }).reduce((sum, expense) => sum + parseFloat(expense.value.toString()), 0).toFixed(2).replace('.', ',') || "0,00"}
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-
-                {/* Expenses List */}
-                {!expenses || expenses.length === 0 ? (
-                  <div className="text-center py-8 text-gray-400">
-                    Nenhum gasto registrado
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    {expenses.map((expense) => (
-                      <motion.div
-                        key={expense.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="bg-gray-800 p-4 rounded-lg border border-gray-700"
-                      >
-                        <div className="flex justify-between items-start">
-                          <div className="flex-1">
-                            <h3 className="text-white font-semibold text-lg">{expense.item}</h3>
-                            {expense.description && (
-                              <p className="text-gray-300 text-sm mt-1">{expense.description}</p>
-                            )}
-                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-2 text-sm">
-                              <div>
-                                <span className="text-gray-400">Valor:</span>
-                                <p className="text-green-400 font-semibold">
-                                  R$ {parseFloat(expense.value.toString()).toFixed(2).replace('.', ',')}
-                                </p>
-                              </div>
-                              <div>
-                                <span className="text-gray-400">Responsável:</span>
-                                <p className="text-white">{expense.paidBy}</p>
-                              </div>
-                              <div>
-                                <span className="text-gray-400">Projeto:</span>
-                                <p className="text-blue-400">
-                                  {expense.projectId 
-                                    ? projects?.find(p => p.id === expense.projectId)?.title || "Projeto não encontrado"
-                                    : "Nenhum projeto"
-                                  }
-                                </p>
-                              </div>
-                              <div>
-                                <span className="text-gray-400">Data:</span>
-                                <p className="text-white">
-                                  {new Date(expense.createdAt).toLocaleDateString("pt-BR", {
-                                    timeZone: "America/Sao_Paulo",
-                                  })}
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                          {user?.canDelete && (
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => {
-                                if (window.confirm("Tem certeza que deseja excluir este gasto? Esta ação não pode ser desfeita.")) {
-                                  deleteExpenseMutation.mutate(expense.id);
-                                }
-                              }}
-                              className="bg-red-600 border-red-500 text-white hover:bg-red-700"
-                              disabled={deleteExpenseMutation.isPending}
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </Button>
-                          )}
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* Projects Tab */}
-          <TabsContent value="projects" className="mt-6">
-            <Card className="bg-gray-900 border-gray-800">
-              <CardHeader>
-                <div className="flex justify-between items-center">
-                  <div>
-                    <CardTitle className="text-white">
-                      Gerenciamento de Projetos
-                    </CardTitle>
-                    <CardDescription className="text-gray-400">
-                      Registre e acompanhe todos os projetos da empresa
-                    </CardDescription>
-                  </div>
-                  <div className="flex gap-2">
-                    <Button
-                      onClick={() => setShowProjectForm(!showProjectForm)}
-                      className="bg-blue-600 hover:bg-blue-700 text-white"
-                    >
-                      <Plus className="w-4 h-4 mr-2" />
-                      Novo Projeto
-                    </Button>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                {/* Project Form */}
-                {showProjectForm && (
-                  <form
-                    onSubmit={handleCreateProject}
-                    className="bg-gray-800 p-6 rounded-lg border border-gray-700 mb-6"
-                  >
-                    <h3 className="text-white text-lg font-semibold mb-4">
-                      Criar Novo Projeto
-                    </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                      <div>
-                        <Label htmlFor="title" className="text-white">
-                          Título
-                        </Label>
-                        <Input
-                          id="title"
-                          value={newProject.title}
-                          onChange={(e) =>
-                            setNewProject({ ...newProject, title: e.target.value })
-                          }
-                          className="bg-gray-900 border-gray-600 text-white"
-                          placeholder="Nome do projeto"
-                          required
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="revenue" className="text-white">
-                          Faturamento
-                        </Label>
-                        <Input
-                          id="revenue"
-                          value={newProject.revenue}
-                          onChange={(e) =>
-                            setNewProject({ ...newProject, revenue: e.target.value })
-                          }
-                          className="bg-gray-900 border-gray-600 text-white"
-                          placeholder="R$ 0,00"
-
-                        />
-                      </div>
-                    </div>
-                    <div className="mb-4">
-                      <Label htmlFor="description" className="text-white">
-                        Descrição
-                      </Label>
-                      <Textarea
-                        id="description"
-                        value={newProject.description}
-                        onChange={(e) =>
-                          setNewProject({ ...newProject, description: e.target.value })
-                        }
-                        className="bg-gray-900 border-gray-600 text-white"
-                        placeholder="Descrição do projeto"
-                      />
-                    </div>
-                    <div className="flex gap-2">
-                      <Button
-                        type="submit"
-                        disabled={createProjectMutation.isPending}
-                        className="bg-green-600 hover:bg-green-700 text-white"
-                      >
-                        {createProjectMutation.isPending ? (
-                          <Loader2 className="w-4 h-4 animate-spin" />
-                        ) : (
-                          "Criar Projeto"
-                        )}
-                      </Button>
-                      <Button
-                        type="button"
-                        onClick={() => {
-                          setShowProjectForm(false);
-                          setNewProject({ title: "", description: "", revenue: "" });
-                        }}
-                        variant="outline"
-                        className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700"
-                      >
-                        Cancelar
-                      </Button>
-                    </div>
-                  </form>
-                )}
-
-                {/* Projects List */}
-                {!projects || projects.length === 0 ? (
-                  <div className="text-center py-8 text-gray-400">
-                    Nenhum projeto registrado
-                  </div>
-                ) : (
-                  <div className="space-y-4">
-                    {projects.map((project) => (
-                      <motion.div
-                        key={project.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="bg-gray-800 p-6 rounded-lg border border-gray-700"
-                      >
-                        <div className="flex justify-between items-start">
-                          <div className="flex-1">
-                            <h3 className="text-white font-semibold text-xl mb-2">{project.title}</h3>
-                            {project.description && (
-                              <p className="text-gray-300 text-sm mb-4">{project.description}</p>
-                            )}
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                              <div>
-                                <span className="text-gray-400">Faturamento:</span>
-                                <p className="text-green-400 font-semibold">{project.revenue}</p>
-                              </div>
-                              <div>
-                                <span className="text-gray-400">Custos Totais:</span>
-                                <p className="text-red-400 font-semibold">
-                                  R$ {project.totalCosts?.toFixed(2).replace('.', ',') || "0,00"}
-                                </p>
-                              </div>
-                              <div>
-                                <span className="text-gray-400">Lucro:</span>
-                                <p className="text-blue-400 font-semibold">
-                                  R$ {(parseFloat(project.revenue.replace(/[^\d,]/g, '').replace(',', '.')) - (project.totalCosts || 0)).toFixed(2).replace('.', ',')}
-                                </p>
-                              </div>
-                            </div>
-                            {/* Project Expenses */}
-                            {expenses && expenses.filter(expense => expense.projectId === project.id).length > 0 && (
-                              <div className="mt-4 p-3 bg-gray-900 rounded border border-gray-600">
-                                <h4 className="text-white font-medium mb-2">Gastos do Projeto</h4>
-                                <div className="space-y-2">
-                                  {expenses.filter(expense => expense.projectId === project.id).map((expense) => (
-                                    <div key={expense.id} className="flex justify-between items-center text-sm">
-                                      <div>
-                                        <span className="text-gray-300">{expense.item}</span>
-                                        {expense.description && (
-                                          <span className="text-gray-400 ml-2">- {expense.description}</span>
-                                        )}
-                                      </div>
-                                      <span className="text-red-400 font-medium">
-                                        R$ {parseFloat(expense.value.toString()).toFixed(2).replace('.', ',')}
-                                      </span>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
-                            <div className="mt-2 text-sm">
-                              <span className="text-gray-400">Data de Criação:</span>
-                              <span className="text-white ml-2">
-                                {new Date(project.createdAt).toLocaleDateString("pt-BR", {
-                                  timeZone: "America/Sao_Paulo",
-                                })}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="flex gap-2">
-                            <Button
-                              size="sm"
-                              onClick={() => handleDownloadProject(project.id)}
-                              className="bg-blue-600 hover:bg-blue-700 text-white"
-                            >
-                              <Download className="w-4 h-4 mr-1" />
-                              Download ZIP
-                            </Button>
-                            {user?.canDelete && (
-                              <Button
-                                size="sm"
-                                variant="outline"
-                                onClick={() => {
-                                  if (window.confirm("Tem certeza que deseja excluir este projeto? Esta ação não pode ser desfeita.")) {
-                                    deleteProjectMutation.mutate(project.id);
-                                  }
-                                }}
-                                className="bg-red-600 border-red-500 text-white hover:bg-red-700"
-                                disabled={deleteProjectMutation.isPending}
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </Button>
-                            )}
-                          </div>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+          </Card>
+        </div>
 
         {/* Detailed View Modal */}
         {selectedResponse && (
