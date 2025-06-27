@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import { setupAuth, initializeAdminUser } from "./auth";
 import { storage } from "./storage";
 import { insertDiagnosticResponseSchema, partialDiagnosticResponseSchema, expenseSchema } from "@shared/schema";
-import { db, users, responses, expenses } from "./db";
+import { db, users, responses, expenses, projects } from "./db.js";
 import { eq, desc } from "drizzle-orm";
 import { z } from "zod";
 
@@ -136,6 +136,103 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Delete expense error:", error);
       res.status(500).json({ error: "Failed to delete expense" });
+    }
+  });
+
+  // Projects routes
+  app.get("/api/admin/projects", async (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+    try {
+      const projectsList = await db.select().from(projects).orderBy(desc(projects.createdAt));
+
+      // Calculate total costs for each project
+      const projectsWithCosts = await Promise.all(
+        projectsList.map(async (project) => {
+          const projectExpenses = await db
+            .select()
+            .from(expenses)
+            .where(eq(expenses.projectId, project.id));
+
+          const totalCosts = projectExpenses.reduce(
+            (sum, expense) => sum + parseFloat(expense.value.toString()),
+            0
+          );
+
+          return { ...project, totalCosts };
+        })
+      );
+
+      res.json(projectsWithCosts);
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+      res.status(500).json({ error: "Failed to fetch projects" });
+    }
+  });
+
+  app.post("/api/admin/projects", async (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+    try {
+      const result = await db.insert(projects).values({
+        title: req.body.title,
+        description: req.body.description,
+        links: req.body.links,
+        pdfPath: req.body.pdfPath,
+        imagePath: req.body.imagePath,
+        revenue: req.body.revenue,
+      }).returning();
+
+      res.json(result[0]);
+    } catch (error) {
+      console.error("Error creating project:", error);
+      res.status(500).json({ error: "Failed to create project" });
+    }
+  });
+
+  app.delete("/api/admin/projects/:id", async (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid project ID" });
+      }
+
+      await db.delete(projects).where(eq(projects.id, id));
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting project:", error);
+      res.status(500).json({ error: "Failed to delete project" });
+    }
+  });
+
+  app.get("/api/admin/projects/:id/download", async (req, res) => {
+    if (!req.isAuthenticated()) {
+      return res.status(401).json({ error: "Unauthorized" });
+    }
+    try {
+      const id = parseInt(req.params.id);
+      if (isNaN(id)) {
+        return res.status(400).json({ error: "Invalid project ID" });
+      }
+
+      const project = await db.select().from(projects).where(eq(projects.id, id)).limit(1);
+      if (project.length === 0) {
+        return res.status(404).json({ error: "Project not found" });
+      }
+
+      // For now, return project data as JSON
+      // In a real implementation, you would create a ZIP file with project files
+      res.setHeader('Content-Type', 'application/json');
+      res.setHeader('Content-Disposition', `attachment; filename="projeto_${project[0].title.replace(/\s+/g, '_')}.json"`);
+      res.json(project[0]);
+    } catch (error) {
+      console.error("Error downloading project:", error);
+      res.status(500).json({ error: "Failed to download project" });
     }
   });
 

@@ -2,7 +2,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { useAuth } from "@/hooks/use-auth";
 import { getQueryFn, apiRequest, queryClient } from "@/lib/queryClient";
-import { DiagnosticResponse, Expense } from "@shared/schema";
+import { DiagnosticResponse, Expense, Project } from "@shared/schema";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -37,6 +37,15 @@ export default function AdminPage() {
     paidBy: "",
   });
   const [showExpenseForm, setShowExpenseForm] = useState(false);
+  const [newProject, setNewProject] = useState({
+    title: "",
+    description: "",
+    links: "",
+    pdfPath: "",
+    imagePath: "",
+    revenue: "",
+  });
+  const [showProjectForm, setShowProjectForm] = useState(false);
 
   const { data: responses, isLoading } = useQuery<DiagnosticResponse[]>({
     queryKey: ["/api/admin/responses"],
@@ -45,6 +54,11 @@ export default function AdminPage() {
 
   const { data: expenses, isLoading: expensesLoading } = useQuery<Expense[]>({
     queryKey: ["/api/admin/expenses"],
+    queryFn: getQueryFn({ on401: "throw" }),
+  });
+
+  const { data: projects, isLoading: projectsLoading } = useQuery<Project[]>({
+    queryKey: ["/api/admin/projects"],
     queryFn: getQueryFn({ on401: "throw" }),
   });
 
@@ -115,6 +129,36 @@ export default function AdminPage() {
     },
   });
 
+    const createProjectMutation = useMutation({
+    mutationFn: async (project: { title: string; description: string; links: string; pdfPath: string; imagePath: string; revenue: string; }) => {
+      const response = await apiRequest("POST", "/api/admin/projects", project);
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || "Failed to create project");
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/projects"] });
+      setNewProject({ title: "", description: "", links: "", pdfPath: "", imagePath: "", revenue: "" });
+      setShowProjectForm(false);
+    },
+  });
+
+  const deleteProjectMutation = useMutation({
+    mutationFn: async (id: number) => {
+      const response = await apiRequest("DELETE", `/api/admin/projects/${id}`);
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || "Failed to delete project");
+      }
+      return response.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/projects"] });
+    },
+  });
+
   const getStatusColor = (status: string) => {
     switch (status) {
       case "Atendido":
@@ -166,6 +210,18 @@ export default function AdminPage() {
       description: newExpense.description,
       value,
       paidBy: newExpense.paidBy,
+    });
+  };
+
+    const handleCreateProject = (e: React.FormEvent) => {
+    e.preventDefault();
+    createProjectMutation.mutate({
+      title: newProject.title,
+      description: newProject.description,
+      links: newProject.links,
+      pdfPath: newProject.pdfPath,
+      imagePath: newProject.imagePath,
+      revenue: newProject.revenue,
     });
   };
 
@@ -241,7 +297,12 @@ export default function AdminPage() {
     link.click();
   };
 
-  if (isLoading || expensesLoading) {
+  const handleDownloadProject = (projectId: number) => {
+    // Placeholder function for downloading the project as a ZIP file
+    alert(`Download do projeto ${projectId} em formato .zip`);
+  };
+
+  if (isLoading || expensesLoading || projectsLoading) {
     return (
       <div className="min-h-screen bg-[#060606] flex items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin text-white" />
@@ -340,12 +401,15 @@ export default function AdminPage() {
 
         {/* Main Content with Tabs */}
         <Tabs defaultValue="responses" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 bg-gray-900 border border-gray-800">
+          <TabsList className="grid w-full grid-cols-3 bg-gray-900 border border-gray-800">
             <TabsTrigger value="responses" className="text-white data-[state=active]:bg-gray-800">
               Respostas do Diagnóstico
             </TabsTrigger>
             <TabsTrigger value="expenses" className="text-white data-[state=active]:bg-gray-800">
               Controle Financeiro
+            </TabsTrigger>
+             <TabsTrigger value="projects" className="text-white data-[state=active]:bg-gray-800">
+              Projetos
             </TabsTrigger>
           </TabsList>
 
@@ -580,16 +644,19 @@ export default function AdminPage() {
                       <Label htmlFor="paidBy" className="text-white">
                         Responsável pelo Pagamento
                       </Label>
-                      <Input
-                        id="paidBy"
-                        value={newExpense.paidBy}
-                        onChange={(e) =>
-                          setNewExpense({ ...newExpense, paidBy: e.target.value })
-                        }
-                        className="bg-gray-900 border-gray-600 text-white"
-                        placeholder="Nome do responsável"
-                        required
-                      />
+                        <Select
+                            onValueChange={(value) =>
+                              setNewExpense({ ...newExpense, paidBy: value })
+                            }
+                          >
+                            <SelectTrigger className="bg-gray-900 border-gray-600 text-white w-full">
+                              <SelectValue placeholder="Selecione o responsável" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="Gabriel Camargo">Gabriel Camargo</SelectItem>
+                              <SelectItem value="Gabriel Marquez">Gabriel Marquez</SelectItem>
+                            </SelectContent>
+                          </Select>
                     </div>
                     <div className="flex gap-2">
                       <Button
@@ -722,177 +789,242 @@ export default function AdminPage() {
               </CardContent>
             </Card>
           </TabsContent>
-        </Tabs>
+
+          {/* Projects Tab */}
+          <TabsContent value="projects" className="mt-6">
+            <Card className="bg-gray-900 border-gray-800">
+              <CardHeader>
+                <div className="flex justify-between items-center">
+                  <div>
+                    <CardTitle className="text-white">
+                      Gerenciamento de Projetos
+                    </CardTitle>
+                    <CardDescription className="text-gray-400">
+                      Registre e acompanhe todos os projetos da empresa
+                    </CardDescription>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button
+                      onClick={() => setShowProjectForm(!showProjectForm)}
+                      className="bg-blue-600 hover:bg-blue-700 text-white"
+                    >
+                      <Plus className="w-4 h-4 mr-2" />
+                      Novo Projeto
+                    </Button>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                {/* Project Form */}
+                {showProjectForm && (
+                  <form
+                    onSubmit={handleCreateProject}
+                    className="bg-gray-800 p-6 rounded-lg border border-gray-700 mb-6"
+                  >
+                    <h3 className="text-white text-lg font-semibold mb-4">
+                      Criar Novo Projeto
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                      <div>
+                        <Label htmlFor="title" className="text-white">
+                          Título
+                        </Label>
+                        <Input
+                          id="title"
+                          value={newProject.title}
+                          onChange={(e) =>
+                            setNewProject({ ...newProject, title: e.target.value })
+                          }
+                          className="bg-gray-900 border-gray-600 text-white"
+                          placeholder="Nome do projeto"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="revenue" className="text-white">
+                          Faturamento
+                        </Label>
+                        <Input
+                          id="revenue"
+                          value={newProject.revenue}
+                          onChange={(e) =>
+                            setNewProject({ ...newProject, revenue: e.target.value })
+                          }
+                          className="bg-gray-900 border-gray-600 text-white"
+                          placeholder="R$ 0,00"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="mb-4">
+                      <Label htmlFor="description" className="text-white">
+                        Descrição
+                      </Label>
+                      <Input
+                        id="description"
+                        value={newProject.description}
+                        onChange={(e) =>
+                          setNewProject({ ...newProject, description: e.target.value })
+                        }
+                        className="bg-gray-900 border-gray-600 text-white"
+                        placeholder="Descrição do projeto                      />
+                    </div>
+                    <div className="mb-4">
+                      <Label htmlFor="links" className="text-white">
+                        Links
+                      </Label>
+                      <Input
+                        id="links"
+                        value={newProject.links}
+                        onChange={(e) =>
+                          setNewProject({ ...newProject, links: e.target.value })
+                        }
+                        className="bg-gray-900 border-gray-600 text-white"
+                        placeholder="Links relacionados ao projeto"
+                      />
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                      <div>
+                        <Label htmlFor="pdfPath" className="text-white">
+                          Caminho do PDF
+                        </Label>
+                        <Input
+                          id="pdfPath"
+                          value={newProject.pdfPath}
+                          onChange={(e) =>
+                            setNewProject({ ...newProject, pdfPath: e.target.value })
+                          }
+                          className="bg-gray-900 border-gray-600 text-white"
+                          placeholder="Caminho para o arquivo PDF"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="imagePath" className="text-white">
+                          Caminho da Imagem
+                        </Label>
+                        <Input
+                          id="imagePath"
+                          value={newProject.imagePath}
+                          onChange={(e) =>
+                            setNewProject({ ...newProject, imagePath: e.target.value })
+                          }
+                          className="bg-gray-900 border-gray-600 text-white"
+                          placeholder="Caminho para a imagem"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        type="submit"
+                        disabled={createProjectMutation.isPending}
+                        className="bg-green-600 hover:bg-green-700 text-white"
+                      >
+                        {createProjectMutation.isPending ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          "Criar Projeto"
+                        )}
+                      </Button>
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          setShowProjectForm(false);
+                          setNewProject({ title: "", description: "", links: "", pdfPath: "", imagePath: "", revenue: "" });
+                        }}
+                        variant="outline"
+                        className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700"
+                      >
+                        Cancelar
+                      </Button>
+                    </div>
+                  </form>
+                )}
+
+                {/* Projects List */}
+                {!projects || projects.length === 0 ? (
+                  <div className="text-center py-8 text-gray-400">
+                    Nenhum projeto registrado
+                  </div>
+                ) : (
+                  <div className="space-y-4">
+                    {projects.map((project) => (
+                      <motion.div
+                        key={project.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="bg-gray-800 p-6 rounded-lg border border-gray-700"
+                      >
+                        <div className="flex justify-between items-start">
+                          <div className="flex-1">
+                            <h3 className="text-white font-semibold text-xl mb-2">{project.title}</h3>
+                            {project.description && (
+                              <p className="text-gray-300 text-sm mb-4">{project.description}</p>
+                            )}
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                              <div>
+                                <span className="text-gray-400">Faturamento:</span>
+                                <p className="text-green-400 font-semibold">{project.revenue}</p>
+                              </div>
+                              <div>
+                                <span className="text-gray-400">Custos Totais:</span>
+                                <p className="text-red-400 font-semibold">
+                                  R$ {project.totalCosts?.toFixed(2).replace('.', ',') || "0,00"}
+                                </p>
+                              </div>
+                              <div>
+                                <span className="text-gray-400">Lucro:</span>
+                                <p className="text-blue-400 font-semibold">
+                                  R$ {(parseFloat(project.revenue.replace(/[^\d,]/g, '').replace(',', '.')) - (project.totalCosts || 0)).toFixed(2).replace('.', ',')}
+                                </p>
+                              </div>
+                            </div>
+                            {project.links && (
+                              <div className="mt-2">
+                                <span className="text-gray-400 text-sm">Links:</span>
+                                <p className="text-blue-400 text-sm">{project.links}</p>
+                              </div>
+                            )}
+                            <div className="mt-2 text-sm">
+                              <span className="text-gray-400">Data de Criação:</span>
+                              <span className="text-white ml-2">
+                                {new Date(project.createdAt).toLocaleDateString("pt-BR", {
+                                  timeZone: "America/Sao_Paulo",
+                                })}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="flex gap-2">
+                            <Button
+                              size="sm"
+                              onClick={() => handleDownloadProject(project.id)}
+                              className="bg-blue-600 hover:bg-blue-700 text-white"
+                            >
+                              <Download className="w-4 h-4 mr-1" />
+                              Download ZIP
+                            </Button>
+                            {user?.canDelete && (
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => {
+                                  if (window.confirm("Tem certeza que deseja excluir este projeto? Esta ação não pode ser desfeita.")) {
+                                    deleteProjectMutation.mutate(project.id);
+                                  }
+                                }}
+                                className="bg-red-600 border-red-500 text-white hover:bg-red-700"
+                                disabled={deleteProjectMutation.isPending}
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </Button>
+                            )}
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </TabsContent>
 
         {/* Detailed View Modal */}
-        {selectedResponse && (
-          <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="bg-gray-900 rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-gray-800"
-            >
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-xl font-bold text-white">
-                  Detalhes da Resposta
-                </h2>
-                <div className="flex gap-2">
-                  {selectedResponse.phone && (
-                    <Button
-                      onClick={() =>
-                        window.open(
-                          formatWhatsAppNumber(selectedResponse.phone || ""),
-                          "_blank",
-                        )
-                      }
-                      className="bg-[#25D366] hover:bg-[#20B954] text-white"
-                      size="sm"
-                    >
-                      <FaWhatsapp className="w-4 h-4 mr-2" />
-                      Iniciar Conversa
-                    </Button>
-                  )}
-                  {user?.canDelete && (
-                    <Button
-                      onClick={() => {
-                        if (window.confirm("Tem certeza que deseja excluir esta resposta? Esta ação não pode ser desfeita.")) {
-                          deleteResponseMutation.mutate(selectedResponse.id);
-                        }
-                      }}
-                      className="bg-red-600 hover:bg-red-700 text-white"
-                      size="sm"
-                      disabled={deleteResponseMutation.isPending}
-                    >
-                      <Trash2 className="w-4 h-4 mr-2" />
-                      {deleteResponseMutation.isPending ? "Excluindo..." : "Excluir"}
-                    </Button>
-                  )}
-                  <Button
-                    onClick={() => setSelectedResponse(null)}
-                    variant="outline"
-                    size="sm"
-                    className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700"
-                  >
-                    Fechar
-                  </Button>
-                </div>
-              </div>
-
-              <div className="space-y-4 text-sm">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-gray-400">Nome:</label>
-                    <p className="text-white">{selectedResponse.name}</p>
-                  </div>
-                  <div>
-                    <label className="text-gray-400">Email:</label>
-                    <p className="text-white">{selectedResponse.email}</p>
-                  </div>
-                  <div>
-                    <label className="text-gray-400">Telefone:</label>
-                    <p className="text-white">{selectedResponse.phone}</p>
-                  </div>
-                  <div>
-                    <label className="text-gray-400">Empresa:</label>
-                    <p className="text-white">{selectedResponse.company}</p>
-                  </div>
-                  <div>
-                    <label className="text-gray-400">Cargo:</label>
-                    <p className="text-white">
-                      {selectedResponse.position === "Outro"
-                        ? selectedResponse.customPosition
-                        : selectedResponse.position}
-                    </p>
-                  </div>
-                  <div>
-                    <label className="text-gray-400">Faturamento:</label>
-                    <p className="text-white">{selectedResponse.revenue}</p>
-                  </div>
-                  <div>
-                    <label className="text-gray-400">Colaboradores:</label>
-                    <p className="text-white">{selectedResponse.employees}</p>
-                  </div>
-                  <div>
-                    <label className="text-gray-400">ERP:</label>
-                    <p className="text-white">{selectedResponse.erp}</p>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="text-gray-400">Áreas com Gargalos:</label>
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    {formatAreasAsTags(selectedResponse.areas || "[]").map(
-                      (area, index) => (
-                        <Badge
-                          key={index}
-                          className="bg-[#0066CC] hover:bg-[#0066CC] text-white text-xs px-2 py-1 cursor-default"
-                        >
-                          {area}
-                        </Badge>
-                      ),
-                    )}
-                  </div>
-                </div>
-
-                <div>
-                  <label className="text-gray-400">
-                    Processo que Consome Tempo:
-                  </label>
-                  <p className="text-white">
-                    {selectedResponse.timeConsumingProcess}
-                  </p>
-                </div>
-
-                <div>
-                  <label className="text-gray-400">
-                    Onde Está Perdendo Dinheiro/Oportunidades:
-                  </label>
-                  <p className="text-white">
-                    {selectedResponse.lostOpportunities}
-                  </p>
-                </div>
-
-                <div>
-                  <label className="text-gray-400">Origem do Formulário:</label>
-                  <p className="text-white">
-                  {selectedResponse.source === "página principal" 
-                          ? "Página Principal" 
-                          : selectedResponse.source === "página de formulário" 
-                          ? "Página Formulário" 
-                          : selectedResponse.source || "Não informado"}
-                  </p>
-                </div>
-
-                <div>
-                  <label className="text-gray-400">Data de Submissão:</label>
-                  <p className="text-white">
-                    {selectedResponse.createdAt
-                      ? (() => {
-                          try {
-                            const date = new Date(selectedResponse.createdAt);
-                            if (isNaN(date.getTime())) {
-                              return "Data inválida";
-                            }
-                            return date.toLocaleString("pt-BR", {
-                              year: "numeric",
-                              month: "2-digit",
-                              day: "2-digit",
-                              hour: "2-digit",
-                              minute: "2-digit",
-                              timeZone: "America/Sao_Paulo",
-                            });
-                          } catch (error) {
-                            return "Data inválida";
-                          }
-                        })()
-                      : "Data inválida"}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}

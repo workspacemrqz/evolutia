@@ -38,5 +38,17 @@ export const expenses = pgTable("expenses", {
   description: text("description"),
   value: numeric("value", { precision: 10, scale: 2 }).notNull(),
   paidBy: text("paid_by").notNull(),
+  projectId: serial("project_id").references(() => projects.id),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const projects = pgTable("projects", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  description: text("description"),
+  links: text("links"),
+  pdfPath: text("pdf_path"),
+  imagePath: text("image_path"),
+  revenue: text("revenue").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
 });

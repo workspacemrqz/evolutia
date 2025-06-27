@@ -57,9 +57,25 @@ export const expenseSchema = z.object({
   description: z.string().optional(),
   value: z.string().min(1, "Valor é obrigatório"),
   paidBy: z.string().min(1, "Responsável pelo pagamento é obrigatório"),
+  projectId: z.number().optional(),
+});
+
+export const projectSchema = z.object({
+  title: z.string().min(1, "Título é obrigatório"),
+  description: z.string().optional(),
+  links: z.string().optional(),
+  pdfPath: z.string().optional(),
+  imagePath: z.string().optional(),
+  revenue: z.string().min(1, "Faturamento é obrigatório"),
 });
 
 export type Expense = z.infer<typeof expenseSchema> & {
   id: number;
   createdAt: string;
+};
+
+export type Project = z.infer<typeof projectSchema> & {
+  id: number;
+  createdAt: string;
+  totalCosts: number;
 };
