@@ -1028,5 +1028,172 @@ export default function AdminPage() {
               </CardContent>
             </Card>
           </TabsContent>
+        </Tabs>
 
         {/* Detailed View Modal */}
+        {selectedResponse && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <div className="bg-gray-900 rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-gray-800">
+              <div className="flex justify-between items-start mb-6">
+                <h2 className="text-xl font-bold text-white">
+                  Detalhes da Resposta
+                </h2>
+                <Button
+                  onClick={() => setSelectedResponse(null)}
+                  variant="outline"
+                  size="sm"
+                  className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700"
+                >
+                  ✕
+                </Button>
+              </div>
+
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-gray-400 text-sm font-medium">
+                      Nome
+                    </label>
+                    <p className="text-white">{selectedResponse.name}</p>
+                  </div>
+                  <div>
+                    <label className="text-gray-400 text-sm font-medium">
+                      Email
+                    </label>
+                    <p className="text-white">{selectedResponse.email}</p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-gray-400 text-sm font-medium">
+                      Telefone
+                    </label>
+                    <div className="flex items-center gap-2">
+                      <p className="text-white">{selectedResponse.phone}</p>
+                      <a
+                        href={formatWhatsAppNumber(selectedResponse.phone)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-green-500 hover:text-green-400"
+                      >
+                        <FaWhatsapp className="w-4 h-4" />
+                      </a>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-gray-400 text-sm font-medium">
+                      Empresa
+                    </label>
+                    <p className="text-white">{selectedResponse.company}</p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-gray-400 text-sm font-medium">
+                      Cargo
+                    </label>
+                    <p className="text-white">
+                      {selectedResponse.position === "Outro"
+                        ? selectedResponse.customPosition
+                        : selectedResponse.position}
+                    </p>
+                  </div>
+                  <div>
+                    <label className="text-gray-400 text-sm font-medium">
+                      Faturamento
+                    </label>
+                    <p className="text-white">{selectedResponse.revenue}</p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-gray-400 text-sm font-medium">
+                      Número de Colaboradores
+                    </label>
+                    <p className="text-white">{selectedResponse.employees}</p>
+                  </div>
+                  <div>
+                    <label className="text-gray-400 text-sm font-medium">
+                      ERP Atual
+                    </label>
+                    <p className="text-white">{selectedResponse.erp}</p>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-gray-400 text-sm font-medium">
+                    Áreas com Gargalos
+                  </label>
+                  <div className="flex flex-wrap gap-2 mt-1">
+                    {formatAreasAsTags(selectedResponse.areas).map(
+                      (area, index) => (
+                        <Badge
+                          key={index}
+                          variant="outline"
+                          className="bg-blue-900 text-blue-200 border-blue-700"
+                        >
+                          {area}
+                        </Badge>
+                      ),
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-gray-400 text-sm font-medium">
+                    Processo Mais Demorado
+                  </label>
+                  <p className="text-white bg-gray-800 p-3 rounded border border-gray-700">
+                    {selectedResponse.timeConsumingProcess}
+                  </p>
+                </div>
+
+                <div>
+                  <label className="text-gray-400 text-sm font-medium">
+                    Oportunidades Perdidas
+                  </label>
+                  <p className="text-white bg-gray-800 p-3 rounded border border-gray-700">
+                    {selectedResponse.lostOpportunities}
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-gray-400 text-sm font-medium">
+                      Data de Submissão
+                    </label>
+                    <p className="text-white">
+                      {selectedResponse.createdAt
+                        ? new Date(selectedResponse.createdAt).toLocaleString(
+                            "pt-BR",
+                            {
+                              timeZone: "America/Sao_Paulo",
+                            },
+                          )
+                        : "Data inválida"}
+                    </p>
+                  </div>
+                  <div>
+                    <label className="text-gray-400 text-sm font-medium">
+                      Origem
+                    </label>
+                    <p className="text-white">
+                      {selectedResponse.source === "página principal" 
+                      ? "Página Principal" 
+                      : selectedResponse.source === "página de formulário" 
+                      ? "Página Formulário" 
+                      : selectedResponse.source || "Não informado"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
