@@ -331,9 +331,34 @@
   100% { background-position: 0% 50%; }
 }
 
-@keyframes laser-border-continuous {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+@keyframes border-glow-rotation {
+  0% { 
+    border-image: linear-gradient(0deg, #224FC4, transparent, transparent, transparent) 1;
+    box-shadow: 0 0 8px rgba(34, 79, 196, 0.6);
+  }
+  25% { 
+    border-image: linear-gradient(90deg, #224FC4, transparent, transparent, transparent) 1;
+    box-shadow: 0 0 8px rgba(34, 79, 196, 0.6);
+  }
+  50% { 
+    border-image: linear-gradient(180deg, #224FC4, transparent, transparent, transparent) 1;
+    box-shadow: 0 0 8px rgba(34, 79, 196, 0.6);
+  }
+  75% { 
+    border-image: linear-gradient(270deg, #224FC4, transparent, transparent, transparent) 1;
+    box-shadow: 0 0 8px rgba(34, 79, 196, 0.6);
+  }
+  100% { 
+    border-image: linear-gradient(360deg, #224FC4, transparent, transparent, transparent) 1;
+    box-shadow: 0 0 8px rgba(34, 79, 196, 0.6);
+  }
+}
+
+.border-glow-laser {
+  border: 2px solid transparent;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%) padding-box,
+              conic-gradient(from 0deg, #224FC4, transparent, #224FC4, transparent) border-box;
+  animation: border-glow-rotation 3s linear infinite;
 }
 
 @keyframes slideInUp {
