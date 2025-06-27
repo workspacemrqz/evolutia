@@ -160,8 +160,9 @@ export default function ChatWidget() {
         const responseText = data.output || data.response || data.message || data.text || data.answer || data.reply;
 
         if (responseText) {
-          // Simulate typing delay
-          await new Promise(resolve => setTimeout(resolve, 1000));
+          // Generate random delay between 2-5 seconds (2000-5000ms)
+          const randomDelay = Math.floor(Math.random() * 3000) + 2000;
+          await new Promise(resolve => setTimeout(resolve, randomDelay));
 
           const botMessage = {
             id: Date.now() + 1,
