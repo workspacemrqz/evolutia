@@ -114,27 +114,43 @@ export default function ChatWidget() {
         });
       }
 
+      console.log('Enviando para webhook:', 'https://n8n.srv864082.hstgr.cloud/webhook-test/evolut');
+      console.log('Headers:', headers);
+      console.log('Body type:', typeof requestBody);
+      
       const response = await fetch('https://n8n.srv864082.hstgr.cloud/webhook-test/evolut', {
         method: 'POST',
         headers: headers,
         body: requestBody
       });
 
+      console.log('Response status:', response.status);
+      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+      
       if (response.ok) {
-        const data = await response.json().catch(() => ({}));
-        console.log('Webhook response data:', data);
+        const responseText = await response.text();
+        console.log('Raw response:', responseText);
+        
+        let data = {};
+        try {
+          data = JSON.parse(responseText);
+          console.log('Parsed response data:', data);
+        } catch (e) {
+          console.log('Response is not JSON, treating as text:', responseText);
+          data = { message: responseText };
+        }
         
         // Try different possible response fields
-        const responseText = data.output || data.response || data.message || data.text || data.answer || data.reply;
+        const botResponseText = data.output || data.response || data.message || data.text || data.answer || data.reply || responseText;
         
-        if (responseText) {
+        if (botResponseText) {
           // Simulate typing delay
           await new Promise(resolve => setTimeout(resolve, 1000));
           
           const botMessage = {
             id: Date.now() + 1,
             sender: 'bot' as const,
-            text: responseText,
+            text: botResponseText,
             time: getCurrentTime()
           };
           setMessages(prev => [...prev, botMessage]);
@@ -145,7 +161,7 @@ export default function ChatWidget() {
         console.error('Webhook response status:', response.status, response.statusText);
         const errorText = await response.text().catch(() => 'Unknown error');
         console.error('Webhook response body:', errorText);
-        throw new Error(`Webhook response error: ${response.status}`);
+        throw new Error(`Webhook response error: ${response.status} - ${errorText}`);
       }
     } catch (error) {
       console.error('Error sending message to webhook:', error);
