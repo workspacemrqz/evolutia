@@ -1,0 +1,65 @@
+[root@srv856338 public_html]# git fetch --prune origin
+rm -f .git/packed-refs
+git fetch origin
+git reset --hard origin/main
+git pull origin main
+
+pm2 delete evolut-site
+npm run build
+pm2 start ecosystem.config.cjs
+systemctl reload lsws
+pm2 status
+
+HEAD is now at 37d5db7a Assistant checkpoint: Remove WhatsApp button animations
+From github.com:workspacemrqz/evolutia
+ * branch              main       -> FETCH_HEAD
+Already up to date.
+[PM2] Applying action deleteProcessId on app [evolut-site](ids: [ 188 ])
+[PM2] [evolut-site](188) ✓
+┌─────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id  │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├─────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19  │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.5mb  │
+│ 142 │ rotacaicara        │ fork     │ 0    │ online    │ 0%       │ 98.0mb   │
+│ 141 │ tempo-real         │ fork     │ 0    │ online    │ 0%       │ 106.1mb  │
+│ 151 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 34.3mb   │
+└─────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+
+> rest-express@1.0.0 build
+> vite build
+
+vite v5.4.14 building for production...
+transforming (3) src/main.tsxBrowserslist: browsers data (caniuse-lite) is 8 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+✓ 2070 modules transformed.
+../dist/public/index.html                   2.66 kB │ gzip:   1.29 kB
+../dist/public/assets/index-B4l0Ly4t.css   92.42 kB │ gzip:  15.38 kB
+../dist/public/assets/index-BoxR2taL.js   520.05 kB │ gzip: 161.63 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 6.11s
+[PM2][WARN] Applications evolut-site not running, starting...
+[PM2] App [evolut-site] launched (1 instances)
+┌─────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id  │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├─────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19  │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.9mb  │
+│ 189 │ evolut-site        │ fork     │ 0    │ online    │ 0%       │ 25.8mb   │
+│ 142 │ rotacaicara        │ fork     │ 0    │ online    │ 0%       │ 98.0mb   │
+│ 141 │ tempo-real         │ fork     │ 0    │ online    │ 0%       │ 106.1mb  │
+│ 151 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 34.3mb   │
+└─────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+┌─────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id  │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├─────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19  │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.5mb  │
+│ 189 │ evolut-site        │ fork     │ 0    │ online    │ 0%       │ 74.0mb   │
+│ 142 │ rotacaicara        │ fork     │ 0    │ online    │ 0%       │ 98.0mb   │
+│ 141 │ tempo-real         │ fork     │ 0    │ online    │ 0%       │ 106.0mb  │
+│ 151 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 34.3mb   │
+└─────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[root@srv856338 public_html]# 
