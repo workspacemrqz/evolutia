@@ -156,24 +156,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
       return res.status(401).json({ error: "Unauthorized" });
     }
     try {
+      console.log("📝 Dados recebidos para despesa:", req.body);
+      
       const validatedData = expenseSchema.parse(req.body);
+      console.log("✅ Dados validados:", validatedData);
 
-      // Convert value from string to number
+      // Preparar dados para inserção
       const expenseData = {
-        ...validatedData,
-        value: parseFloat(validatedData.value),
+        item: validatedData.item,
+        description: validatedData.description || null,
+        value: validatedData.value, // Manter como string
+        paidBy: validatedData.paidBy,
         projectId: validatedData.projectId || null,
       };
 
+      console.log("💾 Inserindo despesa:", expenseData);
       const [newExpense] = await db.insert(expenses).values(expenseData).returning();
+      
+      console.log("✅ Despesa criada:", newExpense);
       res.status(201).json(newExpense);
     } catch (error) {
       if (error instanceof z.ZodError) {
+        console.error("❌ Erro de validação:", error.errors);
         res.status(400).json({ error: "Dados inválidos", details: error.errors });
         return;
       }
-      console.error("Create expense error:", error);
-      res.status(500).json({ error: "Failed to create expense" });
+      console.error("❌ Erro ao criar despesa:", error.message);
+      console.error("Stack:", error.stack);
+      res.status(500).json({ error: "Failed to create expense", details: error.message });
     }
   });
 
@@ -238,6 +248,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       console.log("📝 Dados recebidos para criar projeto:", req.body);
       console.log("📎 Arquivos recebidos:", req.files);
+      
+      // Validar campos obrigatórios primeiro
+      if (!req.body.title) {
+        console.log("❌ Título não fornecido");
+        return res.status(400).json({ error: "Título é obrigatório" });
+      }
+      
+      if (!req.body.revenue) {
+        console.log("❌ Receita não fornecida");
+        return res.status(400).json({ error: "Receita é obrigatória" });
+      }
       
       const files = req.files as { [fieldname: string]: Express.Multer.File[] };
       let pdfUrl = null;

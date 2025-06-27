@@ -1,4 +1,3 @@
-
 import * as React from "react"
 
 export interface ToastProps {
@@ -141,7 +140,7 @@ function dispatch(action: Action) {
 
 type Toast = Omit<ToasterToast, "id">
 
-function toast({ ...props }: Toast) {
+export function toast({ ...props }: Toast) {
   const id = genId()
 
   const update = (props: ToasterToast) =>
@@ -168,6 +167,22 @@ function toast({ ...props }: Toast) {
     dismiss,
     update,
   }
+}
+
+export function toastError(message: string, details?: any) {
+  console.error("Toast Error:", message, details);
+  return toast({
+    title: "Erro",
+    description: message,
+    variant: "destructive",
+  });
+}
+
+export function toastSuccess(message: string) {
+  return toast({
+    title: "Sucesso!",
+    description: message,
+  });
 }
 
 function useToast() {

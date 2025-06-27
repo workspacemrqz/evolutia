@@ -52,10 +52,20 @@ export const loginSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
+export const expenses = pgTable("expenses", {
+  id: serial("id").primaryKey(),
+  item: text("item").notNull(),
+  description: text("description"),
+  value: text("value").notNull(), // Mantido como text para compatibilidade
+  paidBy: text("paid_by").notNull(),
+  projectId: integer("project_id").references(() => projects.id),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 export const expenseSchema = z.object({
   item: z.string().min(1, "Item é obrigatório"),
   description: z.string().optional(),
-  value: z.string().min(1, "Valor é obrigatório"),
+  value: z.union([z.string(), z.number()]).transform(val => typeof val === 'string' ? val : val.toString()),
   paidBy: z.string().min(1, "Responsável pelo pagamento é obrigatório"),
   projectId: z.number().optional(),
 });

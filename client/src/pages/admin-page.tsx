@@ -107,19 +107,36 @@ export default function AdminPage() {
   });
 
   const createExpenseMutation = useMutation({
-    mutationFn: async (expense: { item: string; description: string, value: number; paidBy: string; projectId?: number }) => {
+    mutationFn: async (expense: { item: string; description: string; value: string; paidBy: string; projectId?: number }) => {
+      console.log("🚀 Enviando despesa:", expense);
       const response = await apiRequest("POST", "/api/admin/expenses", expense);
       if (!response.ok) {
         const error = await response.json();
+        console.error("❌ Erro na resposta:", error);
         throw new Error(error.error || "Failed to create expense");
       }
-      return response.json();
+      const result = await response.json();
+      console.log("✅ Despesa criada:", result);
+      return result;
     },
     onSuccess: () => {
+      console.log("✅ Despesa criada com sucesso");
       queryClient.invalidateQueries({ queryKey: ["/api/admin/expenses"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/projects"] });
       setNewExpense({ item: "", description: "", value: "", paidBy: "", projectId: "" });
       setShowExpenseForm(false);
+      toast({
+        title: "Sucesso!",
+        description: "Despesa registrada com sucesso.",
+      });
+    },
+    onError: (error: Error) => {
+      console.error("❌ Erro ao criar despesa:", error.message);
+      toast({
+        title: "Erro",
+        description: error.message || "Erro ao registrar despesa",
+        variant: "destructive",
+      });
     },
   });
 
@@ -232,19 +249,48 @@ export default function AdminPage() {
 
   const handleCreateExpense = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("📝 Formulário submetido:", newExpense);
+    
     const value = parseFloat(newExpense.value);
     if (isNaN(value) || value <= 0) {
-      alert("Por favor, insira um valor válido");
+      toast({
+        title: "Erro",
+        description: "Por favor, insira um valor válido",
+        variant: "destructive",
+      });
       return;
     }
+    
+    if (!newExpense.item.trim()) {
+      toast({
+        title: "Erro",
+        description: "Nome do item é obrigatório",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (!newExpense.paidBy.trim()) {
+      toast({
+        title: "Erro",
+        description: "Responsável pelo pagamento é obrigatório",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     const projectId = newExpense.projectId ? parseInt(newExpense.projectId) : undefined;
-    createExpenseMutation.mutate({
-      item: newExpense.item,
-      description: newExpense.description,
-      value,
+    
+    const expenseData = {
+      item: newExpense.item.trim(),
+      description: newExpense.description.trim(),
+      value: newExpense.value, // Manter como string
       paidBy: newExpense.paidBy,
       projectId,
-    });
+    };
+    
+    console.log("🚀 Enviando dados:", expenseData);
+    createExpenseMutation.mutate(expenseData);
   };
 
     const handleCreateProject = (e: React.FormEvent) => {
