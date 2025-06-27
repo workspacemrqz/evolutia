@@ -40,7 +40,7 @@ export default function Header() {
                 <img 
                   src="https://i.ibb.co/rf3PXc8r/LOGO-Evolut-IA-com-texto-na-horizontal.png" 
                   alt="Evolut IA Logo" 
-                  className="h-8 sm:h-10 w-auto max-w-[120px] md:max-w-[150px] filter brightness-100"
+                  className="h-6 sm:h-8 w-auto max-w-[100px] md:max-w-[120px] filter brightness-100"
                 />
               </motion.button>
             </div>
@@ -80,9 +80,8 @@ export default function Header() {
                 <div 
                   className="absolute inset-0 rounded-xl"
                   style={{
-                    background: 'linear-gradient(45deg, #224FC4, transparent, #224FC4, transparent, #224FC4)',
-                    backgroundSize: '200% 200%',
-                    animation: 'laser-border 2s linear infinite',
+                    background: 'conic-gradient(from 0deg, #224FC4, transparent, #224FC4, transparent, #224FC4)',
+                    animation: 'laser-border-continuous 3s linear infinite',
                     padding: '2px'
                   }}
                 >
@@ -167,9 +166,8 @@ export default function Header() {
               <div 
                 className="absolute inset-0 rounded-xl"
                 style={{
-                  background: 'linear-gradient(45deg, #224FC4, transparent, #224FC4, transparent, #224FC4)',
-                  backgroundSize: '200% 200%',
-                  animation: 'laser-border 2s linear infinite',
+                  background: 'conic-gradient(from 0deg, #224FC4, transparent, #224FC4, transparent, #224FC4)',
+                  animation: 'laser-border-continuous 3s linear infinite',
                   padding: '2px'
                 }}
               >

@@ -331,6 +331,11 @@
   100% { background-position: 0% 50%; }
 }
 
+@keyframes laser-border-continuous {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 @keyframes slideInUp {
   to {
     opacity: 1;
