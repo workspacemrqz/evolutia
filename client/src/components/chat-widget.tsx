@@ -18,6 +18,7 @@ export default function ChatWidget() {
   const [playingAudio, setPlayingAudio] = useState<number | null>(null);
   const [audioProgress, setAudioProgress] = useState<{ [key: number]: number }>({});
   const [audioDuration, setAudioDuration] = useState<{ [key: number]: number }>({});
+  const [conversationId] = useState(() => `conv_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const audioRefs = useRef<{ [key: number]: HTMLAudioElement }>({});
@@ -97,24 +98,22 @@ export default function ChatWidget() {
       let headers: any = {};
 
       if (audioBlob) {
-        // Send audio as form data
+        // Send audio as form data with only conversation ID
         const formData = new FormData();
         formData.append('audio', audioBlob, 'audio.webm');
-        formData.append('type', 'audio');
-        formData.append('timestamp', new Date().toISOString());
+        formData.append('conversationId', conversationId);
         requestBody = formData;
       } else {
-        // Send text as JSON
+        // Send text as JSON with only message and conversation ID
         headers['Content-Type'] = 'application/json';
         requestBody = JSON.stringify({
           message: textToSend,
-          type: 'text',
-          timestamp: new Date().toISOString()
+          conversationId: conversationId
         });
       }
       console.log('Enviando para webhook:', 'https://n8n.srv864082.hstgr.cloud/webhook/evolut');
-      console.log('Headers:', headers);
-      console.log('Body type:', typeof requestBody);
+      console.log('Conversation ID:', conversationId);
+      console.log('Payload:', audioBlob ? 'Audio + conversationId' : JSON.parse(requestBody));
 
       const response = await fetch('https://n8n.srv864082.hstgr.cloud/webhook/evolut', {
         method: 'POST',
