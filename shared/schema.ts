@@ -60,12 +60,23 @@ export const expenseSchema = z.object({
   projectId: z.number().optional(),
 });
 
+export const projects = pgTable("projects", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  description: text("description"),
+  links: text("links"),
+  pdfUrl: text("pdf_url"),
+  imageUrl: text("image_url"),
+  revenue: text("revenue").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 export const projectSchema = z.object({
   title: z.string().min(1, "Título é obrigatório"),
   description: z.string().optional(),
   links: z.string().optional(),
-  pdfPath: z.string().optional(),
-  imagePath: z.string().optional(),
+  pdfUrl: z.string().optional(),
+  imageUrl: z.string().optional(),
   revenue: z.string().min(1, "Faturamento é obrigatório"),
 });
 

@@ -42,9 +42,11 @@ export default function AdminPage() {
     title: "",
     description: "",
     links: "",
-    pdfPath: "",
-    imagePath: "",
     revenue: "",
+  });
+  const [projectFiles, setProjectFiles] = useState({
+    pdf: null as File | null,
+    image: null as File | null,
   });
   const [showProjectForm, setShowProjectForm] = useState(false);
 
@@ -131,8 +133,26 @@ export default function AdminPage() {
   });
 
     const createProjectMutation = useMutation({
-    mutationFn: async (project: { title: string; description: string; links: string; pdfPath: string; imagePath: string; revenue: string; }) => {
-      const response = await apiRequest("POST", "/api/admin/projects", project);
+    mutationFn: async (data: { project: { title: string; description: string; links: string; revenue: string; }, files: { pdf: File | null; image: File | null; } }) => {
+      const formData = new FormData();
+      formData.append('title', data.project.title);
+      formData.append('description', data.project.description);
+      formData.append('links', data.project.links);
+      formData.append('revenue', data.project.revenue);
+      
+      if (data.files.pdf) {
+        formData.append('pdf', data.files.pdf);
+      }
+      if (data.files.image) {
+        formData.append('image', data.files.image);
+      }
+
+      const response = await fetch("/api/admin/projects", {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+      });
+      
       if (!response.ok) {
         const error = await response.json();
         throw new Error(error.error || "Failed to create project");
@@ -141,7 +161,8 @@ export default function AdminPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/projects"] });
-      setNewProject({ title: "", description: "", links: "", pdfPath: "", imagePath: "", revenue: "" });
+      setNewProject({ title: "", description: "", links: "", revenue: "" });
+      setProjectFiles({ pdf: null, image: null });
       setShowProjectForm(false);
     },
   });
@@ -217,12 +238,8 @@ export default function AdminPage() {
     const handleCreateProject = (e: React.FormEvent) => {
     e.preventDefault();
     createProjectMutation.mutate({
-      title: newProject.title,
-      description: newProject.description,
-      links: newProject.links,
-      pdfPath: newProject.pdfPath,
-      imagePath: newProject.imagePath,
-      revenue: newProject.revenue,
+      project: newProject,
+      files: projectFiles,
     });
   };
 
@@ -887,32 +904,44 @@ export default function AdminPage() {
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                       <div>
-                        <Label htmlFor="pdfPath" className="text-white">
-                          Caminho do PDF
+                        <Label htmlFor="pdfFile" className="text-white">
+                          Arquivo PDF
                         </Label>
                         <Input
-                          id="pdfPath"
-                          value={newProject.pdfPath}
-                          onChange={(e) =>
-                            setNewProject({ ...newProject, pdfPath: e.target.value })
-                          }
-                          className="bg-gray-900 border-gray-600 text-white"
-                          placeholder="Caminho para o arquivo PDF"
+                          id="pdfFile"
+                          type="file"
+                          accept=".pdf"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0] || null;
+                            setProjectFiles({ ...projectFiles, pdf: file });
+                          }}
+                          className="bg-gray-900 border-gray-600 text-white file:bg-gray-700 file:text-white file:border-0 file:rounded file:px-3 file:py-1"
                         />
+                        {projectFiles.pdf && (
+                          <p className="text-green-400 text-sm mt-1">
+                            ✓ {projectFiles.pdf.name}
+                          </p>
+                        )}
                       </div>
                       <div>
-                        <Label htmlFor="imagePath" className="text-white">
-                          Caminho da Imagem
+                        <Label htmlFor="imageFile" className="text-white">
+                          Imagem do Projeto
                         </Label>
                         <Input
-                          id="imagePath"
-                          value={newProject.imagePath}
-                          onChange={(e) =>
-                            setNewProject({ ...newProject, imagePath: e.target.value })
-                          }
-                          className="bg-gray-900 border-gray-600 text-white"
-                          placeholder="Caminho para a imagem"
+                          id="imageFile"
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0] || null;
+                            setProjectFiles({ ...projectFiles, image: file });
+                          }}
+                          className="bg-gray-900 border-gray-600 text-white file:bg-gray-700 file:text-white file:border-0 file:rounded file:px-3 file:py-1"
                         />
+                        {projectFiles.image && (
+                          <p className="text-green-400 text-sm mt-1">
+                            ✓ {projectFiles.image.name}
+                          </p>
+                        )}
                       </div>
                     </div>
                     <div className="flex gap-2">
@@ -931,7 +960,8 @@ export default function AdminPage() {
                         type="button"
                         onClick={() => {
                           setShowProjectForm(false);
-                          setNewProject({ title: "", description: "", links: "", pdfPath: "", imagePath: "", revenue: "" });
+                          setNewProject({ title: "", description: "", links: "", revenue: "" });
+                          setProjectFiles({ pdf: null, image: null });
                         }}
                         variant="outline"
                         className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700"
@@ -986,6 +1016,28 @@ export default function AdminPage() {
                                 <p className="text-blue-400 text-sm">{project.links}</p>
                               </div>
                             )}
+                            <div className="mt-2 flex gap-4">
+                              {project.pdfUrl && (
+                                <a
+                                  href={project.pdfUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-blue-400 text-sm hover:text-blue-300"
+                                >
+                                  📄 Ver PDF
+                                </a>
+                              )}
+                              {project.imageUrl && (
+                                <a
+                                  href={project.imageUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="text-blue-400 text-sm hover:text-blue-300"
+                                >
+                                  🖼️ Ver Imagem
+                                </a>
+                              )}
+                            </div>
                             <div className="mt-2 text-sm">
                               <span className="text-gray-400">Data de Criação:</span>
                               <span className="text-white ml-2">

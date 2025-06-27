@@ -1,4 +1,5 @@
 import type { Express } from "express";
+import express from "express";
 import { createServer, type Server } from "http";
 import { setupAuth, initializeAdminUser } from "./auth";
 import { storage } from "./storage";
@@ -6,6 +7,28 @@ import { insertDiagnosticResponseSchema, partialDiagnosticResponseSchema, expens
 import { db, users, responses, expenses, projects } from "./db.js";
 import { eq, desc } from "drizzle-orm";
 import { z } from "zod";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+
+// Configure multer for file uploads
+const upload = multer({
+  dest: 'uploads/',
+  limits: {
+    fileSize: 10 * 1024 * 1024, // 10MB limit
+  },
+  fileFilter: (req, file, cb) => {
+    const allowedTypes = /jpeg|jpg|png|gif|pdf|doc|docx/;
+    const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = allowedTypes.test(file.mimetype);
+    
+    if (mimetype && extname) {
+      return cb(null, true);
+    } else {
+      cb(new Error('Tipo de arquivo não permitido'));
+    }
+  }
+});
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Initialize admin user
@@ -13,6 +36,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Setup authentication
   setupAuth(app);
+
+  // Serve static files from uploads
+  app.use('/projects', express.static(path.join(process.cwd(), 'static', 'projects')));
 
   // Protected admin route
   app.get("/api/admin/responses", async (req, res) => {
@@ -171,17 +197,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/admin/projects", async (req, res) => {
+  app.post("/api/admin/projects", upload.fields([
+    { name: 'pdf', maxCount: 1 },
+    { name: 'image', maxCount: 1 }
+  ]), async (req, res) => {
     if (!req.isAuthenticated()) {
       return res.status(401).json({ error: "Unauthorized" });
     }
     try {
+      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
+      let pdfUrl = null;
+      let imageUrl = null;
+
+      // Process PDF upload
+      if (files.pdf && files.pdf[0]) {
+        const pdfFile = files.pdf[0];
+        const pdfPath = `projects/pdf_${Date.now()}_${pdfFile.originalname}`;
+        // Move file to static directory for serving
+        const staticPdfPath = path.join(process.cwd(), 'static', pdfPath);
+        await fs.promises.mkdir(path.dirname(staticPdfPath), { recursive: true });
+        await fs.promises.copyFile(pdfFile.path, staticPdfPath);
+        await fs.promises.unlink(pdfFile.path); // Clean up temp file
+        pdfUrl = `/${pdfPath}`;
+      }
+
+      // Process image upload
+      if (files.image && files.image[0]) {
+        const imageFile = files.image[0];
+        const imagePath = `projects/img_${Date.now()}_${imageFile.originalname}`;
+        // Move file to static directory for serving
+        const staticImagePath = path.join(process.cwd(), 'static', imagePath);
+        await fs.promises.mkdir(path.dirname(staticImagePath), { recursive: true });
+        await fs.promises.copyFile(imageFile.path, staticImagePath);
+        await fs.promises.unlink(imageFile.path); // Clean up temp file
+        imageUrl = `/${imagePath}`;
+      }
+
       const result = await db.insert(projects).values({
         title: req.body.title,
         description: req.body.description,
         links: req.body.links,
-        pdfPath: req.body.pdfPath,
-        imagePath: req.body.imagePath,
+        pdfUrl,
+        imageUrl,
         revenue: req.body.revenue,
       }).returning();
 
