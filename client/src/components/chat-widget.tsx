@@ -1,6 +1,7 @@
-import { useState, useRef } from "react";
+
+import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, Minimize2, Maximize2, X, Mic, MicOff, Bot, User } from "lucide-react";
+import { Send, Minimize2, Maximize2, X, Mic, MicOff, Bot, User, Play, Pause } from "lucide-react";
 
 export default function ChatWidget() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -10,11 +11,17 @@ export default function ChatWidget() {
     text: string;
     time: string;
     type?: 'text' | 'audio';
+    audioBlob?: Blob;
   }>>([]);
   const [inputValue, setInputValue] = useState("");
   const [isRecording, setIsRecording] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const [playingAudio, setPlayingAudio] = useState<number | null>(null);
+  const [audioProgress, setAudioProgress] = useState<{ [key: number]: number }>({});
+  const [audioDuration, setAudioDuration] = useState<{ [key: number]: number }>({});
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
+  const audioRefs = useRef<{ [key: number]: HTMLAudioElement }>({});
 
   const getCurrentTime = () => {
     return new Date().toLocaleTimeString('pt-BR', { 
@@ -22,6 +29,50 @@ export default function ChatWidget() {
       minute: '2-digit',
       second: '2-digit'
     });
+  };
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const playAudio = (messageId: number, audioBlob: Blob) => {
+    if (playingAudio === messageId) {
+      // Pause current audio
+      if (audioRefs.current[messageId]) {
+        audioRefs.current[messageId].pause();
+        setPlayingAudio(null);
+      }
+      return;
+    }
+
+    // Stop any currently playing audio
+    if (playingAudio && audioRefs.current[playingAudio]) {
+      audioRefs.current[playingAudio].pause();
+    }
+
+    // Create audio element if it doesn't exist
+    if (!audioRefs.current[messageId]) {
+      const audio = new Audio(URL.createObjectURL(audioBlob));
+      audioRefs.current[messageId] = audio;
+
+      audio.addEventListener('loadedmetadata', () => {
+        setAudioDuration(prev => ({ ...prev, [messageId]: audio.duration }));
+      });
+
+      audio.addEventListener('timeupdate', () => {
+        setAudioProgress(prev => ({ ...prev, [messageId]: audio.currentTime }));
+      });
+
+      audio.addEventListener('ended', () => {
+        setPlayingAudio(null);
+        setAudioProgress(prev => ({ ...prev, [messageId]: 0 }));
+      });
+    }
+
+    audioRefs.current[messageId].play();
+    setPlayingAudio(messageId);
   };
 
   const sendMessage = async (messageText?: string, audioBlob?: Blob) => {
@@ -32,13 +83,15 @@ export default function ChatWidget() {
       sender: 'user' as const,
       text: messageText || (audioBlob ? "🎵 Mensagem de áudio" : ""),
       time: getCurrentTime(),
-      type: audioBlob ? 'audio' as const : 'text' as const
+      type: audioBlob ? 'audio' as const : 'text' as const,
+      audioBlob: audioBlob
     };
 
     setMessages(prev => [...prev, userMessage]);
     const textToSend = messageText || "";
     setInputValue("");
     setIsExpanded(true);
+    setIsTyping(true);
 
     try {
       let requestBody: any;
@@ -75,6 +128,9 @@ export default function ChatWidget() {
         const responseText = data.output || data.response || data.message || data.text || data.answer || data.reply;
         
         if (responseText) {
+          // Simulate typing delay
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          
           const botMessage = {
             id: Date.now() + 1,
             sender: 'bot' as const,
@@ -110,6 +166,8 @@ export default function ChatWidget() {
         time: getCurrentTime()
       };
       setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsTyping(false);
     }
   };
 
@@ -154,6 +212,67 @@ export default function ChatWidget() {
       e.preventDefault();
       handleTextMessage();
     }
+  };
+
+  // Typing animation component
+  const TypingIndicator = () => (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="flex justify-start"
+    >
+      <div className="flex items-start gap-2 sm:gap-3 max-w-[85%] sm:max-w-[80%]">
+        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-gradient-to-r from-blue-500 to-blue-600 text-white">
+          <Bot size={16} className="sm:w-5 sm:h-5" />
+        </div>
+        <div className="rounded-lg p-2 sm:p-3 bg-gray-800 text-white">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-xs font-semibold">Gabriel, da Evolut IA</span>
+          </div>
+          <div className="flex space-x-1">
+            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+
+  // Audio player component
+  const AudioPlayer = ({ messageId, audioBlob }: { messageId: number; audioBlob: Blob }) => {
+    const progress = audioProgress[messageId] || 0;
+    const duration = audioDuration[messageId] || 0;
+    const isPlaying = playingAudio === messageId;
+    const progressPercentage = duration > 0 ? (progress / duration) * 100 : 0;
+
+    return (
+      <div className="bg-gray-700 rounded-lg p-3 w-48 max-w-full">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => playAudio(messageId, audioBlob)}
+            className="w-8 h-8 rounded-full bg-blue-500 hover:bg-blue-600 flex items-center justify-center transition-colors"
+          >
+            {isPlaying ? (
+              <Pause size={14} className="text-white" />
+            ) : (
+              <Play size={14} className="text-white ml-0.5" />
+            )}
+          </button>
+          <div className="flex-1">
+            <div className="relative h-1 bg-gray-600 rounded-full overflow-hidden">
+              <div 
+                className="absolute top-0 left-0 h-full bg-blue-500 transition-all duration-100"
+                style={{ width: `${progressPercentage}%` }}
+              />
+            </div>
+            <div className="text-xs text-gray-300 mt-1">
+              {formatTime(progress)} / {formatTime(duration)}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -239,11 +358,16 @@ export default function ChatWidget() {
                             </span>
                             <span className="text-xs opacity-70">{message.time}</span>
                           </div>
-                          <p className="text-xs sm:text-sm">{message.text}</p>
+                          {message.type === 'audio' && message.audioBlob ? (
+                            <AudioPlayer messageId={message.id} audioBlob={message.audioBlob} />
+                          ) : (
+                            <p className="text-xs sm:text-sm">{message.text}</p>
+                          )}
                         </div>
                       </div>
                     </motion.div>
                   ))}
+                  {isTyping && <TypingIndicator />}
                 </AnimatePresence>
               </div>
             )}
@@ -253,14 +377,17 @@ export default function ChatWidget() {
               <div className="flex items-center gap-2 sm:gap-3 bg-gray-900 rounded-lg p-2 sm:p-3">
                 <button
                   onClick={isRecording ? stopRecording : startRecording}
-                  className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
+                  className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
                     isRecording 
-                      ? 'bg-red-500 animate-pulse' 
+                      ? 'bg-red-500 animate-pulse scale-110' 
                       : 'bg-gray-700 hover:bg-gray-600'
                   }`}
                 >
                   {isRecording ? (
-                    <MicOff size={16} className="text-white" />
+                    <div className="flex items-center">
+                      <MicOff size={16} className="text-white" />
+                      <div className="absolute w-3 h-3 bg-red-400 rounded-full animate-ping"></div>
+                    </div>
                   ) : (
                     <Mic size={16} className="text-white" />
                   )}
@@ -270,7 +397,7 @@ export default function ChatWidget() {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder="Envie uma mensagem para Gabriel..."
+                  placeholder="Envie uma mensagem..."
                   className="flex-1 bg-transparent text-white placeholder-gray-400 outline-none"
                   disabled={isRecording}
                 />
