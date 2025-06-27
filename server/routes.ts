@@ -44,7 +44,7 @@ const upload = multer({
     const allowedTypes = /jpeg|jpg|png|gif|pdf|doc|docx/;
     const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
     const mimetype = allowedTypes.test(file.mimetype);
-    
+
     if (mimetype && extname) {
       return cb(null, true);
     } else {
@@ -157,7 +157,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
     try {
       const validatedData = expenseSchema.parse(req.body);
-      
+
       // Convert value from string to number
       const expenseData = {
         ...validatedData,
@@ -236,6 +236,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       return res.status(401).json({ error: "Unauthorized" });
     }
     try {
+      console.log("📝 Dados recebidos para criar projeto:", req.body);
       const files = req.files as { [fieldname: string]: Express.Multer.File[] };
       let pdfUrl = null;
       let imageUrl = null;
@@ -273,6 +274,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         revenue: req.body.revenue || null,
       }).returning();
 
+      console.log("✅ Projeto criado com sucesso:", result[0]);
       res.json(result[0]);
     } catch (error) {
       console.error("Error creating project:", error);
