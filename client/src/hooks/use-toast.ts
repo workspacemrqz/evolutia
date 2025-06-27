@@ -90,8 +90,6 @@ export const reducer = (state: State, action: Action): State => {
     case "DISMISS_TOAST": {
       const { toastId } = action
 
-      // ! Side effects ! - This could be extracted into a dismissToast() action,
-      // but I'll keep it here for simplicity
       if (toastId) {
         addToRemoveQueue(toastId)
       } else {
@@ -189,36 +187,3 @@ function useToast() {
 }
 
 export { useToast, toast }
-
-import { useState } from "react"
-
-type ToastProps = {
-  title?: string
-  description?: string
-  variant?: "default" | "destructive"
-}
-
-let toastCount = 0
-
-export function useToast() {
-  const [toasts, setToasts] = useState<(ToastProps & { id: string })[]>([])
-
-  const toast = ({ title, description, variant = "default" }: ToastProps) => {
-    const id = (++toastCount).toString()
-    const newToast = { id, title, description, variant }
-    setToasts((prev) => [...prev, newToast])
-
-    // Auto remove after 5 seconds
-    setTimeout(() => {
-      setToasts((prev) => prev.filter((t) => t.id !== id))
-    }, 5000)
-  }
-
-  const dismiss = (id: string) => {
-    setToasts((prev) => prev.filter((t) => t.id !== id))
-  }
-
-  return { toast, toasts, dismiss }
-}
-
-export { toast } from "./use-toast"
