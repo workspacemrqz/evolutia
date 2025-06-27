@@ -72,12 +72,12 @@ export const projects = pgTable("projects", {
 });
 
 export const projectSchema = z.object({
-  title: z.string().min(1, "Título é obrigatório"),
+  title: z.string().optional(),
   description: z.string().optional(),
   links: z.string().optional(),
   pdfUrl: z.string().optional(),
   imageUrl: z.string().optional(),
-  revenue: z.string().min(1, "Faturamento é obrigatório"),
+  revenue: z.string().optional(),
 });
 
 export type Expense = z.infer<typeof expenseSchema> & {

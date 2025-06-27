@@ -44,11 +44,12 @@ export default function AdminPage() {
     links: "",
     revenue: "",
   });
-  const [projectFiles, setProjectFiles] = useState({
-    pdf: null as File | null,
-    image: null as File | null,
-  });
-  const [showProjectForm, setShowProjectForm] = useState(false);
+  const [projectFiles, setProjectFiles] = useState<{
+    pdf: File | null;
+    image: File | null;
+  }>({ pdf: null, image: null });
+  const [projectLinks, setProjectLinks] = useState<string[]>([]);
+  const [currentLink, setCurrentLink] = useState("");
 
   const { data: responses, isLoading } = useQuery<DiagnosticResponse[]>({
     queryKey: ["/api/admin/responses"],
@@ -139,7 +140,7 @@ export default function AdminPage() {
       formData.append('description', data.project.description);
       formData.append('links', data.project.links);
       formData.append('revenue', data.project.revenue);
-      
+
       if (data.files.pdf) {
         formData.append('pdf', data.files.pdf);
       }
@@ -152,7 +153,7 @@ export default function AdminPage() {
         body: formData,
         credentials: "include",
       });
-      
+
       if (!response.ok) {
         const error = await response.json();
         throw new Error(error.error || "Failed to create project");
@@ -836,7 +837,7 @@ export default function AdminPage() {
                 {/* Project Form */}
                 {showProjectForm && (
                   <form
-                    onSubmit={handleCreateProject}
+                    onSubmit={handleSubmitProject}
                     className="bg-gray-800 p-6 rounded-lg border border-gray-700 mb-6"
                   >
                     <h3 className="text-white text-lg font-semibold mb-4">
@@ -866,11 +867,12 @@ export default function AdminPage() {
                           id="revenue"
                           value={newProject.revenue}
                           onChange={(e) =>
-                            setNewProject({ ...newProject, revenue: e.target.value })
+                            set```python
+NewProject({ ...newProject, revenue: e.target.value })
                           }
                           className="bg-gray-900 border-gray-600 text-white"
                           placeholder="R$ 0,00"
-                          required
+                          
                         />
                       </div>
                     </div>
@@ -888,19 +890,41 @@ export default function AdminPage() {
                         placeholder="Descrição do projeto"
                       />
                     </div>
-                    <div className="mb-4">
+                     <div className="mb-4">
                       <Label htmlFor="links" className="text-white">
                         Links
                       </Label>
-                      <Input
-                        id="links"
-                        value={newProject.links}
-                        onChange={(e) =>
-                          setNewProject({ ...newProject, links: e.target.value })
-                        }
-                        className="bg-gray-900 border-gray-600 text-white"
-                        placeholder="Links relacionados ao projeto"
-                      />
+                      <div className="flex gap-2">
+                        <Input
+                          id="currentLink"
+                          type="url"
+                          value={currentLink}
+                          onChange={(e) => setCurrentLink(e.target.value)}
+                          className="bg-gray-900 border-gray-600 text-white"
+                          placeholder="Adicionar link"
+                        />
+                        <Button
+                          type="button"
+                          onClick={() => {
+                            if (currentLink.trim() !== "") {
+                              setProjectLinks([...projectLinks, currentLink]);
+                              setCurrentLink("");
+                            }
+                          }}
+                          className="bg-blue-600 hover:bg-blue-700 text-white"
+                        >
+                          Adicionar
+                        </Button>
+                      </div>
+                      {projectLinks.length > 0 && (
+                        <ul className="list-disc pl-5 mt-2">
+                          {projectLinks.map((link, index) => (
+                            <li key={index} className="text-gray-300">
+                              {link}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                       <div>
@@ -1248,4 +1272,44 @@ export default function AdminPage() {
       </div>
     </div>
   );
+
+    async function handleSubmitProject(e: React.FormEvent) {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append('title', newProject.title);
+    formData.append('description', newProject.description || "");
+    projectLinks.forEach(link => formData.append('links', link));
+    formData.append('revenue', newProject.revenue || "");
+
+    if (projectFiles.pdf) {
+      formData.append('pdf', projectFiles.pdf);
+    }
+    if (projectFiles.image) {
+      formData.append('image', projectFiles.image);
+    }
+
+    try {
+      const response = await fetch("/api/admin/projects", {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || "Failed to create project");
+      }
+
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/projects"] });
+      setNewProject({ title: "", description: "", links: "", revenue: "" });
+      setProjectFiles({ pdf: null, image: null });
+      setProjectLinks([]);
+      setShowProjectForm(false);
+
+    } catch (error: any) {
+      console.error("Create project error:", error.message);
+      alert(error.message);
+    }
+  };
 }

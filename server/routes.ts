@@ -234,12 +234,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const result = await db.insert(projects).values({
-        title: req.body.title,
-        description: req.body.description,
-        links: req.body.links,
+        title: req.body.title || null,
+        description: req.body.description || null,
+        links: req.body.links || null,
         pdfUrl,
         imageUrl,
-        revenue: req.body.revenue,
+        revenue: req.body.revenue || null,
       }).returning();
 
       res.json(result[0]);
