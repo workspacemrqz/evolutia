@@ -46,3 +46,19 @@ export type User = typeof users.$inferSelect;
 export type InsertDiagnosticResponse = z.infer<typeof insertDiagnosticResponseSchema>;
 export type PartialDiagnosticResponse = z.infer<typeof partialDiagnosticResponseSchema>;
 export type DiagnosticResponse = typeof diagnosticResponses.$inferSelect;
+
+export const loginSchema = z.object({
+  username: z.string().min(1, "Username is required"),
+  password: z.string().min(1, "Password is required"),
+});
+
+export const expenseSchema = z.object({
+  item: z.string().min(1, "Item é obrigatório"),
+  value: z.number().min(0.01, "Valor deve ser maior que 0"),
+  paidBy: z.string().min(1, "Responsável pelo pagamento é obrigatório"),
+});
+
+export type Expense = z.infer<typeof expenseSchema> & {
+  id: number;
+  createdAt: string;
+};
