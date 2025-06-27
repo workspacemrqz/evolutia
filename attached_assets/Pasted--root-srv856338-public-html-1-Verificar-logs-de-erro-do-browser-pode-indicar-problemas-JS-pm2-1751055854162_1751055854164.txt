@@ -1,0 +1,130 @@
+[root@srv856338 public_html]# # 1. Verificar logs de erro do browser (pode indicar problemas JS)
+pm2 logs evolut-site --lines 100 | grep -i error
+
+# 2. Verificar se há projetos no banco (pode estar criando mas não listando)
+psql "$DATABASE_URL" -c "SELECT * FROM projects;"
+
+# 3. Verificar estrutura completa da tabela expenses
+psql "$DATABASE_URL" -c "\d+ expenses"
+
+# 4. Testar inserção manual de projeto
+psql "$DATABASE_URL" -c "INSERT INTO projects (title, description, revenue) VALUES ('Teste Manual', 'Descrição teste', 'R\$ 1000') RETURNING *;"
+/var/log/pm2/evolut-site-error-182.log last 100 lines:
+^C
+ id |    title     |   description   | links | pdf_url | image_url | revenue |         
+created_at         
+----+--------------+-----------------+-------+---------+-----------+---------+----------------------------
+  2 | Teste Manual | Descrição teste |       |         |           | R$ 1000 | 2025-06-27 20:18:27.835087
+(1 row)
+
+                                                             Table "public.expenses"
+   Column    |            Type             | Collation | Nullable |               Default                | Storage  | Stats target | Description 
+-------------+-----------------------------+-----------+----------+--------------------------------------+----------+--------------+-------------
+ id          | integer                     |           | not null | nextval('expenses_id_seq'::regclass) | plain    |              | 
+ item        | text                        |           | not null |                    
+                  | extended |              | 
+ value       | numeric(10,2)               |           | not null |                    
+                  | main     |              | 
+ paid_by     | text                        |           | not null |                    
+                  | extended |              | 
+ created_at  | timestamp without time zone |           |          | now()              
+                  | plain    |              | 
+ description | text                        |           |          |                    
+                  | extended |              | 
+ project_id  | integer                     |           |          |                    
+                  | plain    |              | 
+Indexes:
+    "expenses_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "expenses_project_id_fkey" FOREIGN KEY (project_id) REFERENCES projects(id)
+Access method: heap
+
+ id |    title     |   description   | links | pdf_url | image_url | revenue |        created_at         
+----+--------------+-----------------+-------+---------+-----------+---------+---------------------------
+  3 | Teste Manual | Descrição teste |       |         |           | R$ 1000 | 2025-06-27 20:23:42.70802
+(1 row)
+
+INSERT 0 1
+[root@srv856338 public_html]# node debug-frontend-issues.js
+🔍 Analisando arquivos para encontrar problemas...
+
+1️⃣ Verificando arquivos de build...
+✅ index.html existe
+✅ assets existe
+
+2️⃣ Verificando routes.ts...
+❌ Rota POST /admin/projects não encontrada
+✅ Rota /admin/expenses encontrada
+
+3️⃣ Verificando schema.ts...
+❌ Problemas nos schemas
+
+4️⃣ Verificando admin-page.tsx...
+✅ Tratamento de erro encontrado no admin
+✅ Sistema de notificação encontrado
+
+🎯 Análise concluída!
+[root@srv856338 public_html]# # Fazer deploy das correções
+npm run build
+pm2 restart evolut-site --update-env
+
+# Verificar se não há erros nos logs
+pm2 logs evolut-site --lines 10
+
+> rest-express@1.0.0 build
+> vite build
+
+vite v5.4.14 building for production...
+transforming (3) src/main.tsxBrowserslist: browsers data (caniuse-lite) is 8 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+✓ 2074 modules transformed.
+../dist/public/index.html                   2.66 kB │ gzip:   1.29 kB
+../dist/public/assets/index-FT9m3RBD.css   93.51 kB │ gzip:  15.51 kB
+../dist/public/assets/index-ODSxeFPT.js   545.01 kB │ gzip: 166.36 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 5.82s
+[PM2] Applying action restartProcessId on app [evolut-site](ids: [ 182 ])
+[PM2] [evolut-site](182) ✓
+┌─────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id  │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├─────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19  │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.9mb  │
+│ 182 │ evolut-site        │ fork     │ 6    │ online    │ 0%       │ 19.3mb   │
+│ 142 │ rotacaicara        │ fork     │ 0    │ online    │ 0%       │ 98.0mb   │
+│ 141 │ tempo-real         │ fork     │ 0    │ online    │ 0%       │ 106.4mb  │
+│ 151 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 32.1mb   │
+└─────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[TAILING] Tailing last 10 lines for [evolut-site] process (change the value with --lines option)
+/var/log/pm2/evolut-site-error-182.log last 10 lines:
+182|evolut | 2025-06-27T20:08:34: memory, and will not scale past a single process.
+182|evolut | 2025-06-27T20:08:50: Warning: connect.session() MemoryStore is not
+182|evolut | 2025-06-27T20:08:50: designed for a production environment, as it will leak
+182|evolut | 2025-06-27T20:08:50: memory, and will not scale past a single process.
+182|evolut | 2025-06-27T20:15:53: Warning: connect.session() MemoryStore is not
+182|evolut | 2025-06-27T20:15:53: designed for a production environment, as it will leak
+182|evolut | 2025-06-27T20:15:53: memory, and will not scale past a single process.
+182|evolut | 2025-06-27T20:16:52: Warning: connect.session() MemoryStore is not
+182|evolut | 2025-06-27T20:16:52: designed for a production environment, as it will leak
+182|evolut | 2025-06-27T20:16:52: memory, and will not scale past a single process.
+
+/var/log/pm2/evolut-site-out-182.log last 10 lines:
+182|evolut | 2025-06-27T19:51:18: GET /api/admin/expenses 304 in 2ms
+182|evolut | 2025-06-27T19:51:22: GET /api/admin/projects 304 in 1ms
+182|evolut | 2025-06-27T19:51:22: GET /api/admin/expenses 304 in 0ms
+182|evolut | 2025-06-27T19:51:27: POST /api/admin/projects 200 in 2ms
+182|evolut | 2025-06-27T19:57:09: serving on 0.0.0.0:3001
+182|evolut | 2025-06-27T20:08:34: serving on 0.0.0.0:3001
+182|evolut | 2025-06-27T20:08:50: serving on 0.0.0.0:3001
+182|evolut | 2025-06-27T20:15:53: serving on 0.0.0.0:3001
+182|evolut | 2025-06-27T20:16:52: serving on 0.0.0.0:3001
+182|evolut | 2025-06-27T20:17:26: GET /api/user 401 in 4ms
+
+182|evolut-site  | 2025-06-27T20:24:10: Warning: connect.session() MemoryStore is not
+182|evolut-site  | 2025-06-27T20:24:10: designed for a production environment, as it will leak
+182|evolut-site  | 2025-06-27T20:24:10: memory, and will not scale past a single process.
+182|evolut-site  | 2025-06-27T20:24:10: serving on 0.0.0.0:3001
