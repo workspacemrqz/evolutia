@@ -1,0 +1,212 @@
+[root@srv856338 public_html]# # 1. Primeiro execute o script de correção do banco
+node fix-database-columns.js
+
+# 2. Verificar se as colunas estão corretas agora
+psql $DATABASE_URL -c "\d projects"
+
+# 3. Verificar permissões dos diretórios
+ls -la uploads/ static/
+chmod 755 uploads/ static/ static/projects/
+chown -R evolu6905:evolu6905 uploads/ static/
+
+# 4. Rebuild e restart
+npm run build
+pm2 restart evolut-site
+
+# 5. Verificar logs de erro
+pm2 logs evolut-site --lines 50
+Fixing database columns...
+Checking projects table...
+⚠️ pdf_path column doesn't exist, checking pdf_url...
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42701',
+  message: 'column "pdf_url" of relation "projects" already exists, skipping',
+  file: 'tablecmds.c',
+  line: '6807',
+  routine: 'check_for_column_name_collision'
+}
+✅ Added pdf_url column
+⚠️ image_path column doesn't exist, checking image_url...
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42701',
+  message: 'column "image_url" of relation "projects" already exists, skipping',
+  file: 'tablecmds.c',
+  line: '6807',
+  routine: 'check_for_column_name_collision'
+}
+✅ Added image_url column
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42701',
+  message: 'column "title" of relation "projects" already exists, skipping',
+  file: 'tablecmds.c',
+  line: '6807',
+  routine: 'check_for_column_name_collision'
+}
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42701',
+  message: 'column "revenue" of relation "projects" already exists, skipping',
+  file: 'tablecmds.c',
+  line: '6807',
+  routine: 'check_for_column_name_collision'
+}
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42701',
+  message: 'column "description" of relation "projects" already exists, skipping',
+  file: 'tablecmds.c',
+  line: '6807',
+  routine: 'check_for_column_name_collision'
+}
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42701',
+  message: 'column "links" of relation "projects" already exists, skipping',
+  file: 'tablecmds.c',
+  line: '6807',
+  routine: 'check_for_column_name_collision'
+}
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42701',
+  message: 'column "created_at" of relation "projects" already exists, skipping',
+  file: 'tablecmds.c',
+  line: '6807',
+  routine: 'check_for_column_name_collision'
+}
+✅ Database structure fixed successfully!
+
+📋 Current projects table structure:
+  id: integer (not null)
+  title: text (not null)
+  description: text (nullable)
+  links: text (nullable)
+  pdf_url: text (nullable)
+  image_url: text (nullable)
+  revenue: text (not null)
+  created_at: timestamp without time zone (nullable)
+psql: error: FATAL:  role "root" does not exist
+static/:
+total 100
+drwxr-xr-x  3 evolu6905 evolu6905   171 Jun 27 19:06 .
+drwxr-xr-x 14 evolu6905 evolu6905  4096 Jun 27 19:57 ..
+-rw-r--r--  1 evolu6905 evolu6905 35588 Jun 22 14:49 index.html
+-rw-r--r--  1 evolu6905 evolu6905  8736 Jun 22 14:49 lgpd.html
+-rw-r--r--  1 evolu6905 evolu6905  6856 Jun 22 14:49 politica-de-privacidade.html
+drwxr-xr-x  2 root      root          6 Jun 27 19:06 projects
+-rw-r--r--  1 evolu6905 evolu6905  4074 Jun 22 14:49 README.md
+-rw-r--r--  1 evolu6905 evolu6905 14544 Jun 22 14:49 script.js
+-rw-r--r--  1 evolu6905 evolu6905 11142 Jun 22 14:49 styles.css
+-rw-r--r--  1 evolu6905 evolu6905  5461 Jun 22 14:49 termos-de-uso.html
+
+uploads/:
+total 4
+drwxr-xr-x  2 root      root         6 Jun 27 19:06 .
+drwxr-xr-x 14 evolu6905 evolu6905 4096 Jun 27 19:57 ..
+
+> rest-express@1.0.0 build
+> vite build
+
+vite v5.4.14 building for production...
+transforming (1) index.htmlBrowserslist: browsers data (caniuse-lite) is 8 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+✓ 75 modules transformed.
+x Build failed in 1.98s
+error during build:
+[vite:esbuild] Transform failed with 3 errors:
+/home/evolutiaoficial.com/public_html/client/src/hooks/use-toast.ts:203:16: ERROR: Multiple exports with the same name "useToast"
+/home/evolutiaoficial.com/public_html/client/src/hooks/use-toast.ts:203:16: ERROR: The symbol "useToast" has already been declared
+/home/evolutiaoficial.com/public_html/client/src/hooks/use-toast.ts:224:9: ERROR: Multiple exports with the same name "toast"
+file: /home/evolutiaoficial.com/public_html/client/src/hooks/use-toast.ts:203:16
+
+Multiple exports with the same name "useToast"
+201|  let toastCount = 0
+202|  
+203|  export function useToast() {
+   |                  ^
+204|    const [toasts, setToasts] = useState<(ToastProps & { id: string })[]>([])
+205|  
+
+The symbol "useToast" has already been declared
+201|  let toastCount = 0
+202|  
+203|  export function useToast() {
+   |                  ^
+204|    const [toasts, setToasts] = useState<(ToastProps & { id: string })[]>([])
+205|  
+
+Multiple exports with the same name "toast"
+222|  }
+223|  
+224|  export { toast } from "./use-toast"
+   |           ^
+
+    at failureErrorWithLog (/home/evolutiaoficial.com/public_html/node_modules/vite/node_modules/esbuild/lib/main.js:1472:15)
+    at /home/evolutiaoficial.com/public_html/node_modules/vite/node_modules/esbuild/lib/main.js:755:50
+    at responseCallbacks.<computed> (/home/evolutiaoficial.com/public_html/node_modules/vite/node_modules/esbuild/lib/main.js:622:9)
+    at handleIncomingPacket (/home/evolutiaoficial.com/public_html/node_modules/vite/node_modules/esbuild/lib/main.js:677:12)
+    at Socket.readFromStdout (/home/evolutiaoficial.com/public_html/node_modules/vite/node_modules/esbuild/lib/main.js:600:7)
+    at Socket.emit (node:events:524:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at Pipe.onStreamRead (node:internal/stream_base_commons:191:23)
+Use --update-env to update environment variables
+[PM2] Applying action restartProcessId on app [evolut-site](ids: [ 182 ])
+[PM2] [evolut-site](182) ✓
+┌─────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id  │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├─────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19  │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.8mb  │
+│ 182 │ evolut-site        │ fork     │ 1    │ online    │ 0%       │ 23.8mb   │
+│ 142 │ rotacaicara        │ fork     │ 0    │ online    │ 0%       │ 98.0mb   │
+│ 141 │ tempo-real         │ fork     │ 0    │ online    │ 0%       │ 106.4mb  │
+│ 151 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 32.1mb   │
+└─────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[TAILING] Tailing last 50 lines for [evolut-site] process (change the value with --lines option)
+/var/log/pm2/evolut-site-error-182.log last 50 lines:
+182|evolut | 2025-06-27T19:50:11: Warning: connect.session() MemoryStore is not
+182|evolut | 2025-06-27T19:50:11: designed for a production environment, as it will leak
+182|evolut | 2025-06-27T19:50:11: memory, and will not scale past a single process.
+
+/var/log/pm2/evolut-site-out-182.log last 50 lines:
+182|evolut | 2025-06-27T19:50:11: serving on 0.0.0.0:3001
+182|evolut | 2025-06-27T19:51:05: GET /api/user 401 in 3ms
+182|evolut | 2025-06-27T19:51:05: GET /api/user 401 in 1ms
+182|evolut | 2025-06-27T19:51:15: Login attempt: { username: 'contato@evolutoficial.com', password: '@Ev0luTi42025' }
+182|evolut | 2025-06-27T19:51:15: Login successful: contato@evolutoficial.com
+182|evolut | 2025-06-27T19:51:15: POST /api/login 200 in 4ms
+182|evolut | 2025-06-27T19:51:15: GET /api/user 304 in 1ms
+182|evolut | 2025-06-27T19:51:15: GET /api/user 304 in 0ms
+182|evolut | 2025-06-27T19:51:15: GET /api/admin/projects 200 in 10ms
+182|evolut | 2025-06-27T19:51:15: GET /api/admin/expenses 200 in 6ms
+182|evolut | 2025-06-27T19:51:15: GET /api/admin/responses 304 in 13ms
+182|evolut | 2025-06-27T19:51:16: GET /api/admin/projects 304 in 1ms
+182|evolut | 2025-06-27T19:51:16: GET /api/admin/expenses 304 in 1ms
+182|evolut | 2025-06-27T19:51:18: GET /api/admin/projects 304 in 2ms
+182|evolut | 2025-06-27T19:51:18: GET /api/admin/expenses 304 in 2ms
+182|evolut | 2025-06-27T19:51:22: GET /api/admin/projects 304 in 1ms
+182|evolut | 2025-06-27T19:51:22: GET /api/admin/expenses 304 in 0ms
+182|evolut | 2025-06-27T19:51:27: POST /api/admin/projects 200 in 2ms
+
+182|evolut-site  | 2025-06-27T19:57:09: Warning: connect.session() MemoryStore is not
+182|evolut-site  | 2025-06-27T19:57:09: designed for a production environment, as it will leak
+182|evolut-site  | 2025-06-27T19:57:09: memory, and will not scale past a single process.
+182|evolut-site  | 2025-06-27T19:57:09: serving on 0.0.0.0:3001
+^C
+[root@srv856338 public_html]# pm2 logs evolut-site --follow
+
+  error: unknown option `--follow'
+
+[root@srv856338 public_html]# 
