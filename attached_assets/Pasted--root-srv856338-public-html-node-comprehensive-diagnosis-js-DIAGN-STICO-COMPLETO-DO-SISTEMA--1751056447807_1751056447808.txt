@@ -1,0 +1,296 @@
+[root@srv856338 public_html]# node comprehensive-diagnosis.js
+🔍 DIAGNÓSTICO COMPLETO DO SISTEMA
+=====================================
+
+1️⃣ Testando conexão com o banco de dados...
+✅ Conexão com banco estabelecida
+
+2️⃣ Verificando estrutura das tabelas...
+
+📋 Tabela: projects
+✅ Colunas da tabela 'projects':
+   - id: integer NOT NULL [default: nextval('projects_id_seq'::regclass)]
+   - title: text NOT NULL
+   - description: text NULL
+   - links: text NULL
+   - pdf_url: text NULL
+   - image_url: text NULL
+   - revenue: text NOT NULL
+   - created_at: timestamp without time zone NULL [default: now()]
+📊 Total de registros: 2
+
+📋 Tabela: expenses
+✅ Colunas da tabela 'expenses':
+   - id: integer NOT NULL [default: nextval('expenses_id_seq'::regclass)]
+   - item: text NOT NULL
+   - value: numeric NOT NULL
+   - paid_by: text NOT NULL
+   - created_at: timestamp without time zone NULL [default: now()]
+   - description: text NULL
+   - project_id: integer NULL
+📊 Total de registros: 0
+
+📋 Tabela: diagnostic_responses
+✅ Colunas da tabela 'diagnostic_responses':
+   - id: integer NOT NULL [default: nextval('diagnostic_responses_id_seq'::regclass)]
+   - name: text NULL
+   - email: text NULL
+   - phone: text NULL
+   - company: text NULL
+   - position: text NULL
+   - custom_position: text NULL
+   - revenue: text NULL
+   - employees: text NULL
+   - erp: text NULL
+   - areas: text NULL [default: '[]'::text]
+   - time_consuming_process: text NULL
+   - lost_opportunities: text NULL
+   - status: text NULL [default: 'Pendente'::text]
+   - created_at: timestamp without time zone NOT NULL [default: now()]
+   - source: text NULL [default: 'Home'::text]
+📊 Total de registros: 3
+
+3️⃣ Testando inserção de projeto...
+✅ Inserção de projeto funcionando: { id: 5, title: 'Teste Diagnóstico' }
+✅ Limpeza do teste realizada
+
+4️⃣ Testando inserção de despesa...
+✅ Inserção de despesa funcionando: { id: 3, item: 'Teste Diagnóstico' }
+✅ Limpeza do teste realizada
+
+5️⃣ Verificando diretórios de upload...
+✅ ./uploads existe (permissões: 40755)
+✅ ./static existe (permissões: 40755)
+✅ ./static/projects existe (permissões: 40755)
+
+6️⃣ Verificando esquemas de validação...
+✅ Schema encontrado
+📋 Verificando definições:
+   ✅ Tabela projects definida
+   ✅ Tabela expenses definida
+   ✅ Schema de validação de despesas definido
+
+7️⃣ Verificando rotas da API...
+✅ Arquivo de rotas encontrado
+   ✅ GET /api/admin/projects definida
+   ✅ POST /api/admin/projects definida
+   ✅ GET /api/admin/expenses definida
+   ✅ POST /api/admin/expenses definida
+
+🎯 DIAGNÓSTICO CONCLUÍDO!
+[root@srv856338 public_html]# node fix-expenses-table.js
+🔧 Corrigindo tabela expenses...
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42P07',
+  message: 'relation "expenses" already exists, skipping',
+  file: 'parse_utilcmd.c',
+  line: '217',
+  routine: 'transformCreateStmt'
+}
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42701',
+  message: 'column "description" of relation "expenses" already exists, skipping',
+  file: 'tablecmds.c',
+  line: '6807',
+  routine: 'check_for_column_name_collision'
+}
+✅ ALTER TABLE expenses ADD COLUMN IF NOT EXISTS description TEXT
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42701',
+  message: 'column "paid_by" of relation "expenses" already exists, skipping',
+  file: 'tablecmds.c',
+  line: '6807',
+  routine: 'check_for_column_name_collision'
+}
+✅ ALTER TABLE expenses ADD COLUMN IF NOT EXISTS paid_by TEXT NOT NULL DEFAULT 'Gabriel Camargo'
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42701',
+  message: 'column "project_id" of relation "expenses" already exists, skipping',
+  file: 'tablecmds.c',
+  line: '6807',
+  routine: 'check_for_column_name_collision'
+}
+✅ ALTER TABLE expenses ADD COLUMN IF NOT EXISTS project_id INTEGER REFERENCES projects(id)
+✅ Tabela expenses corrigida!
+[root@srv856338 public_html]# # 1. Verificar se as tabelas existem
+psql "$DATABASE_URL" -c "\dt"
+
+# 2. Verificar estrutura da tabela projects
+psql "$DATABASE_URL" -c "\d+ projects"
+
+# 3. Verificar estrutura da tabela expenses  
+psql "$DATABASE_URL" -c "\d+ expenses"
+
+# 4. Testar inserção de projeto
+psql "$DATABASE_URL" -c "INSERT INTO projects (title, revenue) VALUES ('Teste Manual', 'R$ 100,00') RETURNING id, title;"
+
+# 5. Testar inserção de despesa
+psql "$DATABASE_URL" -c "INSERT INTO expenses (item, value, paid_by) VALUES ('Teste Manual', '50.00', 'Gabriel Camargo') RETURNING id, item;"
+
+# 6. Limpar testes
+psql "$DATABASE_URL" -c "DELETE FROM projects WHERE title = 'Teste Manual';"
+psql "$DATABASE_URL" -c "DELETE FROM expenses WHERE item = 'Teste Manual';"
+
+# 7. Verificar logs da aplicação
+pm2 logs evolut-site --lines 20 --raw
+
+# 8. Fazer build e restart
+npm run build && pm2 restart evolut-site
+               List of relations
+ Schema |         Name         | Type  | Owner  
+--------+----------------------+-------+--------
+ public | diagnostic_responses | table | evolut
+ public | expenses             | table | evolut
+ public | projects             | table | evolut
+ public | responses            | table | evolut
+ public | session              | table | evolut
+ public | super_admins         | table | evolut
+ public | users                | table | evolut
+(7 rows)
+
+                                                             Table "public.projects"
+   Column    |            Type             | Collation | Nullable |               Default                | Storage  | Stats target | Description 
+-------------+-----------------------------+-----------+----------+--------------------------------------+----------+--------------+-------------
+ id          | integer                     |           | not null | nextval('projects_id_seq'::regclass) | plain    |              | 
+ title       | text                        |           | not null |                    
+                  | extended |              | 
+ description | text                        |           |          |                    
+                  | extended |              | 
+ links       | text                        |           |          |                    
+                  | extended |              | 
+ pdf_url     | text                        |           |          |                    
+                  | extended |              | 
+ image_url   | text                        |           |          |                    
+                  | extended |              | 
+ revenue     | text                        |           | not null |                    
+                  | extended |              | 
+ created_at  | timestamp without time zone |           |          | now()              
+                  | plain    |              | 
+Indexes:
+    "projects_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "expenses" CONSTRAINT "expenses_project_id_fkey" FOREIGN KEY (project_id) REFERENCES projects(id)
+Access method: heap
+
+                                                             Table "public.expenses"
+   Column    |            Type             | Collation | Nullable |               Default                | Storage  | Stats target | Description 
+-------------+-----------------------------+-----------+----------+--------------------------------------+----------+--------------+-------------
+ id          | integer                     |           | not null | nextval('expenses_id_seq'::regclass) | plain    |              | 
+ item        | text                        |           | not null |                    
+                  | extended |              | 
+ value       | numeric(10,2)               |           | not null |                    
+                  | main     |              | 
+ paid_by     | text                        |           | not null |                    
+                  | extended |              | 
+ created_at  | timestamp without time zone |           |          | now()              
+                  | plain    |              | 
+ description | text                        |           |          |                    
+                  | extended |              | 
+ project_id  | integer                     |           |          |                    
+                  | plain    |              | 
+Indexes:
+    "expenses_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "expenses_project_id_fkey" FOREIGN KEY (project_id) REFERENCES projects(id)
+Access method: heap
+
+ id |    title     
+----+--------------
+  6 | Teste Manual
+(1 row)
+
+INSERT 0 1
+ id |     item     
+----+--------------
+  4 | Teste Manual
+(1 row)
+
+INSERT 0 1
+DELETE 3
+DELETE 1
+[TAILING] Tailing last 20 lines for [evolut-site] process (change the value with --lines option)
+/var/log/pm2/evolut-site-error-182.log last 20 lines:
+2025-06-27T19:57:09: designed for a production environment, as it will leak
+2025-06-27T19:57:09: memory, and will not scale past a single process.
+2025-06-27T20:08:34: Warning: connect.session() MemoryStore is not
+2025-06-27T20:08:34: designed for a production environment, as it will leak
+2025-06-27T20:08:34: memory, and will not scale past a single process.
+2025-06-27T20:08:50: Warning: connect.session() MemoryStore is not
+2025-06-27T20:08:50: designed for a production environment, as it will leak
+2025-06-27T20:08:50: memory, and will not scale past a single process.
+2025-06-27T20:15:53: Warning: connect.session() MemoryStore is not
+2025-06-27T20:15:53: designed for a production environment, as it will leak
+2025-06-27T20:15:53: memory, and will not scale past a single process.
+2025-06-27T20:16:52: Warning: connect.session() MemoryStore is not
+2025-06-27T20:16:52: designed for a production environment, as it will leak
+2025-06-27T20:16:52: memory, and will not scale past a single process.
+2025-06-27T20:24:10: Warning: connect.session() MemoryStore is not
+2025-06-27T20:24:10: designed for a production environment, as it will leak
+2025-06-27T20:24:10: memory, and will not scale past a single process.
+2025-06-27T20:29:09: Warning: connect.session() MemoryStore is not
+2025-06-27T20:29:09: designed for a production environment, as it will leak
+2025-06-27T20:29:09: memory, and will not scale past a single process.
+
+/var/log/pm2/evolut-site-out-182.log last 20 lines:
+2025-06-27T20:30:03: GET /api/admin/projects 304 in 3ms
+2025-06-27T20:30:03: GET /api/admin/expenses 304 in 1ms
+2025-06-27T20:30:14: POST /api/admin/projects 200 in 2ms
+2025-06-27T20:30:16: POST /api/admin/projects 200 in 2ms
+2025-06-27T20:30:16: POST /api/admin/projects 200 in 1ms
+2025-06-27T20:30:16: POST /api/admin/projects 200 in 2ms
+2025-06-27T20:30:33: GET /api/user 304 in 0ms
+2025-06-27T20:30:33: GET /api/admin/expenses 304 in 2ms
+2025-06-27T20:30:33: GET /api/admin/projects 200 in 6ms
+2025-06-27T20:30:33: GET /api/admin/responses 304 in 10ms
+2025-06-27T20:30:36: GET /api/user 304 in 1ms
+2025-06-27T20:30:36: GET /api/admin/responses 304 in 2ms
+2025-06-27T20:30:36: GET /api/admin/expenses 304 in 2ms
+2025-06-27T20:30:36: GET /api/admin/projects 304 in 2ms
+2025-06-27T20:30:38: GET /api/admin/expenses 304 in 1ms
+2025-06-27T20:30:38: GET /api/admin/projects 304 in 1ms
+2025-06-27T20:30:40: GET /api/admin/expenses 304 in 1ms
+2025-06-27T20:30:40: GET /api/admin/projects 304 in 1ms
+2025-06-27T20:30:53: GET /api/admin/expenses 304 in 2ms
+2025-06-27T20:30:53: GET /api/admin/projects 304 in 1ms
+
+^C
+
+> rest-express@1.0.0 build
+> vite build
+
+vite v5.4.14 building for production...
+transforming (3) src/main.tsxBrowserslist: browsers data (caniuse-lite) is 8 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+✓ 73 modules transformed.
+x Build failed in 2.52s
+error during build:
+[vite:esbuild] Transform failed with 1 error:
+/home/evolutiaoficial.com/public_html/client/src/hooks/use-toast.ts:208:19: ERROR: Multiple exports with the same name "toast"
+file: /home/evolutiaoficial.com/public_html/client/src/hooks/use-toast.ts:208:19
+
+Multiple exports with the same name "toast"
+206|  }
+207|  
+208|  export { useToast, toast }
+   |                     ^
+
+    at failureErrorWithLog (/home/evolutiaoficial.com/public_html/node_modules/vite/node_modules/esbuild/lib/main.js:1472:15)
+    at /home/evolutiaoficial.com/public_html/node_modules/vite/node_modules/esbuild/lib/main.js:755:50
+    at responseCallbacks.<computed> (/home/evolutiaoficial.com/public_html/node_modules/vite/node_modules/esbuild/lib/main.js:622:9)
+    at handleIncomingPacket (/home/evolutiaoficial.com/public_html/node_modules/vite/node_modules/esbuild/lib/main.js:677:12)
+    at Socket.readFromStdout (/home/evolutiaoficial.com/public_html/node_modules/vite/node_modules/esbuild/lib/main.js:600:7)
+    at Socket.emit (node:events:524:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at Pipe.onStreamRead (node:internal/stream_base_commons:191:23)
+[root@srv856338 public_html]# 
