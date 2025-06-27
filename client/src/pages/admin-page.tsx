@@ -168,7 +168,12 @@ export default function AdminPage() {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/projects"] });
       setNewProject({ title: "", description: "", links: "", revenue: "" });
       setProjectFiles({ pdf: null, image: null });
+      setProjectLinks([]);
       setShowProjectForm(false);
+      toast({
+        title: "Sucesso!",
+        description: "Projeto criado com sucesso.",
+      });
     },
   });
 
@@ -244,8 +249,14 @@ export default function AdminPage() {
 
     const handleCreateProject = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    const projectWithLinks = {
+      ...newProject,
+      links: projectLinks.join(', ') // Convert array to string
+    };
+    
     createProjectMutation.mutate({
-      project: newProject,
+      project: projectWithLinks,
       files: projectFiles,
     });
   };
@@ -876,7 +887,7 @@ export default function AdminPage() {
                 {/* Project Form */}
                 {showProjectForm && (
                   <form
-                    onSubmit={handleSubmitProject}
+                    onSubmit={handleCreateProject}
                     className="bg-gray-800 p-6 rounded-lg border border-gray-700 mb-6"
                   >
                     <h3 className="text-white text-lg font-semibold mb-4">
@@ -1024,6 +1035,8 @@ export default function AdminPage() {
                           setShowProjectForm(false);
                           setNewProject({ title: "", description: "", links: "", revenue: "" });
                           setProjectFiles({ pdf: null, image: null });
+                          setProjectLinks([]);
+                          setCurrentLink("");
                         }}
                         variant="outline"
                         className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700"
@@ -1332,43 +1345,5 @@ export default function AdminPage() {
     </div>
   );
 
-    async function handleSubmitProject(e: React.FormEvent) {
-    e.preventDefault();
-
-    const formData = new FormData();
-    formData.append('title', newProject.title);
-    formData.append('description', newProject.description || "");
-    projectLinks.forEach(link => formData.append('links', link));
-    formData.append('revenue', newProject.revenue || "");
-
-    if (projectFiles.pdf) {
-      formData.append('pdf', projectFiles.pdf);
-    }
-    if (projectFiles.image) {
-      formData.append('image', projectFiles.image);
-    }
-
-    try {
-      const response = await fetch("/api/admin/projects", {
-        method: "POST",
-        body: formData,
-        credentials: "include",
-      });
-
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || "Failed to create project");
-      }
-
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/projects"] });
-      setNewProject({ title: "", description: "", links: "", revenue: "" });
-      setProjectFiles({ pdf: null, image: null });
-      setProjectLinks([]);
-      setShowProjectForm(false);
-
-    } catch (error: any) {
-      console.error("Create project error:", error.message);
-      alert(error.message);
-    }
-  };
+    
 }
