@@ -74,9 +74,6 @@ export const projects = pgTable("projects", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),
   description: text("description"),
-  links: text("links"),
-  pdfUrl: text("pdf_url"),
-  imageUrl: text("image_url"),
   revenue: text("revenue").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
 });
@@ -84,9 +81,6 @@ export const projects = pgTable("projects", {
 export const projectSchema = z.object({
   title: z.string().optional(),
   description: z.string().optional(),
-  links: z.string().optional(),
-  pdfUrl: z.string().optional(),
-  imageUrl: z.string().optional(),
   revenue: z.string().optional(),
 });
 

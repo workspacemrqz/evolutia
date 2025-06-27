@@ -238,70 +238,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/admin/projects", upload.fields([
-    { name: 'pdf', maxCount: 1 },
-    { name: 'image', maxCount: 1 }
-  ]), async (req, res) => {
+  app.post("/api/admin/projects", async (req, res) => {
     if (!req.isAuthenticated()) {
       return res.status(401).json({ error: "Unauthorized" });
     }
     try {
       console.log("📝 Dados recebidos para criar projeto:", req.body);
-      console.log("📎 Arquivos recebidos:", req.files);
       
-      // Validar campos obrigatórios primeiro
-      if (!req.body.title) {
-        console.log("❌ Título não fornecido");
-        return res.status(400).json({ error: "Título é obrigatório" });
-      }
-      
-      if (!req.body.revenue) {
-        console.log("❌ Receita não fornecida");
-        return res.status(400).json({ error: "Receita é obrigatória" });
-      }
-      
-      const files = req.files as { [fieldname: string]: Express.Multer.File[] };
-      let pdfUrl = null;
-      let imageUrl = null;
-
-      // Ensure static/projects directory exists
-      const projectsDir = path.join(process.cwd(), 'static', 'projects');
-      if (!fs.existsSync(projectsDir)) {
-        fs.mkdirSync(projectsDir, { recursive: true });
-      }
-
-      // Process PDF upload
-      if (files && files.pdf && files.pdf[0]) {
-        const pdfFile = files.pdf[0];
-        const pdfPath = `projects/pdf_${Date.now()}_${pdfFile.originalname}`;
-        const staticPdfPath = path.join(process.cwd(), 'static', pdfPath);
-        
-        try {
-          await fs.promises.copyFile(pdfFile.path, staticPdfPath);
-          await fs.promises.unlink(pdfFile.path);
-          pdfUrl = `/${pdfPath}`;
-          console.log("✅ PDF salvo:", pdfUrl);
-        } catch (fileError) {
-          console.error("❌ Erro ao salvar PDF:", fileError);
-        }
-      }
-
-      // Process image upload
-      if (files && files.image && files.image[0]) {
-        const imageFile = files.image[0];
-        const imagePath = `projects/img_${Date.now()}_${imageFile.originalname}`;
-        const staticImagePath = path.join(process.cwd(), 'static', imagePath);
-        
-        try {
-          await fs.promises.copyFile(imageFile.path, staticImagePath);
-          await fs.promises.unlink(imageFile.path);
-          imageUrl = `/${imagePath}`;
-          console.log("✅ Imagem salva:", imageUrl);
-        } catch (fileError) {
-          console.error("❌ Erro ao salvar imagem:", fileError);
-        }
-      }
-
       // Validate required fields
       if (!req.body.title || !req.body.revenue) {
         return res.status(400).json({ 
@@ -316,9 +259,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const projectData = {
         title: req.body.title,
         description: req.body.description || null,
-        links: req.body.links || null,
-        pdfUrl,
-        imageUrl,
         revenue: req.body.revenue,
       };
 
@@ -330,7 +270,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(201).json(result[0]);
     } catch (error) {
       console.error("❌ Erro ao criar projeto:", error);
-      console.error("Stack trace:", error.stack);
       res.status(500).json({ 
         error: "Failed to create project",
         details: error.message 
