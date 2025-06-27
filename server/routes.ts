@@ -237,48 +237,83 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
     try {
       console.log("📝 Dados recebidos para criar projeto:", req.body);
+      console.log("📎 Arquivos recebidos:", req.files);
+      
       const files = req.files as { [fieldname: string]: Express.Multer.File[] };
       let pdfUrl = null;
       let imageUrl = null;
 
+      // Ensure static/projects directory exists
+      const projectsDir = path.join(process.cwd(), 'static', 'projects');
+      if (!fs.existsSync(projectsDir)) {
+        fs.mkdirSync(projectsDir, { recursive: true });
+      }
+
       // Process PDF upload
-      if (files.pdf && files.pdf[0]) {
+      if (files && files.pdf && files.pdf[0]) {
         const pdfFile = files.pdf[0];
         const pdfPath = `projects/pdf_${Date.now()}_${pdfFile.originalname}`;
-        // Move file to static directory for serving
         const staticPdfPath = path.join(process.cwd(), 'static', pdfPath);
-        await fs.promises.mkdir(path.dirname(staticPdfPath), { recursive: true });
-        await fs.promises.copyFile(pdfFile.path, staticPdfPath);
-        await fs.promises.unlink(pdfFile.path); // Clean up temp file
-        pdfUrl = `/${pdfPath}`;
+        
+        try {
+          await fs.promises.copyFile(pdfFile.path, staticPdfPath);
+          await fs.promises.unlink(pdfFile.path);
+          pdfUrl = `/${pdfPath}`;
+          console.log("✅ PDF salvo:", pdfUrl);
+        } catch (fileError) {
+          console.error("❌ Erro ao salvar PDF:", fileError);
+        }
       }
 
       // Process image upload
-      if (files.image && files.image[0]) {
+      if (files && files.image && files.image[0]) {
         const imageFile = files.image[0];
         const imagePath = `projects/img_${Date.now()}_${imageFile.originalname}`;
-        // Move file to static directory for serving
         const staticImagePath = path.join(process.cwd(), 'static', imagePath);
-        await fs.promises.mkdir(path.dirname(staticImagePath), { recursive: true });
-        await fs.promises.copyFile(imageFile.path, staticImagePath);
-        await fs.promises.unlink(imageFile.path); // Clean up temp file
-        imageUrl = `/${imagePath}`;
+        
+        try {
+          await fs.promises.copyFile(imageFile.path, staticImagePath);
+          await fs.promises.unlink(imageFile.path);
+          imageUrl = `/${imagePath}`;
+          console.log("✅ Imagem salva:", imageUrl);
+        } catch (fileError) {
+          console.error("❌ Erro ao salvar imagem:", fileError);
+        }
       }
 
-      const result = await db.insert(projects).values({
-        title: req.body.title || null,
+      // Validate required fields
+      if (!req.body.title || !req.body.revenue) {
+        return res.status(400).json({ 
+          error: "Título e receita são obrigatórios",
+          missing: {
+            title: !req.body.title,
+            revenue: !req.body.revenue
+          }
+        });
+      }
+
+      const projectData = {
+        title: req.body.title,
         description: req.body.description || null,
         links: req.body.links || null,
         pdfUrl,
         imageUrl,
-        revenue: req.body.revenue || null,
-      }).returning();
+        revenue: req.body.revenue,
+      };
+
+      console.log("💾 Inserindo projeto no banco:", projectData);
+      
+      const result = await db.insert(projects).values(projectData).returning();
 
       console.log("✅ Projeto criado com sucesso:", result[0]);
-      res.json(result[0]);
+      res.status(201).json(result[0]);
     } catch (error) {
-      console.error("Error creating project:", error);
-      res.status(500).json({ error: "Failed to create project" });
+      console.error("❌ Erro ao criar projeto:", error);
+      console.error("Stack trace:", error.stack);
+      res.status(500).json({ 
+        error: "Failed to create project",
+        details: error.message 
+      });
     }
   });
 

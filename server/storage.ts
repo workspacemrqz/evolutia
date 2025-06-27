@@ -56,12 +56,18 @@ export class DatabaseStorage implements IStorage {
     return user;
   }
 
-  async createDiagnosticResponse(data: InsertDiagnosticResponse | PartialDiagnosticResponse): Promise<DiagnosticResponse> {
+  async createDiagnosticResponse(
+    response: InsertDiagnosticResponse | PartialDiagnosticResponse
+  ): Promise<DiagnosticResponse> {
     const [diagnosticResponse] = await db
       .insert(diagnosticResponses)
-      .values(data)
+      .values(response)
       .returning();
     return diagnosticResponse;
+  }
+
+  async deleteDiagnosticResponse(id: number): Promise<void> {
+    await db.delete(diagnosticResponses).where(eq(diagnosticResponses.id, id));
   }
 
   async getAllDiagnosticResponses(): Promise<DiagnosticResponse[]> {
