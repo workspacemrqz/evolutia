@@ -4,6 +4,26 @@ import { Send, Minimize2, Maximize2, X, Mic, MicOff, Bot, User, Play, Pause, Mes
 
 export default function ChatWidget() {
   const [isExpanded, setIsExpanded] = useState(false);
+
+  // Add custom CSS for shimmer animation
+  React.useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+      }
+      @keyframes wave {
+        0%, 100% { transform: scaleY(1); }
+        50% { transform: scaleY(1.5); }
+      }
+      .audio-wave {
+        animation: wave 1.5s ease-in-out infinite;
+      }
+    `;
+    document.head.appendChild(style);
+    return () => document.head.removeChild(style);
+  }, []);
   const [messages, setMessages] = useState<Array<{
     id: number;
     sender: 'user' | 'bot';
@@ -253,36 +273,51 @@ export default function ChatWidget() {
 
   // Audio player component
   const AudioPlayer = ({ messageId, audioBlob }: { messageId: number; audioBlob: Blob }) => {
-    const progress = audioProgress[messageId] || 0;
-    const duration = audioDuration[messageId] || 0;
-    const isPlaying = playingAudio === messageId;
-    const progressPercentage = duration > 0 ? (progress / duration) * 100 : 0;
-
     return (
-      <div className="bg-gray-700 rounded-lg p-3 w-48 max-w-full">
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => playAudio(messageId, audioBlob)}
-            className="w-8 h-8 rounded-full bg-blue-500 hover:bg-blue-600 flex items-center justify-center transition-colors"
-          >
-            {isPlaying ? (
-              <Pause size={14} className="text-white" />
-            ) : (
-              <Play size={14} className="text-white ml-0.5" />
-            )}
-          </button>
-          <div className="flex-1">
-            <div className="relative h-1 bg-gray-600 rounded-full overflow-hidden">
-              <div 
-                className="absolute top-0 left-0 h-full bg-blue-500 transition-all duration-100"
-                style={{ width: `${progressPercentage}%` }}
-              />
-            </div>
-            <div className="text-xs text-gray-300 mt-1">
-              {formatTime(progress)} / {formatTime(duration)}
-            </div>
+      <div className="bg-gradient-to-r from-gray-800 to-gray-700 rounded-lg p-4 w-56 max-w-full relative overflow-hidden">
+        {/* Glow effect background */}
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-lg animate-pulse"></div>
+        
+        {/* Audio waves container */}
+        <div className="relative flex items-center justify-center gap-1 h-12 mb-2">
+          {/* Audio wave bars */}
+          {[...Array(20)].map((_, i) => (
+            <div
+              key={i}
+              className="bg-gradient-to-t from-blue-400 to-blue-600 rounded-full animate-pulse"
+              style={{
+                width: '3px',
+                height: `${Math.random() * 30 + 10}px`,
+                animationDelay: `${i * 0.1}s`,
+                animationDuration: `${0.8 + Math.random() * 0.4}s`
+              }}
+            />
+          ))}
+        </div>
+        
+        {/* Animated progress indicator */}
+        <div className="relative">
+          <div className="h-2 bg-gray-600 rounded-full overflow-hidden">
+            <div className="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500 rounded-full animate-pulse bg-[length:200%_100%] animate-[shimmer_2s_infinite]"></div>
+          </div>
+          
+          {/* Floating audio icon */}
+          <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center animate-bounce">
+            <div className="w-2 h-2 bg-white rounded-full animate-ping"></div>
           </div>
         </div>
+        
+        {/* Audio label with glow */}
+        <div className="text-center mt-2">
+          <span className="text-xs text-blue-300 font-medium animate-pulse">
+            🎵 Mensagem de Áudio
+          </span>
+        </div>
+        
+        {/* Particle effects */}
+        <div className="absolute top-2 left-2 w-1 h-1 bg-blue-400 rounded-full animate-ping opacity-75"></div>
+        <div className="absolute top-4 right-3 w-1 h-1 bg-purple-400 rounded-full animate-ping opacity-75" style={{animationDelay: '0.5s'}}></div>
+        <div className="absolute bottom-3 left-4 w-1 h-1 bg-blue-300 rounded-full animate-ping opacity-75" style={{animationDelay: '1s'}}></div>
       </div>
     );
   };
