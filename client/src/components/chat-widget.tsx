@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Minimize2, Maximize2, X, Mic, MicOff, Bot, User, Play, Pause, MessageCircle } from "lucide-react";
 
@@ -6,7 +6,7 @@ export default function ChatWidget() {
   const [isExpanded, setIsExpanded] = useState(false);
 
   // Add custom CSS for shimmer animation
-  React.useEffect(() => {
+  useEffect(() => {
     const style = document.createElement('style');
     style.textContent = `
       @keyframes shimmer {
