@@ -388,7 +388,7 @@ export default function ChatWidget() {
                                 <div className="mt-3 w-full flex justify-center">
                                   <button
                                     onClick={openWhatsApp}
-                                    className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20B954] text-white px-4 py-3 rounded-lg text-sm font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg animate-pulse"
+                                    className="w-full flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20B954] text-white px-4 py-3 rounded-lg text-sm font-semibold transition-colors duration-300"
                                   >
                                     <svg 
                                       className="w-4 h-4" 
