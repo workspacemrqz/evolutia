@@ -1,0 +1,84 @@
+[root@srv856338 public_html]# git fetch --prune origin
+rm -f .git/packed-refs
+git fetch origin
+git reset --hard origin/main
+git pull origin main
+
+pm2 delete evolut-site
+npm run build
+pm2 start ecosystem.config.cjs
+systemctl reload lsws
+pm2 status
+remote: Enumerating objects: 16, done.
+remote: Counting objects: 100% (16/16), done.
+remote: Compressing objects: 100% (4/4), done.
+remote: Total 10 (delta 6), reused 10 (delta 6), pack-reused 0 (from 0)
+Unpacking objects: 100% (10/10), 2.82 KiB | 361.00 KiB/s, done.
+From github.com:workspacemrqz/evolutia
+   c3262378..3119bca4  main       -> origin/main
+HEAD is now at 3119bca4 Assistant checkpoint: Fix syntax error in admin page
+From github.com:workspacemrqz/evolutia
+ * branch              main       -> FETCH_HEAD
+Already up to date.
+[PM2] Applying action deleteProcessId on app [evolut-site](ids: [ 173 ])
+[PM2] [evolut-site](173) ✓
+┌─────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id  │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├─────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19  │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.9mb  │
+│ 142 │ rotacaicara        │ fork     │ 0    │ online    │ 0%       │ 98.0mb   │
+│ 141 │ tempo-real         │ fork     │ 0    │ online    │ 0%       │ 106.0mb  │
+│ 151 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 32.1mb   │
+└─────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+
+> rest-express@1.0.0 build
+> vite build
+
+vite v5.4.14 building for production...
+transforming (1) index.htmlBrowserslist: browsers data (caniuse-lite) is 8 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+✓ 11 modules transformed.
+x Build failed in 1.57s
+error during build:
+[vite:esbuild] Transform failed with 1 error:
+/home/evolutiaoficial.com/public_html/client/src/pages/admin-page.tsx:1032:35: ERROR: Unexpected end of file before a closing "Tabs" tag
+file: /home/evolutiaoficial.com/public_html/client/src/pages/admin-page.tsx:1032:35
+
+Unexpected end of file before a closing "Tabs" tag
+1030|            </TabsContent>
+1031|  
+1032|          {/* Detailed View Modal */}
+   |                                     ^
+
+    at failureErrorWithLog (/home/evolutiaoficial.com/public_html/node_modules/vite/node_modules/esbuild/lib/main.js:1472:15)
+    at /home/evolutiaoficial.com/public_html/node_modules/vite/node_modules/esbuild/lib/main.js:755:50
+    at responseCallbacks.<computed> (/home/evolutiaoficial.com/public_html/node_modules/vite/node_modules/esbuild/lib/main.js:622:9)
+    at handleIncomingPacket (/home/evolutiaoficial.com/public_html/node_modules/vite/node_modules/esbuild/lib/main.js:677:12)
+    at Socket.readFromStdout (/home/evolutiaoficial.com/public_html/node_modules/vite/node_modules/esbuild/lib/main.js:600:7)
+    at Socket.emit (node:events:524:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at Pipe.onStreamRead (node:internal/stream_base_commons:191:23)
+[PM2][WARN] Applications evolut-site not running, starting...
+[PM2] App [evolut-site] launched (1 instances)
+┌─────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id  │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├─────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19  │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.8mb  │
+│ 174 │ evolut-site        │ fork     │ 0    │ online    │ 0%       │ 19.1mb   │
+│ 142 │ rotacaicara        │ fork     │ 0    │ online    │ 0%       │ 98.0mb   │
+│ 141 │ tempo-real         │ fork     │ 0    │ online    │ 0%       │ 106.0mb  │
+│ 151 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 32.1mb   │
+└─────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+┌─────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id  │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├─────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19  │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.9mb  │
+│ 174 │ evolut-site        │ fork     │ 0    │ online    │ 0%       │ 73.0mb   │
+│ 142 │ rotacaicara        │ fork     │ 0    │ online    │ 0%       │ 98.0mb   │
+│ 141 │ tempo-real         │ fork     │ 0    │ online    │ 0%       │ 106.4mb  │
+│ 151 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 32.1mb   │
+└─────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[root@srv856338 public_html]# 
