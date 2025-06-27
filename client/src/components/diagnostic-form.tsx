@@ -68,7 +68,7 @@ export default function DiagnosticForm({ onClose }: { onClose: () => void }) {
         description: "Redirecionando para agendamento...",
       });
       setTimeout(() => {
-        window.open("https://wa.me/12974041539", "_blank");
+        window.open("https://wa.me/556299004295", "_blank");
         onClose();
       }, 1500);
     },

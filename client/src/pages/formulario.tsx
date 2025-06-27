@@ -57,7 +57,7 @@ function FormularioPage() {
     onSuccess: () => {
       alert('Diagnóstico enviado com sucesso! Redirecionando para agendamento...');
       setTimeout(() => {
-        window.open('https://wa.me/12974041539', '_blank');
+        window.open('https://wa.me/556299004295', '_blank');
       }, 1500);
     },
     onError: () => {

@@ -51,7 +51,9 @@ export default function Footer() {
           </p>
           <div className="flex justify-center space-x-6 mb-8">
             <motion.a 
-              href="#" 
+              href="http://wa.me/556299004295" 
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-[#BCBCBC] hover:text-white transition-colors"
               whileHover={{ scale: 1.2, y: -2 }}
             >
