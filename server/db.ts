@@ -47,8 +47,8 @@ export const projects = pgTable("projects", {
   title: text("title").notNull(),
   description: text("description"),
   links: text("links"),
-  pdfPath: text("pdf_path"),
-  imagePath: text("image_path"),
+  pdfUrl: text("pdf_url"),
+  imageUrl: text("image_url"),
   revenue: text("revenue").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
 });
