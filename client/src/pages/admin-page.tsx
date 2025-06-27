@@ -25,6 +25,7 @@ import { Label } from "@/components/ui/label";
 import { Loader2, LogOut, Download, Eye, Trash2, Plus, DollarSign } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { useState } from "react";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function AdminPage() {
   const { user, logoutMutation } = useAuth();
@@ -860,14 +861,15 @@ export default function AdminPage() {
                       <Label htmlFor="description" className="text-white">
                         Descrição
                       </Label>
-                      <Input
+                      <Textarea
                         id="description"
                         value={newProject.description}
                         onChange={(e) =>
                           setNewProject({ ...newProject, description: e.target.value })
                         }
                         className="bg-gray-900 border-gray-600 text-white"
-                        placeholder="Descrição do projeto                      />
+                        placeholder="Descrição do projeto"
+                      />
                     </div>
                     <div className="mb-4">
                       <Label htmlFor="links" className="text-white">
