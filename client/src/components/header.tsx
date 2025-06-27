@@ -16,9 +16,9 @@ export default function Header() {
   return (
     <header className="w-full z-50 px-4 sm:px-6 lg:px-8 py-4 mt-8">
       {/* Header Capsule Container */}
-      <div className="max-w-7xl mx-auto bg-[#0a0a0a]/95 backdrop-blur-md border border-gray-800/50 rounded-2xl shadow-xl">
+      <div className="max-w-7xl mx-auto bg-[#0a0a0a]/95 backdrop-blur-md border border-gray-800/50 rounded-full shadow-xl">
         {/* Dotted Texture Background */}
-        <div className="absolute inset-0 opacity-20 pointer-events-none rounded-2xl" 
+        <div className="absolute inset-0 opacity-20 pointer-events-none rounded-full" 
              style={{
                backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.1) 1px, transparent 0)',
                backgroundSize: '20px 20px'
@@ -115,7 +115,7 @@ export default function Header() {
       {/* Mobile Navigation */}
       {mobileMenuOpen && (
         <div className="md:hidden mt-4 px-4">
-          <div className="bg-[#0a0a0a]/95 backdrop-blur-md border border-gray-800/50 rounded-2xl p-4 space-y-3">
+          <div className="bg-[#0a0a0a]/95 backdrop-blur-md border border-gray-800/50 rounded-full p-4 space-y-3">
             <button 
               onClick={() => scrollToSection("agentes")} 
               className="block w-full text-left px-4 py-3 text-white/90 hover:text-[#1E90FF] transition-colors duration-300 font-medium rounded-lg hover:bg-white/5"
