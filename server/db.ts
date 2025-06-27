@@ -35,6 +35,7 @@ export const responses = pgTable("responses", {
 export const expenses = pgTable("expenses", {
   id: serial("id").primaryKey(),
   item: text("item").notNull(),
+  description: text("description"),
   value: numeric("value", { precision: 10, scale: 2 }).notNull(),
   paidBy: text("paid_by").notNull(),
   createdAt: timestamp("created_at").defaultNow(),

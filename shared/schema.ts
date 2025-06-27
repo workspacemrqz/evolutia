@@ -54,7 +54,8 @@ export const loginSchema = z.object({
 
 export const expenseSchema = z.object({
   item: z.string().min(1, "Item é obrigatório"),
-  value: z.number().min(0.01, "Valor deve ser maior que 0"),
+  description: z.string().optional(),
+  value: z.string().min(1, "Valor é obrigatório"),
   paidBy: z.string().min(1, "Responsável pelo pagamento é obrigatório"),
 });
 

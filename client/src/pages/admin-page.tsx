@@ -32,6 +32,7 @@ export default function AdminPage() {
     useState<DiagnosticResponse | null>(null);
   const [newExpense, setNewExpense] = useState({
     item: "",
+    description: "",
     value: "",
     paidBy: "",
   });
@@ -85,7 +86,7 @@ export default function AdminPage() {
   });
 
   const createExpenseMutation = useMutation({
-    mutationFn: async (expense: { item: string; value: number; paidBy: string }) => {
+    mutationFn: async (expense: { item: string; description: string, value: number; paidBy: string }) => {
       const response = await apiRequest("POST", "/api/admin/expenses", expense);
       if (!response.ok) {
         const error = await response.json();
@@ -95,7 +96,7 @@ export default function AdminPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/expenses"] });
-      setNewExpense({ item: "", value: "", paidBy: "" });
+      setNewExpense({ item: "", description: "", value: "", paidBy: "" });
       setShowExpenseForm(false);
     },
   });
@@ -162,6 +163,7 @@ export default function AdminPage() {
     }
     createExpenseMutation.mutate({
       item: newExpense.item,
+      description: newExpense.description,
       value,
       paidBy: newExpense.paidBy,
     });
@@ -217,7 +219,7 @@ export default function AdminPage() {
   const exportExpensesToCSV = () => {
     if (!expenses || expenses.length === 0) return;
 
-    const headers = ["Data", "Item", "Valor", "Pago por"];
+    const headers = ["Data", "Item", "Descrição", "Valor", "Responsável"];
 
     const csvContent = [
       headers.join(","),
@@ -225,6 +227,7 @@ export default function AdminPage() {
         [
           new Date(expense.createdAt).toLocaleDateString("pt-BR"),
           `"${expense.item}"`,
+          `"${expense.description || ''}"`,
           `"R$ ${parseFloat(expense.value.toString()).toFixed(2).replace('.', ',')}"`,
           `"${expense.paidBy}"`,
         ].join(","),
@@ -516,74 +519,103 @@ export default function AdminPage() {
                 </div>
               </CardHeader>
               <CardContent>
-                {/* Add Expense Form */}
+                {/* Expense Form */}
                 {showExpenseForm && (
-                  <Card className="bg-gray-800 border-gray-700 mb-6">
-                    <CardHeader>
-                      <CardTitle className="text-white text-lg">Adicionar Novo Gasto</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <form onSubmit={handleCreateExpense} className="space-y-4">
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                          <div>
-                            <Label htmlFor="item" className="text-white">Item/Descrição</Label>
-                            <Input
-                              id="item"
-                              type="text"
-                              value={newExpense.item}
-                              onChange={(e) => setNewExpense({ ...newExpense, item: e.target.value })}
-                              className="bg-gray-700 border-gray-600 text-white"
-                              placeholder="Ex: Computador, Software, etc."
-                              required
-                            />
-                          </div>
-                          <div>
-                            <Label htmlFor="value" className="text-white">Valor (R$)</Label>
-                            <Input
-                              id="value"
-                              type="number"
-                              step="0.01"
-                              min="0.01"
-                              value={newExpense.value}
-                              onChange={(e) => setNewExpense({ ...newExpense, value: e.target.value })}
-                              className="bg-gray-700 border-gray-600 text-white"
-                              placeholder="0,00"
-                              required
-                            />
-                          </div>
-                          <div>
-                            <Label htmlFor="paidBy" className="text-white">Pago por</Label>
-                            <Input
-                              id="paidBy"
-                              type="text"
-                              value={newExpense.paidBy}
-                              onChange={(e) => setNewExpense({ ...newExpense, paidBy: e.target.value })}
-                              className="bg-gray-700 border-gray-600 text-white"
-                              placeholder="Nome da pessoa"
-                              required
-                            />
-                          </div>
-                        </div>
-                        <div className="flex gap-2">
-                          <Button 
-                            type="submit" 
-                            className="bg-green-600 hover:bg-green-700"
-                            disabled={createExpenseMutation.isPending}
-                          >
-                            {createExpenseMutation.isPending ? "Salvando..." : "Salvar Gasto"}
-                          </Button>
-                          <Button 
-                            type="button" 
-                            variant="outline"
-                            onClick={() => setShowExpenseForm(false)}
-                            className="bg-gray-700 border-gray-600 text-white hover:bg-gray-600"
-                          >
-                            Cancelar
-                          </Button>
-                        </div>
-                      </form>
-                    </CardContent>
-                  </Card>
+                  <form
+                    onSubmit={handleCreateExpense}
+                    className="bg-gray-800 p-6 rounded-lg border border-gray-700 mb-6"
+                  >
+                    <h3 className="text-white text-lg font-semibold mb-4">
+                      Registrar Novo Gasto
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                      <div>
+                        <Label htmlFor="item" className="text-white">
+                          Nome do Item
+                        </Label>
+                        <Input
+                          id="item"
+                          value={newExpense.item}
+                          onChange={(e) =>
+                            setNewExpense({ ...newExpense, item: e.target.value })
+                          }
+                          className="bg-gray-900 border-gray-600 text-white"
+                          placeholder="Nome do item ou serviço"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="value" className="text-white">
+                          Valor (R$)
+                        </Label>
+                        <Input
+                          id="value"
+                          type="number"
+                          step="0.01"
+                          value={newExpense.value}
+                          onChange={(e) =>
+                            setNewExpense({ ...newExpense, value: e.target.value })
+                          }
+                          className="bg-gray-900 border-gray-600 text-white"
+                          placeholder="0,00"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div className="mb-4">
+                      <Label htmlFor="description" className="text-white">
+                        Descrição (opcional)
+                      </Label>
+                      <Input
+                        id="description"
+                        value={newExpense.description}
+                        onChange={(e) =>
+                          setNewExpense({ ...newExpense, description: e.target.value })
+                        }
+                        className="bg-gray-900 border-gray-600 text-white"
+                        placeholder="Detalhes sobre o item ou serviço"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <Label htmlFor="paidBy" className="text-white">
+                        Responsável pelo Pagamento
+                      </Label>
+                      <Input
+                        id="paidBy"
+                        value={newExpense.paidBy}
+                        onChange={(e) =>
+                          setNewExpense({ ...newExpense, paidBy: e.target.value })
+                        }
+                        className="bg-gray-900 border-gray-600 text-white"
+                        placeholder="Nome do responsável"
+                        required
+                      />
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        type="submit"
+                        disabled={createExpenseMutation.isPending}
+                        className="bg-green-600 hover:bg-green-700 text-white"
+                      >
+                        {createExpenseMutation.isPending ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          "Registrar Gasto"
+                        )}
+                      </Button>
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          setShowExpenseForm(false);
+                          setNewExpense({ item: "", description: "", value: "", paidBy: "" });
+                        }}
+                        variant="outline"
+                        className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700"
+                      >
+                        Cancelar
+                      </Button>
+                    </div>
+                  </form>
                 )}
 
                 {/* Expenses Summary */}
@@ -643,6 +675,9 @@ export default function AdminPage() {
                         <div className="flex justify-between items-start">
                           <div className="flex-1">
                             <h3 className="text-white font-semibold text-lg">{expense.item}</h3>
+                            {expense.description && (
+                              <p className="text-gray-300 text-sm mt-1">{expense.description}</p>
+                            )}
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2 text-sm">
                               <div>
                                 <span className="text-gray-400">Valor:</span>
@@ -651,7 +686,7 @@ export default function AdminPage() {
                                 </p>
                               </div>
                               <div>
-                                <span className="text-gray-400">Pago por:</span>
+                                <span className="text-gray-400">Responsável:</span>
                                 <p className="text-white">{expense.paidBy}</p>
                               </div>
                               <div>
