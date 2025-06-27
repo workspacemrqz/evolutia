@@ -1,0 +1,365 @@
+[root@srv856338 public_html]# export DATABASE_URL="postgresql://evolut:%40Workspacen8n@31.97.30.149:5432/EvolutIA"
+[root@srv856338 public_html]# psql "$DATABASE_URL" -c '\q'
+[root@srv856338 public_html]# cd /home/evolutiaoficial.com/public_html
+node database-diagnosis.js
+🔍 DATABASE_URL: postgresql://evolut:***@31.97.30.149:5432/EvolutIA
+🔧 Iniciando diagnóstico completo do banco...
+
+1️⃣ Testando conexão básica...
+✅ Conexão estabelecida com sucesso!
+
+2️⃣ Listando tabelas existentes...
+📋 Tabelas encontradas:
+  - diagnostic_responses
+  - expenses
+  - projects
+  - session
+  - super_admins
+  - users
+
+3️⃣ Estrutura da tabela 'projects'...
+📊 Colunas da tabela 'projects':
+  - id: integer (not null) [default: nextval('projects_id_seq'::regclass)]
+  - title: text (not null) 
+  - description: text (nullable) 
+  - links: text (nullable) 
+  - pdf_url: text (nullable) 
+  - image_url: text (nullable) 
+  - revenue: text (not null) 
+  - created_at: timestamp without time zone (nullable) [default: now()]
+
+📈 Total de projetos: 0
+
+4️⃣ Estrutura da tabela 'expenses'...
+📊 Colunas da tabela 'expenses':
+  - id: integer (not null) [default: nextval('expenses_id_seq'::regclass)]
+  - item: text (not null) 
+  - value: numeric (not null) 
+  - paid_by: text (not null) 
+  - created_at: timestamp without time zone (nullable) [default: now()]
+  - description: text (nullable) 
+  - project_id: integer (nullable) 
+
+📈 Total de gastos: 0
+
+5️⃣ Verificando colunas obrigatórias...
+🔍 Verificação colunas 'projects':
+  ✅ id
+  ✅ title
+  ✅ description
+  ✅ revenue
+  ✅ pdf_url
+  ✅ image_url
+  ✅ created_at
+
+🔍 Verificação colunas 'expenses':
+  ✅ id
+  ✅ item
+  ✅ description
+  ✅ value
+  ✅ paid_by
+  ✅ project_id
+  ✅ created_at
+
+6️⃣ Testando operações de inserção...
+✅ Inserção de projeto funcionando!
+✅ Deleção de projeto funcionando!
+✅ Inserção de gasto funcionando!
+✅ Deleção de gasto funcionando!
+
+🎉 Diagnóstico completo finalizado!
+[root@srv856338 public_html]# node fix-complete-database.js
+🔧 Corrigindo/criando estrutura completa do banco...
+
+1️⃣ Criando/corrigindo tabela 'projects'...
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42P07',
+  message: 'relation "projects" already exists, skipping',
+  file: 'parse_utilcmd.c',
+  line: '217',
+  routine: 'transformCreateStmt'
+}
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42701',
+  message: 'column "title" of relation "projects" already exists, skipping',
+  file: 'tablecmds.c',
+  line: '6807',
+  routine: 'check_for_column_name_collision'
+}
+✅ Coluna 'title' verificada
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42701',
+  message: 'column "description" of relation "projects" already exists, skipping',
+  file: 'tablecmds.c',
+  line: '6807',
+  routine: 'check_for_column_name_collision'
+}
+✅ Coluna 'description' verificada
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42701',
+  message: 'column "links" of relation "projects" already exists, skipping',
+  file: 'tablecmds.c',
+  line: '6807',
+  routine: 'check_for_column_name_collision'
+}
+✅ Coluna 'links' verificada
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42701',
+  message: 'column "pdf_url" of relation "projects" already exists, skipping',
+  file: 'tablecmds.c',
+  line: '6807',
+  routine: 'check_for_column_name_collision'
+}
+✅ Coluna 'pdf_url' verificada
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42701',
+  message: 'column "image_url" of relation "projects" already exists, skipping',
+  file: 'tablecmds.c',
+  line: '6807',
+  routine: 'check_for_column_name_collision'
+}
+✅ Coluna 'image_url' verificada
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42701',
+  message: 'column "revenue" of relation "projects" already exists, skipping',
+  file: 'tablecmds.c',
+  line: '6807',
+  routine: 'check_for_column_name_collision'
+}
+✅ Coluna 'revenue' verificada
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42701',
+  message: 'column "created_at" of relation "projects" already exists, skipping',
+  file: 'tablecmds.c',
+  line: '6807',
+  routine: 'check_for_column_name_collision'
+}
+✅ Coluna 'created_at' verificada
+
+2️⃣ Criando/corrigindo tabela 'expenses'...
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42P07',
+  message: 'relation "expenses" already exists, skipping',
+  file: 'parse_utilcmd.c',
+  line: '217',
+  routine: 'transformCreateStmt'
+}
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42701',
+  message: 'column "item" of relation "expenses" already exists, skipping',
+  file: 'tablecmds.c',
+  line: '6807',
+  routine: 'check_for_column_name_collision'
+}
+✅ Coluna 'item' verificada
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42701',
+  message: 'column "description" of relation "expenses" already exists, skipping',
+  file: 'tablecmds.c',
+  line: '6807',
+  routine: 'check_for_column_name_collision'
+}
+✅ Coluna 'description' verificada
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42701',
+  message: 'column "value" of relation "expenses" already exists, skipping',
+  file: 'tablecmds.c',
+  line: '6807',
+  routine: 'check_for_column_name_collision'
+}
+✅ Coluna 'value' verificada
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42701',
+  message: 'column "paid_by" of relation "expenses" already exists, skipping',
+  file: 'tablecmds.c',
+  line: '6807',
+  routine: 'check_for_column_name_collision'
+}
+✅ Coluna 'paid_by' verificada
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42701',
+  message: 'column "project_id" of relation "expenses" already exists, skipping',
+  file: 'tablecmds.c',
+  line: '6807',
+  routine: 'check_for_column_name_collision'
+}
+✅ Coluna 'project_id' verificada
+{
+  severity_local: 'NOTICE',
+  severity: 'NOTICE',
+  code: '42701',
+  message: 'column "created_at" of relation "expenses" already exists, skipping',
+  file: 'tablecmds.c',
+  line: '6807',
+  routine: 'check_for_column_name_collision'
+}
+✅ Coluna 'created_at' verificada
+
+3️⃣ Criando/corrigindo tabela 'responses'...
+✅ Tabela 'responses' verificada
+
+4️⃣ Verificando estruturas finais...
+
+📊 Estrutura final da tabela 'projects':
+  - id: integer (not null)
+  - title: text (not null)
+  - description: text (nullable)
+  - links: text (nullable)
+  - pdf_url: text (nullable)
+  - image_url: text (nullable)
+  - revenue: text (not null)
+  - created_at: timestamp without time zone (nullable)
+📈 Total de registros: 0
+
+📊 Estrutura final da tabela 'expenses':
+  - id: integer (not null)
+  - item: text (not null)
+  - value: numeric (not null)
+  - paid_by: text (not null)
+  - created_at: timestamp without time zone (nullable)
+  - description: text (nullable)
+  - project_id: integer (nullable)
+📈 Total de registros: 0
+
+📊 Estrutura final da tabela 'responses':
+  - id: integer (not null)
+  - name: text (not null)
+  - email: text (not null)
+  - phone: text (not null)
+  - company: text (not null)
+  - position: text (not null)
+  - custom_position: text (nullable)
+  - revenue: text (not null)
+  - employees: text (not null)
+  - erp: text (not null)
+  - areas: text (not null)
+  - time_consuming_process: text (not null)
+  - lost_opportunities: text (not null)
+  - source: text (nullable)
+  - status: text (nullable)
+  - created_at: timestamp without time zone (nullable)
+📈 Total de registros: 0
+
+🎉 Estrutura do banco corrigida com sucesso!
+[root@srv856338 public_html]# ls -la uploads/ static/
+chmod 755 uploads/ static/ static/projects/ 2>/dev/null || true
+chown -R evolu6905:evolu6905 uploads/ static/ 2>/dev/null || true
+static/:
+total 100
+drwxr-xr-x  3 evolu6905 evolu6905   171 Jun 27 20:14 .
+drwxr-xr-x 14 evolu6905 evolu6905  4096 Jun 27 20:15 ..
+-rw-r--r--  1 evolu6905 evolu6905 35588 Jun 27 20:14 index.html
+-rw-r--r--  1 evolu6905 evolu6905  8736 Jun 27 20:14 lgpd.html
+-rw-r--r--  1 evolu6905 evolu6905  6856 Jun 27 20:14 politica-de-privacidade.html
+drwxr-xr-x  2 evolu6905 evolu6905     6 Jun 27 19:06 projects
+-rw-r--r--  1 evolu6905 evolu6905  4074 Jun 27 20:14 README.md
+-rw-r--r--  1 evolu6905 evolu6905 14544 Jun 27 20:14 script.js
+-rw-r--r--  1 evolu6905 evolu6905 11142 Jun 27 20:14 styles.css
+-rw-r--r--  1 evolu6905 evolu6905  5461 Jun 27 20:14 termos-de-uso.html
+
+uploads/:
+total 4
+drwxr-xr-x  2 evolu6905 evolu6905    6 Jun 27 19:06 .
+drwxr-xr-x 14 evolu6905 evolu6905 4096 Jun 27 20:15 ..
+[root@srv856338 public_html]# npm run build
+pm2 restart evolut-site --update-env
+
+> rest-express@1.0.0 build
+> vite build
+
+vite v5.4.14 building for production...
+transforming (1) index.htmlBrowserslist: browsers data (caniuse-lite) is 8 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+✓ 2074 modules transformed.
+../dist/public/index.html                   2.66 kB │ gzip:   1.29 kB
+../dist/public/assets/index-FT9m3RBD.css   93.51 kB │ gzip:  15.51 kB
+../dist/public/assets/index-ODSxeFPT.js   545.01 kB │ gzip: 166.36 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 5.94s
+[PM2] Applying action restartProcessId on app [evolut-site](ids: [ 182 ])
+[PM2] [evolut-site](182) ✓
+┌─────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id  │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├─────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19  │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.9mb  │
+│ 182 │ evolut-site        │ fork     │ 5    │ online    │ 0%       │ 27.3mb   │
+│ 142 │ rotacaicara        │ fork     │ 0    │ online    │ 0%       │ 98.0mb   │
+│ 141 │ tempo-real         │ fork     │ 0    │ online    │ 0%       │ 106.4mb  │
+│ 151 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 32.1mb   │
+└─────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[root@srv856338 public_html]# pm2 logs evolut-site --lines 20
+[TAILING] Tailing last 20 lines for [evolut-site] process (change the value with --lines option)
+/var/log/pm2/evolut-site-error-182.log last 20 lines:
+182|evolut | 2025-06-27T19:50:11: Warning: connect.session() MemoryStore is not
+182|evolut | 2025-06-27T19:50:11: designed for a production environment, as it will leak
+182|evolut | 2025-06-27T19:50:11: memory, and will not scale past a single process.
+182|evolut | 2025-06-27T19:57:09: Warning: connect.session() MemoryStore is not
+182|evolut | 2025-06-27T19:57:09: designed for a production environment, as it will leak
+182|evolut | 2025-06-27T19:57:09: memory, and will not scale past a single process.
+182|evolut | 2025-06-27T20:08:34: Warning: connect.session() MemoryStore is not
+182|evolut | 2025-06-27T20:08:34: designed for a production environment, as it will leak
+182|evolut | 2025-06-27T20:08:34: memory, and will not scale past a single process.
+182|evolut | 2025-06-27T20:08:50: Warning: connect.session() MemoryStore is not
+182|evolut | 2025-06-27T20:08:50: designed for a production environment, as it will leak
+182|evolut | 2025-06-27T20:08:50: memory, and will not scale past a single process.
+182|evolut | 2025-06-27T20:15:53: Warning: connect.session() MemoryStore is not
+182|evolut | 2025-06-27T20:15:53: designed for a production environment, as it will leak
+182|evolut | 2025-06-27T20:15:53: memory, and will not scale past a single process.
+182|evolut | 2025-06-27T20:16:52: Warning: connect.session() MemoryStore is not
+182|evolut | 2025-06-27T20:16:52: designed for a production environment, as it will leak
+182|evolut | 2025-06-27T20:16:52: memory, and will not scale past a single process.
+
+/var/log/pm2/evolut-site-out-182.log last 20 lines:
+182|evolut | 2025-06-27T19:51:15: Login attempt: { username: 'contato@evolutoficial.com', password: '@Ev0luTi42025' }
+182|evolut | 2025-06-27T19:51:15: Login successful: contato@evolutoficial.com
+182|evolut | 2025-06-27T19:51:15: POST /api/login 200 in 4ms
+182|evolut | 2025-06-27T19:51:15: GET /api/user 304 in 1ms
+182|evolut | 2025-06-27T19:51:15: GET /api/user 304 in 0ms
+182|evolut | 2025-06-27T19:51:15: GET /api/admin/projects 200 in 10ms
+182|evolut | 2025-06-27T19:51:15: GET /api/admin/expenses 200 in 6ms
+182|evolut | 2025-06-27T19:51:15: GET /api/admin/responses 304 in 13ms
+182|evolut | 2025-06-27T19:51:16: GET /api/admin/projects 304 in 1ms
+182|evolut | 2025-06-27T19:51:16: GET /api/admin/expenses 304 in 1ms
+182|evolut | 2025-06-27T19:51:18: GET /api/admin/projects 304 in 2ms
+182|evolut | 2025-06-27T19:51:18: GET /api/admin/expenses 304 in 2ms
+182|evolut | 2025-06-27T19:51:22: GET /api/admin/projects 304 in 1ms
+182|evolut | 2025-06-27T19:51:22: GET /api/admin/expenses 304 in 0ms
+182|evolut | 2025-06-27T19:51:27: POST /api/admin/projects 200 in 2ms
+182|evolut | 2025-06-27T19:57:09: serving on 0.0.0.0:3001
+182|evolut | 2025-06-27T20:08:34: serving on 0.0.0.0:3001
+182|evolut | 2025-06-27T20:08:50: serving on 0.0.0.0:3001
+182|evolut | 2025-06-27T20:15:53: serving on 0.0.0.0:3001
+182|evolut | 2025-06-27T20:16:52: serving on 0.0.0.0:3001
