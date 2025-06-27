@@ -378,16 +378,17 @@ export default function ChatWidget() {
               <div className="flex items-center gap-2 sm:gap-3 bg-gray-900 rounded-lg p-2 sm:p-3">
                 <button
                   onClick={isRecording ? stopRecording : startRecording}
-                  className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
+                  className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 relative ${
                     isRecording 
-                      ? 'bg-red-500 animate-pulse scale-110' 
+                      ? 'bg-red-500 shadow-lg' 
                       : 'bg-gray-700 hover:bg-gray-600'
                   }`}
                 >
                   {isRecording ? (
-                    <div className="flex items-center">
-                      <MicOff size={16} className="text-white" />
-                      <div className="absolute w-3 h-3 bg-red-400 rounded-full animate-ping"></div>
+                    <div className="relative flex items-center justify-center">
+                      <MicOff size={16} className="text-white z-10" />
+                      <div className="absolute inset-0 bg-red-400 rounded-full animate-ping opacity-75"></div>
+                      <div className="absolute inset-0 bg-red-300 rounded-full animate-pulse opacity-50"></div>
                     </div>
                   ) : (
                     <Mic size={16} className="text-white" />
@@ -405,7 +406,11 @@ export default function ChatWidget() {
                 <button
                   onClick={handleTextMessage}
                   disabled={isRecording}
-                  className="w-8 h-8 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center transition-colors disabled:opacity-50"
+                  className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 disabled:opacity-50 ${
+                    inputValue.trim() 
+                      ? 'bg-blue-500 hover:bg-blue-600 shadow-lg scale-105' 
+                      : 'bg-gray-700 hover:bg-gray-600'
+                  }`}
                 >
                   <Send size={16} className="text-white" />
                 </button>
