@@ -69,9 +69,31 @@ export default function Header() {
               {/* Contact Button */}
               <button 
                 onClick={() => scrollToSection("nao-fique-para-tras")} 
-                className="bg-[#1A3B93] hover:bg-[#1E90FF] text-white px-6 py-2.5 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-[#1E90FF]/20 transform hover:scale-105"
+                className="relative bg-[#0a0a0a] hover:bg-[#111111] text-white px-6 py-2.5 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 overflow-hidden"
+                style={{
+                  background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)',
+                  border: '2px solid transparent',
+                  backgroundClip: 'padding-box'
+                }}
               >
-                Começar Agora
+                {/* Animated Laser Border */}
+                <div 
+                  className="absolute inset-0 rounded-xl"
+                  style={{
+                    background: 'linear-gradient(45deg, #224FC4, transparent, #224FC4, transparent, #224FC4)',
+                    backgroundSize: '200% 200%',
+                    animation: 'laser-border 2s linear infinite',
+                    padding: '2px'
+                  }}
+                >
+                  <div 
+                    className="w-full h-full rounded-xl"
+                    style={{
+                      background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)'
+                    }}
+                  />
+                </div>
+                <span className="relative z-10">Começar Agora</span>
               </button>
             </nav>
 
@@ -134,9 +156,31 @@ export default function Header() {
 
             <button 
               onClick={() => scrollToSection("nao-fique-para-tras")} 
-              className="w-full bg-[#1A3B93] hover:bg-[#1E90FF] text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl hover:shadow-[#1E90FF]/20 mt-4"
+              className="relative w-full bg-[#0a0a0a] hover:bg-[#111111] text-white px-6 py-3 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl mt-4 overflow-hidden"
+              style={{
+                background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)',
+                border: '2px solid transparent',
+                backgroundClip: 'padding-box'
+              }}
             >
-              Começar Agora
+              {/* Animated Laser Border */}
+              <div 
+                className="absolute inset-0 rounded-xl"
+                style={{
+                  background: 'linear-gradient(45deg, #224FC4, transparent, #224FC4, transparent, #224FC4)',
+                  backgroundSize: '200% 200%',
+                  animation: 'laser-border 2s linear infinite',
+                  padding: '2px'
+                }}
+              >
+                <div 
+                  className="w-full h-full rounded-xl"
+                  style={{
+                    background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%)'
+                  }}
+                />
+              </div>
+              <span className="relative z-10">Começar Agora</span>
             </button>
           </div>
         </div>
