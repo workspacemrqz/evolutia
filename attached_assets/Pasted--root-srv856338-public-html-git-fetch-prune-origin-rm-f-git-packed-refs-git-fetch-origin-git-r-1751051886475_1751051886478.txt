@@ -1,0 +1,106 @@
+[root@srv856338 public_html]# git fetch --prune origin
+rm -f .git/packed-refs
+git fetch origin
+git reset --hard origin/main
+git pull origin main
+
+npm install multer @types/multer
+
+pm2 delete evolut-site
+npm run build
+pm2 start ecosystem.config.cjs
+systemctl reload lsws
+pm2 status
+remote: Enumerating objects: 39, done.
+remote: Counting objects: 100% (39/39), done.
+remote: Compressing objects: 100% (10/10), done.
+remote: Total 29 (delta 18), reused 28 (delta 17), pack-reused 0 (from 0)
+Unpacking objects: 100% (29/29), 117.50 KiB | 491.00 KiB/s, done.
+From github.com:workspacemrqz/evolutia
+   9f874173..755ffaca  main       -> origin/main
+HEAD is now at 755ffaca Assistant checkpoint: Add project selection to expenses and display in projects
+From github.com:workspacemrqz/evolutia
+ * branch              main       -> FETCH_HEAD
+Already up to date.
+
+changed 11 packages, and audited 497 packages in 4s
+
+67 packages are looking for funding
+  run `npm fund` for details
+
+7 vulnerabilities (1 low, 6 moderate)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+npm notice
+npm notice New major version of npm available! 10.8.2 -> 11.4.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.4.2
+npm notice To update run: npm install -g npm@11.4.2
+npm notice
+[PM2] Applying action deleteProcessId on app [evolut-site](ids: [ 176 ])
+[PM2] [evolut-site](176) ✓
+┌─────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id  │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├─────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19  │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.5mb  │
+│ 142 │ rotacaicara        │ fork     │ 0    │ online    │ 0%       │ 98.0mb   │
+│ 141 │ tempo-real         │ fork     │ 0    │ online    │ 0%       │ 106.4mb  │
+│ 151 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 32.1mb   │
+└─────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+
+> rest-express@1.0.0 build
+> vite build
+
+vite v5.4.14 building for production...
+transforming (2) ../vite/modulepreload-polyfill.jsBrowserslist: browsers data (caniuse-lite) is 8 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+✓ 8 modules transformed.
+x Build failed in 1.50s
+error during build:
+[vite:esbuild] Transform failed with 1 error:
+/home/evolutiaoficial.com/public_html/client/src/pages/admin-page.tsx:1374:1: ERROR: Unterminated string literal
+file: /home/evolutiaoficial.com/public_html/client/src/pages/admin-page.tsx:1374:1
+
+Unterminated string literal
+1372|      }
+1373|    };
+1374|  }
+   |   ^
+
+    at failureErrorWithLog (/home/evolutiaoficial.com/public_html/node_modules/vite/node_modules/esbuild/lib/main.js:1472:15)
+    at /home/evolutiaoficial.com/public_html/node_modules/vite/node_modules/esbuild/lib/main.js:755:50
+    at responseCallbacks.<computed> (/home/evolutiaoficial.com/public_html/node_modules/vite/node_modules/esbuild/lib/main.js:622:9)
+    at handleIncomingPacket (/home/evolutiaoficial.com/public_html/node_modules/vite/node_modules/esbuild/lib/main.js:677:12)
+    at Socket.readFromStdout (/home/evolutiaoficial.com/public_html/node_modules/vite/node_modules/esbuild/lib/main.js:600:7)
+    at Socket.emit (node:events:524:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at Pipe.onStreamRead (node:internal/stream_base_commons:191:23)
+[PM2][WARN] Applications evolut-site not running, starting...
+[PM2] App [evolut-site] launched (1 instances)
+┌─────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id  │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├─────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19  │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.5mb  │
+│ 177 │ evolut-site        │ fork     │ 0    │ online    │ 0%       │ 19.1mb   │
+│ 142 │ rotacaicara        │ fork     │ 0    │ online    │ 0%       │ 98.0mb   │
+│ 141 │ tempo-real         │ fork     │ 0    │ online    │ 0%       │ 106.4mb  │
+│ 151 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 32.1mb   │
+└─────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+┌─────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id  │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├─────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19  │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.8mb  │
+│ 177 │ evolut-site        │ fork     │ 0    │ online    │ 0%       │ 73.1mb   │
+│ 142 │ rotacaicara        │ fork     │ 0    │ online    │ 0%       │ 98.0mb   │
+│ 141 │ tempo-real         │ fork     │ 0    │ online    │ 0%       │ 106.0mb  │
+│ 151 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 32.1mb   │
+└─────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[root@srv856338 public_html]# 
