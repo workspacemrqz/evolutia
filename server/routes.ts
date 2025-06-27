@@ -134,12 +134,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
     try {
       const validatedData = expenseSchema.parse(req.body);
+      
+      // Convert value from string to number
+      const expenseData = {
+        ...validatedData,
+        value: parseFloat(validatedData.value),
+        projectId: validatedData.projectId || null,
+      };
 
-      const [newExpense] = await db.insert(expenses).values(validatedData).returning();
+      const [newExpense] = await db.insert(expenses).values(expenseData).returning();
       res.status(201).json(newExpense);
     } catch (error) {
       if (error instanceof z.ZodError) {
         res.status(400).json({ error: "Dados inválidos", details: error.errors });
+        return;
       }
       console.error("Create expense error:", error);
       res.status(500).json({ error: "Failed to create expense" });

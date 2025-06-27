@@ -36,6 +36,7 @@ export default function AdminPage() {
     description: "",
     value: "",
     paidBy: "",
+    projectId: "",
   });
   const [showExpenseForm, setShowExpenseForm] = useState(false);
   const [newProject, setNewProject] = useState({
@@ -50,6 +51,7 @@ export default function AdminPage() {
   }>({ pdf: null, image: null });
   const [projectLinks, setProjectLinks] = useState<string[]>([]);
   const [currentLink, setCurrentLink] = useState("");
+  const [showProjectForm, setShowProjectForm] = useState(false);
 
   const { data: responses, isLoading } = useQuery<DiagnosticResponse[]>({
     queryKey: ["/api/admin/responses"],
@@ -104,7 +106,7 @@ export default function AdminPage() {
   });
 
   const createExpenseMutation = useMutation({
-    mutationFn: async (expense: { item: string; description: string, value: number; paidBy: string }) => {
+    mutationFn: async (expense: { item: string; description: string, value: number; paidBy: string; projectId?: number }) => {
       const response = await apiRequest("POST", "/api/admin/expenses", expense);
       if (!response.ok) {
         const error = await response.json();
@@ -114,7 +116,8 @@ export default function AdminPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/expenses"] });
-      setNewExpense({ item: "", description: "", value: "", paidBy: "" });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/projects"] });
+      setNewExpense({ item: "", description: "", value: "", paidBy: "", projectId: "" });
       setShowExpenseForm(false);
     },
   });
@@ -228,11 +231,13 @@ export default function AdminPage() {
       alert("Por favor, insira um valor válido");
       return;
     }
+    const projectId = newExpense.projectId ? parseInt(newExpense.projectId) : undefined;
     createExpenseMutation.mutate({
       item: newExpense.item,
       description: newExpense.description,
       value,
       paidBy: newExpense.paidBy,
+      projectId,
     });
   };
 
@@ -659,23 +664,47 @@ export default function AdminPage() {
                         placeholder="Detalhes sobre o item ou serviço"
                       />
                     </div>
-                    <div className="mb-4">
-                      <Label htmlFor="paidBy" className="text-white">
-                        Responsável pelo Pagamento
-                      </Label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                      <div>
+                        <Label htmlFor="paidBy" className="text-white">
+                          Responsável pelo Pagamento
+                        </Label>
+                          <Select
+                              onValueChange={(value) =>
+                                setNewExpense({ ...newExpense, paidBy: value })
+                              }
+                            >
+                              <SelectTrigger className="bg-gray-900 border-gray-600 text-white w-full">
+                                <SelectValue placeholder="Selecione o responsável" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="Gabriel Camargo">Gabriel Camargo</SelectItem>
+                                <SelectItem value="Gabriel Marquez">Gabriel Marquez</SelectItem>
+                              </SelectContent>
+                            </Select>
+                      </div>
+                      <div>
+                        <Label htmlFor="projectSelect" className="text-white">
+                          Projeto (opcional)
+                        </Label>
                         <Select
-                            onValueChange={(value) =>
-                              setNewExpense({ ...newExpense, paidBy: value })
-                            }
-                          >
-                            <SelectTrigger className="bg-gray-900 border-gray-600 text-white w-full">
-                              <SelectValue placeholder="Selecione o responsável" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="Gabriel Camargo">Gabriel Camargo</SelectItem>
-                              <SelectItem value="Gabriel Marquez">Gabriel Marquez</SelectItem>
-                            </SelectContent>
-                          </Select>
+                          onValueChange={(value) =>
+                            setNewExpense({ ...newExpense, projectId: value })
+                          }
+                        >
+                          <SelectTrigger className="bg-gray-900 border-gray-600 text-white w-full">
+                            <SelectValue placeholder="Selecione um projeto" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="">Nenhum projeto</SelectItem>
+                            {projects?.map((project) => (
+                              <SelectItem key={project.id} value={project.id.toString()}>
+                                {project.title}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
                     </div>
                     <div className="flex gap-2">
                       <Button
@@ -693,7 +722,7 @@ export default function AdminPage() {
                         type="button"
                         onClick={() => {
                           setShowExpenseForm(false);
-                          setNewExpense({ item: "", description: "", value: "", paidBy: "" });
+                          setNewExpense({ item: "", description: "", value: "", paidBy: "", projectId: "" });
                         }}
                         variant="outline"
                         className="bg-gray-800 border-gray-700 text-white hover:bg-gray-700"
@@ -764,7 +793,7 @@ export default function AdminPage() {
                             {expense.description && (
                               <p className="text-gray-300 text-sm mt-1">{expense.description}</p>
                             )}
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-2 text-sm">
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-2 text-sm">
                               <div>
                                 <span className="text-gray-400">Valor:</span>
                                 <p className="text-green-400 font-semibold">
@@ -774,6 +803,15 @@ export default function AdminPage() {
                               <div>
                                 <span className="text-gray-400">Responsável:</span>
                                 <p className="text-white">{expense.paidBy}</p>
+                              </div>
+                              <div>
+                                <span className="text-gray-400">Projeto:</span>
+                                <p className="text-blue-400">
+                                  {expense.projectId 
+                                    ? projects?.find(p => p.id === expense.projectId)?.title || "Projeto não encontrado"
+                                    : "Nenhum projeto"
+                                  }
+                                </p>
                               </div>
                               <div>
                                 <span className="text-gray-400">Data:</span>
@@ -1062,6 +1100,27 @@ NewProject({ ...newProject, revenue: e.target.value })
                                 </a>
                               )}
                             </div>
+                            {/* Project Expenses */}
+                            {expenses && expenses.filter(expense => expense.projectId === project.id).length > 0 && (
+                              <div className="mt-4 p-3 bg-gray-900 rounded border border-gray-600">
+                                <h4 className="text-white font-medium mb-2">Gastos do Projeto</h4>
+                                <div className="space-y-2">
+                                  {expenses.filter(expense => expense.projectId === project.id).map((expense) => (
+                                    <div key={expense.id} className="flex justify-between items-center text-sm">
+                                      <div>
+                                        <span className="text-gray-300">{expense.item}</span>
+                                        {expense.description && (
+                                          <span className="text-gray-400 ml-2">- {expense.description}</span>
+                                        )}
+                                      </div>
+                                      <span className="text-red-400 font-medium">
+                                        R$ {parseFloat(expense.value.toString()).toFixed(2).replace('.', ',')}
+                                      </span>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
                             <div className="mt-2 text-sm">
                               <span className="text-gray-400">Data de Criação:</span>
                               <span className="text-white ml-2">

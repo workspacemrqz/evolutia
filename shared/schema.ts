@@ -83,6 +83,7 @@ export const projectSchema = z.object({
 export type Expense = z.infer<typeof expenseSchema> & {
   id: number;
   createdAt: string;
+  projectId?: number;
 };
 
 export type Project = z.infer<typeof projectSchema> & {
