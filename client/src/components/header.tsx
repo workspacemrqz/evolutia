@@ -122,6 +122,14 @@ export default function Header() {
               transition={{ duration: 0.3, ease: "easeOut", delay: 0.1 }}
             >
               <div className="px-6 pb-6 pt-4">
+                {/* Horizontal Divider */}
+                <div className="w-full flex justify-center mb-6">
+                  <div 
+                    className="h-px w-[90%] bg-gradient-to-r from-transparent via-[#2a2a2a] to-transparent" 
+                    style={{ opacity: 0.3 }}
+                  ></div>
+                </div>
+                
                 {/* Navigation Links */}
                 <div className="flex flex-col items-center space-y-4 mb-6">
                   <button 
