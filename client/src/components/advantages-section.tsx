@@ -41,7 +41,7 @@ export default function AdvantagesSection() {
           {advantages.map((advantage, index) => (
             <div key={index} className="text-center">
               <div className="w-32 h-32 flex items-center justify-center mx-auto mb-6">
-                <img src={advantage.iconUrl} alt={advantage.title} className="w-full h-full object-contain" />
+                <img src={advantage.iconUrl} alt={advantage.title} className="w-full h-full object-contain advantage-icon-pulse" />
               </div>
               <h3 className="text-xl font-semibold text-white mb-3">{advantage.title}</h3>
               <p className="text-[#BCBCBC] px-4">{advantage.description}</p>

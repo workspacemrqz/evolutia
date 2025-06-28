@@ -326,6 +326,29 @@
     }
   }
 
+  /* Animação de pulso com brilho para ícones de vantagens */
+  @keyframes advantage-pulse-glow {
+    0%, 100% {
+      transform: scale(1);
+      filter: brightness(1) drop-shadow(0 0 8px rgba(48, 100, 239, 0.2));
+    }
+    50% {
+      transform: scale(1.05);
+      filter: brightness(1.1) drop-shadow(0 0 16px rgba(48, 100, 239, 0.4));
+    }
+  }
+
+  .advantage-icon-pulse {
+    animation: advantage-pulse-glow 3s ease-in-out infinite;
+    transition: all 0.3s ease;
+  }
+
+  .advantage-icon-pulse:hover {
+    animation-play-state: paused;
+    transform: scale(1.08);
+    filter: brightness(1.15) drop-shadow(0 0 20px rgba(48, 100, 239, 0.6));
+  }
+
   /* Tamanho maior do relógio no mobile */
   @media (max-width: 768px) {
     .clock-animation {
