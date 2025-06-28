@@ -6,3 +6,24 @@ channel = "stable-24_05"
 
 [deployment]
 run = ["sh", "-c", "npm run dev"]
+
+[workflows]
+runButton = "Preview Mode"
+
+[[workflows.workflow]]
+name = "Preview Mode"
+author = 44232924
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd \"Replit Preview\" && npm install && npm run preview"
+
+[[workflows.workflow]]
+name = "Start Preview Server"
+author = 44232924
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "cd \"Replit Preview\" && tsx server-preview.ts"

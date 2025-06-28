@@ -1,0 +1,18 @@
+
+{
+  "name": "replit-preview",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "preview": "tsx server-preview.ts"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "dotenv": "^16.5.0"
+  },
+  "devDependencies": {
+    "@types/express": "4.17.21",
+    "@types/node": "20.16.11",
+    "tsx": "^4.20.3"
+  }
+}
