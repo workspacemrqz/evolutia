@@ -51,7 +51,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="w-full z-50 px-2 sm:px-4 lg:px-10 py-2 mt-2 sm:mt-4 relative">
+    <header className="w-full z-50 px-4 sm:px-8 lg:px-16 py-2 mt-2 sm:mt-4 relative">
       {/* Header Capsule Container */}
       <div className={`max-w-4xl mx-auto bg-[#0a0a0a]/95 backdrop-blur-md border border-gray-800/50 shadow-xl transition-all ${
         mobileMenuOpen ? 'rounded-[10px] duration-75' : 'rounded-full duration-300'
@@ -64,14 +64,14 @@ export default function Header() {
              }}>
         </div>
 
-        <div className="relative px-3 lg:px-4 py-2">
+        <div className="relative px-6 lg:px-8 py-2">
           <div className="flex items-center">
-            {/* Desktop Navigation - Evenly distributed */}
-            <div className="hidden md:flex items-center justify-between w-full">
+            {/* Desktop Navigation - Compact spacing */}
+            <div className="hidden md:flex items-center w-full">
               {/* Logo */}
               <motion.button 
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="block header-logo"
+                className="block header-logo flex-shrink-0"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: 0.2 }}
@@ -83,75 +83,78 @@ export default function Header() {
                 />
               </motion.button>
 
-              {/* Agentes */}
-              <button 
-                onClick={() => scrollToSection("agentes")} 
-                className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
-              >
-                {t('nav.agents', 'Agentes')}
-              </button>
-
-              {/* Vantagens */}
-              <button 
-                onClick={() => scrollToSection("vantagens")} 
-                className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
-              >
-                {t('nav.advantages', 'Vantagens')}
-              </button>
-
-              {/* Como Funciona */}
-              <button 
-                onClick={() => scrollToSection("como-funciona")} 
-                className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
-              >
-                {t('nav.howItWorks', 'Como Funciona')}
-              </button>
-
-              {/* Globe Icon */}
-              <div className="relative language-dropdown">
+              {/* Navigation Links */}
+              <div className="flex items-center space-x-6 ml-8">
+                {/* Agentes */}
                 <button 
-                  onClick={() => setLanguageMenuOpen(!languageMenuOpen)}
-                  className="flex items-center space-x-1 text-gray-400 hover:text-white transition-colors duration-300"
-                  title="Select Language"
+                  onClick={() => scrollToSection("agentes")} 
+                  className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
                 >
-                  <Globe size={24} />
-                  <ChevronDown size={16} />
+                  {t('nav.agents', 'Agentes')}
                 </button>
-                
-                {languageMenuOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-48 bg-[#0a0a0a] border border-gray-700 rounded-lg shadow-lg z-50">
-                    <button
-                      onClick={() => changeLanguage('pt')}
-                      className={`w-full text-left px-4 py-3 hover:bg-gray-800 transition-colors flex items-center space-x-3 ${
-                        i18n.language === 'pt' ? 'text-white bg-gray-800' : 'text-gray-400'
-                      }`}
-                    >
-                      <span className="text-lg">🇧🇷</span>
-                      <span>Português</span>
-                    </button>
-                    <button
-                      onClick={() => changeLanguage('en')}
-                      className={`w-full text-left px-4 py-3 hover:bg-gray-800 transition-colors flex items-center space-x-3 ${
-                        i18n.language === 'en' ? 'text-white bg-gray-800' : 'text-gray-400'
-                      }`}
-                    >
-                      <span className="text-lg">🇺🇸</span>
-                      <span>English</span>
-                    </button>
-                  </div>
-                )}
-              </div>
 
-              {/* CTA Button */}
-              <button 
-                onClick={() => scrollToSection("nao-fique-para-tras")} 
-                className="relative bg-[#0a0a0a] text-white px-6 py-2 rounded-xl font-medium transition-all duration-300 border border-gray-700 hover:border-gray-600 overflow-hidden group whitespace-nowrap"
-              >
-                {/* Shine effect */}
-                <div className="absolute inset-0 -translate-x-full group-hover:-translate-x-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-transform duration-1000 ease-out animate-shine"></div>
-                <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 transition-transform duration-2000 ease-linear animate-shine-continuous"></div>
-                <span className="relative z-10">{t('cta.startNow', 'Começar Agora')}</span>
-              </button>
+                {/* Vantagens */}
+                <button 
+                  onClick={() => scrollToSection("vantagens")} 
+                  className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
+                >
+                  {t('nav.advantages', 'Vantagens')}
+                </button>
+
+                {/* Como Funciona */}
+                <button 
+                  onClick={() => scrollToSection("como-funciona")} 
+                  className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
+                >
+                  {t('nav.howItWorks', 'Como Funciona')}
+                </button>
+
+                {/* Globe Icon */}
+                <div className="relative language-dropdown">
+                  <button 
+                    onClick={() => setLanguageMenuOpen(!languageMenuOpen)}
+                    className="flex items-center space-x-1 text-gray-400 hover:text-white transition-colors duration-300"
+                    title="Select Language"
+                  >
+                    <Globe size={24} />
+                    <ChevronDown size={16} />
+                  </button>
+                  
+                  {languageMenuOpen && (
+                    <div className="absolute right-0 top-full mt-2 w-48 bg-[#0a0a0a] border border-gray-700 rounded-lg shadow-lg z-50">
+                      <button
+                        onClick={() => changeLanguage('pt')}
+                        className={`w-full text-left px-4 py-3 hover:bg-gray-800 transition-colors flex items-center space-x-3 ${
+                          i18n.language === 'pt' ? 'text-white bg-gray-800' : 'text-gray-400'
+                        }`}
+                      >
+                        <span className="text-lg">🇧🇷</span>
+                        <span>Português</span>
+                      </button>
+                      <button
+                        onClick={() => changeLanguage('en')}
+                        className={`w-full text-left px-4 py-3 hover:bg-gray-800 transition-colors flex items-center space-x-3 ${
+                          i18n.language === 'en' ? 'text-white bg-gray-800' : 'text-gray-400'
+                        }`}
+                      >
+                        <span className="text-lg">🇺🇸</span>
+                        <span>English</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* CTA Button */}
+                <button 
+                  onClick={() => scrollToSection("nao-fique-para-tras")} 
+                  className="relative bg-[#0a0a0a] text-white px-6 py-2 rounded-xl font-medium transition-all duration-300 border border-gray-700 hover:border-gray-600 overflow-hidden group whitespace-nowrap ml-2"
+                >
+                  {/* Shine effect */}
+                  <div className="absolute inset-0 -translate-x-full group-hover:-translate-x-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-transform duration-1000 ease-out animate-shine"></div>
+                  <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 transition-transform duration-2000 ease-linear animate-shine-continuous"></div>
+                  <span className="relative z-10">{t('cta.startNow', 'Começar Agora')}</span>
+                </button>
+              </div>
             </div>
 
             {/* Mobile Navigation - Separate structure */}
