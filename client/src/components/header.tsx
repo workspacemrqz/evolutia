@@ -65,19 +65,19 @@ export default function Header() {
             <nav className="hidden md:flex items-center space-x-8">
               <button 
                 onClick={() => scrollToSection("agentes")} 
-                className="text-white/90 hover:text-[#1E90FF] transition-colors duration-300 font-medium"
+                className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
               >
                 Agentes
               </button>
               <button 
                 onClick={() => scrollToSection("vantagens")} 
-                className="text-white/90 hover:text-[#1E90FF] transition-colors duration-300 font-medium"
+                className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
               >
                 Vantagens
               </button>
               <button 
                 onClick={() => scrollToSection("como-funciona")} 
-                className="text-white/90 hover:text-[#1E90FF] transition-colors duration-300 font-medium"
+                className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
               >
                 Como Funciona
               </button>
