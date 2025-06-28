@@ -3,21 +3,21 @@
 @tailwind utilities;
 
 :root {
-  --background: hsl(0, 0%, 2.35%);
+  --background: hsl(0, 0%, 1.18%);
   --foreground: hsl(0, 0%, 100%);
-  --muted: hsl(0, 0%, 5.1%);
+  --muted: hsl(0, 0%, 1.18%);
   --muted-foreground: hsl(0, 0%, 73.7%);
-  --popover: hsl(0, 0%, 2.35%);
+  --popover: hsl(0, 0%, 1.18%);
   --popover-foreground: hsl(0, 0%, 100%);
-  --card: hsl(0, 0%, 5.1%);
+  --card: hsl(0, 0%, 1.18%);
   --card-foreground: hsl(0, 0%, 100%);
   --border: hsl(0, 0%, 50.2%);
   --input: hsl(0, 0%, 50.2%);
   --primary: hsl(221, 71.4%, 53.3%);
   --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: hsl(0, 0%, 5.1%);
+  --secondary: hsl(0, 0%, 1.18%);
   --secondary-foreground: hsl(0, 0%, 100%);
-  --accent: hsl(0, 0%, 5.1%);
+  --accent: hsl(0, 0%, 1.18%);
   --accent-foreground: hsl(0, 0%, 100%);
   --destructive: hsl(0, 62.8%, 30.6%);
   --destructive-foreground: hsl(0, 0%, 98%);
@@ -25,8 +25,8 @@
   --radius: 0.5rem;
 
   /* Custom Evolut IA colors */
-  --evolut-dark-bg: hsl(0, 0%, 2.35%);
-  --evolut-card-bg: hsl(0, 0%, 5.1%);
+  --evolut-dark-bg: hsl(0, 0%, 1.18%);
+  --evolut-card-bg: hsl(0, 0%, 1.18%);
   --evolut-text-primary: hsl(0, 0%, 100%);
   --evolut-text-secondary: hsl(0, 0%, 73.7%);
   --evolut-gradient-start: hsl(221, 71.4%, 29.8%);
@@ -34,21 +34,21 @@
 }
 
 .dark {
-  --background: hsl(0, 0%, 2.35%);
+  --background: hsl(0, 0%, 1.18%);
   --foreground: hsl(0, 0%, 100%);
-  --muted: hsl(0, 0%, 5.1%);
+  --muted: hsl(0, 0%, 1.18%);
   --muted-foreground: hsl(0, 0%, 73.7%);
-  --popover: hsl(0, 0%, 2.35%);
+  --popover: hsl(0, 0%, 1.18%);
   --popover-foreground: hsl(0, 0%, 100%);
-  --card: hsl(0, 0%, 5.1%);
+  --card: hsl(0, 0%, 1.18%);
   --card-foreground: hsl(0, 0%, 100%);
   --border: hsl(0, 0%, 50.2%);
   --input: hsl(0, 0%, 50.2%);
   --primary: hsl(221, 71.4%, 53.3%);
   --primary-foreground: hsl(0, 0%, 100%);
-  --secondary: hsl(0, 0%, 5.1%);
+  --secondary: hsl(0, 0%, 1.18%);
   --secondary-foreground: hsl(0, 0%, 100%);
-  --accent: hsl(0, 0%, 5.1%);
+  --accent: hsl(0, 0%, 1.18%);
   --accent-foreground: hsl(0, 0%, 100%);
   --destructive: hsl(0, 62.8%, 30.6%);
   --destructive-foreground: hsl(0, 0%, 98%);
