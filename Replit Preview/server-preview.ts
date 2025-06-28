@@ -35,9 +35,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// Serve static files from the client/src directory for preview
-app.use(express.static(path.join(process.cwd(), "client/src")));
-app.use(express.static(path.join(process.cwd(), "client")));
+// Serve static files from the dist directory (built React app)
+app.use(express.static(path.join(__dirname, "../dist")));
 
 // Simple route for testing
 app.get("/api/health", (req, res) => {
@@ -46,7 +45,7 @@ app.get("/api/health", (req, res) => {
 
 // Serve the main HTML file for all routes (SPA behavior)
 app.get("*", (req, res) => {
-  res.sendFile(path.join(process.cwd(), "client/index.html"));
+  res.sendFile(path.join(__dirname, "../dist/index.html"));
 });
 
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
