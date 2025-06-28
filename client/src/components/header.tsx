@@ -147,7 +147,7 @@ export default function Header() {
                 {/* CTA Button */}
                 <button 
                   onClick={() => scrollToSection("nao-fique-para-tras")} 
-                  className="relative bg-[#0a0a0a] text-white px-6 py-2 rounded-xl font-medium transition-all duration-300 border border-gray-700 hover:border-gray-600 overflow-hidden group whitespace-nowrap ml-2 flex items-center justify-center"
+                  className="relative bg-[#0a0a0a] text-white px-6 py-2 rounded-xl font-medium transition-all duration-300 border border-gray-700 hover:border-gray-600 overflow-hidden group whitespace-nowrap flex items-center justify-center"
                 >
                   {/* Shine effect */}
                   <div className="absolute inset-0 -translate-x-full group-hover:-translate-x-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-transform duration-1000 ease-out animate-shine"></div>
