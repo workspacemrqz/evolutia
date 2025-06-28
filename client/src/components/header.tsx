@@ -97,10 +97,10 @@ export default function Header() {
               <div className="relative language-dropdown">
                 <button 
                   onClick={toggleLanguage}
-                  className="text-gray-400 hover:text-white transition-colors duration-300 p-2 hover:bg-gray-800 rounded-lg"
+                  className="text-gray-400 hover:text-white transition-colors duration-300"
                   title={i18n.language === 'pt' ? 'Translate to English' : 'Traduzir para Português'}
                 >
-                  <Globe size={20} />
+                  <Globe size={24} />
                 </button>
               </div>
               <button 
@@ -119,10 +119,10 @@ export default function Header() {
               <div className="relative language-dropdown">
                 <button 
                   onClick={toggleLanguage}
-                  className="text-gray-400 hover:text-white transition-colors duration-300 p-1.5 hover:bg-gray-800 rounded-lg"
+                  className="text-gray-400 hover:text-white transition-colors duration-300"
                   title={i18n.language === 'pt' ? 'Translate to English' : 'Traduzir para Português'}
                 >
-                  <Globe size={20} />
+                  <Globe size={22} />
                 </button>
               </div>
               <motion.button
