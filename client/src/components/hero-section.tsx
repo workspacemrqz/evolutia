@@ -4,37 +4,26 @@ export default function HeroSection() {
   return (
     <section className="pt-24 pb-20 bg-[#060606] relative overflow-hidden">
       {/* Dotted pattern overlay with edge fade and center glow */}
-      <div className="absolute inset-0 opacity-30">
+      <div className="absolute inset-0 opacity-30 z-0">
         <div 
           className="w-full h-full"
           style={{
             backgroundImage: `radial-gradient(circle at 2px 2px, rgba(245, 245, 245, 0.6) 1px, transparent 0)`,
             backgroundSize: '24px 24px',
-            mask: `
-              radial-gradient(ellipse at center, black 40%, transparent 70%),
-              linear-gradient(to bottom, black 0%, black 80%, transparent 100%),
-              linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)
-            `,
-            WebkitMask: `
-              radial-gradient(ellipse at center, black 40%, transparent 70%),
-              linear-gradient(to bottom, black 0%, black 80%, transparent 100%),
-              linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)
-            `,
-            maskComposite: 'intersect',
-            WebkitMaskComposite: 'source-in'
+            
           }}
         />
       </div>
-      
+
       {/* Pulsing center glow */}
-      <div 
+      {/* <div 
         className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full opacity-20"
         style={{
           background: 'radial-gradient(circle, #224FC4 0%, transparent 70%)',
           animation: 'pulse-glow 4s ease-in-out infinite'
         }}
-      />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      /> */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-4xl mx-auto">
           <motion.div
             className="hidden sm:inline-block gradient-bg text-white px-4 py-2 rounded-full text-sm font-semibold mb-8"
@@ -54,7 +43,7 @@ export default function HeroSection() {
                 className="w-full h-auto object-cover"
               />
             </div>
-            
+
             <motion.h1 
               className="text-3xl font-bold text-white hero-title px-2 -mt-4"
               initial={{ y: 50, opacity: 0 }}
