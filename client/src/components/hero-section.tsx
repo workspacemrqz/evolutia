@@ -8,9 +8,18 @@ export default function HeroSection() {
         <div 
           className="w-full h-full"
           style={{
-            backgroundImage: `radial-gradient(circle at 2px 2px, rgba(245, 245, 245, 0.6) 1px, transparent 0)`,
-            backgroundSize: '24px 24px',
-            
+            backgroundImage: `radial-gradient(circle at 1px 1px, rgba(245, 245, 245, 0.6) 0.5px, transparent 0)`,
+            backgroundSize: '12px 12px',
+            mask: `
+              linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%),
+              linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)
+            `,
+            WebkitMask: `
+              linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%),
+              linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)
+            `,
+            maskComposite: 'intersect',
+            WebkitMaskComposite: 'source-in'
           }}
         />
       </div>
