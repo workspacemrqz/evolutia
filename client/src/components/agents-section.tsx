@@ -104,7 +104,7 @@ export default function AgentsSection() {
             Cada desafio exige uma solução inteligente. Conheça alguns dos agentes já criados pela Evolut IA
           </p>
         </motion.div>
-        
+
         <motion.div 
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
           variants={containerVariants}
@@ -123,7 +123,7 @@ export default function AgentsSection() {
             />
           ))}
         </motion.div>
-        
+
         <motion.div 
           className="text-center mt-12"
           initial={{ y: 30, opacity: 0 }}
