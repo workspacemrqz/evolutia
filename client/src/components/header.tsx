@@ -66,8 +66,9 @@ export default function Header() {
 
         <div className="relative px-3 lg:px-4 py-2">
           <div className="flex items-center">
-            {/* Logo - Left aligned */}
-            <div className="w-1/4 flex justify-start">
+            {/* Desktop Navigation - Evenly distributed */}
+            <div className="hidden md:flex items-center justify-between w-full">
+              {/* Logo */}
               <motion.button 
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 className="block header-logo"
@@ -81,34 +82,97 @@ export default function Header() {
                   className="h-6 sm:h-7 w-auto max-w-[120px] md:max-w-[120px] filter brightness-100"
                 />
               </motion.button>
+
+              {/* Agentes */}
+              <button 
+                onClick={() => scrollToSection("agentes")} 
+                className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
+              >
+                {t('nav.agents', 'Agentes')}
+              </button>
+
+              {/* Vantagens */}
+              <button 
+                onClick={() => scrollToSection("vantagens")} 
+                className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
+              >
+                {t('nav.advantages', 'Vantagens')}
+              </button>
+
+              {/* Como Funciona */}
+              <button 
+                onClick={() => scrollToSection("como-funciona")} 
+                className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
+              >
+                {t('nav.howItWorks', 'Como Funciona')}
+              </button>
+
+              {/* Globe Icon */}
+              <div className="relative language-dropdown">
+                <button 
+                  onClick={() => setLanguageMenuOpen(!languageMenuOpen)}
+                  className="flex items-center space-x-1 text-gray-400 hover:text-white transition-colors duration-300"
+                  title="Select Language"
+                >
+                  <Globe size={24} />
+                  <ChevronDown size={16} />
+                </button>
+                
+                {languageMenuOpen && (
+                  <div className="absolute right-0 top-full mt-2 w-48 bg-[#0a0a0a] border border-gray-700 rounded-lg shadow-lg z-50">
+                    <button
+                      onClick={() => changeLanguage('pt')}
+                      className={`w-full text-left px-4 py-3 hover:bg-gray-800 transition-colors flex items-center space-x-3 ${
+                        i18n.language === 'pt' ? 'text-white bg-gray-800' : 'text-gray-400'
+                      }`}
+                    >
+                      <span className="text-lg">🇧🇷</span>
+                      <span>Português</span>
+                    </button>
+                    <button
+                      onClick={() => changeLanguage('en')}
+                      className={`w-full text-left px-4 py-3 hover:bg-gray-800 transition-colors flex items-center space-x-3 ${
+                        i18n.language === 'en' ? 'text-white bg-gray-800' : 'text-gray-400'
+                      }`}
+                    >
+                      <span className="text-lg">🇺🇸</span>
+                      <span>English</span>
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* CTA Button */}
+              <button 
+                onClick={() => scrollToSection("nao-fique-para-tras")} 
+                className="relative bg-[#0a0a0a] text-white px-6 py-2 rounded-xl font-medium transition-all duration-300 border border-gray-700 hover:border-gray-600 overflow-hidden group whitespace-nowrap"
+              >
+                {/* Shine effect */}
+                <div className="absolute inset-0 -translate-x-full group-hover:-translate-x-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-transform duration-1000 ease-out animate-shine"></div>
+                <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 transition-transform duration-2000 ease-linear animate-shine-continuous"></div>
+                <span className="relative z-10">{t('cta.startNow', 'Começar Agora')}</span>
+              </button>
             </div>
 
-            {/* Desktop Navigation - Centered */}
-            <nav className="hidden md:flex items-center justify-center w-1/2">
-              <div className="flex items-center space-x-8">
-                <button 
-                  onClick={() => scrollToSection("agentes")} 
-                  className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
-                >
-                  {t('nav.agents', 'Agentes')}
-                </button>
-                <button 
-                  onClick={() => scrollToSection("vantagens")} 
-                  className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
-                >
-                  {t('nav.advantages', 'Vantagens')}
-                </button>
-                <button 
-                  onClick={() => scrollToSection("como-funciona")} 
-                  className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
-                >
-                  {t('nav.howItWorks', 'Como Funciona')}
-                </button>
-              </div>
-            </nav>
+            {/* Mobile Navigation - Separate structure */}
+            <div className="md:hidden flex items-center justify-between w-full">
+              {/* Logo Mobile */}
+              <motion.button 
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="block header-logo"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1, delay: 0.2 }}
+              >
+                <img 
+                  src="https://i.ibb.co/rf3PXc8r/LOGO-Evolut-IA-com-texto-na-horizontal.png" 
+                  alt="Evolut IA Logo" 
+                  className="h-6 sm:h-7 w-auto max-w-[120px] md:max-w-[120px] filter brightness-100"
+                />
+              </motion.button>
 
-            {/* Globe Icon and Contact Button - Right aligned */}
-            <div className="hidden md:flex w-1/4 justify-end items-center space-x-4">
+              {/* Globe icon and Mobile menu button */}
+              <div className="flex items-center space-x-2">
               <div className="relative language-dropdown">
                 <button 
                   onClick={() => setLanguageMenuOpen(!languageMenuOpen)}
@@ -153,82 +217,81 @@ export default function Header() {
               </button>
             </div>
 
-            {/* Globe icon and Mobile menu button */}
-            <div className="md:hidden flex items-center space-x-2">
-              <div className="relative language-dropdown">
-                <button 
-                  onClick={() => setLanguageMenuOpen(!languageMenuOpen)}
-                  className="flex items-center space-x-1 text-gray-400 hover:text-white transition-colors duration-300"
-                  title="Select Language"
-                >
-                  <Globe size={20} />
-                  <ChevronDown size={14} />
-                </button>
-                
-                {languageMenuOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-44 bg-[#0a0a0a] border border-gray-700 rounded-lg shadow-lg z-50">
-                    <button
-                      onClick={() => changeLanguage('pt')}
-                      className={`w-full text-left px-3 py-2 hover:bg-gray-800 transition-colors flex items-center space-x-2 text-sm ${
-                        i18n.language === 'pt' ? 'text-white bg-gray-800' : 'text-gray-400'
-                      }`}
-                    >
-                      <span>🇧🇷</span>
-                      <span>Português</span>
-                    </button>
-                    <button
-                      onClick={() => changeLanguage('en')}
-                      className={`w-full text-left px-3 py-2 hover:bg-gray-800 transition-colors flex items-center space-x-2 text-sm ${
-                        i18n.language === 'en' ? 'text-white bg-gray-800' : 'text-gray-400'
-                      }`}
-                    >
-                      <span>🇺🇸</span>
-                      <span>English</span>
-                    </button>
-                  </div>
-                )}
-              </div>
-              <motion.button
-                className="p-1.5 transition-colors relative z-30 text-white hover:text-white"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                animate={mobileMenuOpen ? {
-                  x: 150,
-                  transition: { duration: 0.3, ease: "easeInOut" }
-                } : {
-                  x: 0,
-                  transition: { duration: 0.3, ease: "easeInOut" }
-                }}
-              >
-                <motion.div
-                  animate={mobileMenuOpen ? { rotate: 90 } : { rotate: 0 }}
-                  transition={{ duration: 0.3, ease: "easeInOut" }}
-                >
-                  {mobileMenuOpen ? (
-                    <X className="w-6 h-6 text-white" />
-                  ) : (
-                    <Menu className="w-6 h-6 text-white" />
+            <div className="relative language-dropdown">
+                  <button 
+                    onClick={() => setLanguageMenuOpen(!languageMenuOpen)}
+                    className="flex items-center space-x-1 text-gray-400 hover:text-white transition-colors duration-300"
+                    title="Select Language"
+                  >
+                    <Globe size={20} />
+                    <ChevronDown size={14} />
+                  </button>
+                  
+                  {languageMenuOpen && (
+                    <div className="absolute right-0 top-full mt-2 w-44 bg-[#0a0a0a] border border-gray-700 rounded-lg shadow-lg z-50">
+                      <button
+                        onClick={() => changeLanguage('pt')}
+                        className={`w-full text-left px-3 py-2 hover:bg-gray-800 transition-colors flex items-center space-x-2 text-sm ${
+                          i18n.language === 'pt' ? 'text-white bg-gray-800' : 'text-gray-400'
+                        }`}
+                      >
+                        <span>🇧🇷</span>
+                        <span>Português</span>
+                      </button>
+                      <button
+                        onClick={() => changeLanguage('en')}
+                        className={`w-full text-left px-3 py-2 hover:bg-gray-800 transition-colors flex items-center space-x-2 text-sm ${
+                          i18n.language === 'en' ? 'text-white bg-gray-800' : 'text-gray-400'
+                        }`}
+                      >
+                        <span>🇺🇸</span>
+                        <span>English</span>
+                      </button>
+                    </div>
                   )}
-                </motion.div>
-              </motion.button>
+                </div>
+                <motion.button
+                  className="p-1.5 transition-colors relative z-30 text-white hover:text-white"
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  animate={mobileMenuOpen ? {
+                    x: 150,
+                    transition: { duration: 0.3, ease: "easeInOut" }
+                  } : {
+                    x: 0,
+                    transition: { duration: 0.3, ease: "easeInOut" }
+                  }}
+                >
+                  <motion.div
+                    animate={mobileMenuOpen ? { rotate: 90 } : { rotate: 0 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                  >
+                    {mobileMenuOpen ? (
+                      <X className="w-6 h-6 text-white" />
+                    ) : (
+                      <Menu className="w-6 h-6 text-white" />
+                    )}
+                  </motion.div>
+                </motion.button>
 
-              <motion.button 
-                onClick={() => scrollToSection("nao-fique-para-tras")} 
-                className="relative bg-[#0a0a0a] text-white px-4 py-2 rounded-lg font-medium border border-gray-700 hover:border-gray-600 transition-all duration-300 overflow-hidden group text-sm z-20"
-                animate={mobileMenuOpen ? {
-                  opacity: 0,
-                  scale: 0.8,
-                  transition: { duration: 0.2, ease: "easeInOut" }
-                } : {
-                  opacity: 1,
-                  scale: 1,
-                  transition: { duration: 0.3, ease: "easeInOut", delay: 0.1 }
-                }}
-              >
-                {/* Shine effect */}
-                <div className="absolute inset-0 -translate-x-full group-hover:-translate-x-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-transform duration-1000 ease-out animate-shine"></div>
-                <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 transition-transform duration-2000 ease-linear animate-shine-continuous"></div>
-                <span className="relative z-10">{t('cta.startNow', 'Começar Agora')}</span>
-              </motion.button>
+                <motion.button 
+                  onClick={() => scrollToSection("nao-fique-para-tras")} 
+                  className="relative bg-[#0a0a0a] text-white px-4 py-2 rounded-lg font-medium border border-gray-700 hover:border-gray-600 transition-all duration-300 overflow-hidden group text-sm z-20 whitespace-nowrap"
+                  animate={mobileMenuOpen ? {
+                    opacity: 0,
+                    scale: 0.8,
+                    transition: { duration: 0.2, ease: "easeInOut" }
+                  } : {
+                    opacity: 1,
+                    scale: 1,
+                    transition: { duration: 0.3, ease: "easeInOut", delay: 0.1 }
+                  }}
+                >
+                  {/* Shine effect */}
+                  <div className="absolute inset-0 -translate-x-full group-hover:-translate-x-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-transform duration-1000 ease-out animate-shine"></div>
+                  <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 transition-transform duration-2000 ease-linear animate-shine-continuous"></div>
+                  <span className="relative z-10">{t('cta.startNow', 'Começar Agora')}</span>
+                </motion.button>
+              </div>
             </div>
           </div>
 
