@@ -121,7 +121,7 @@ export default function Header() {
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.3, ease: "easeOut" }}
             >
-              <div className="px-6 pb-6 pt-2">
+              <div className="px-6 pb-6 pt-4">
                 {/* Navigation Links */}
                 <div className="flex flex-col items-center space-y-4 mb-6">
                   <button 
@@ -144,7 +144,15 @@ export default function Header() {
                   </button>
                 </div>
 
-                
+                {/* CTA Button */}
+                <div className="flex justify-center">
+                  <button 
+                    onClick={() => scrollToSection("nao-fique-para-tras")} 
+                    className="relative bg-[#0a0a0a] text-white px-6 py-2.5 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 laser-border-btn"
+                  >
+                    Começar Agora
+                  </button>
+                </div>
               </div>
             </motion.div>
           )}
