@@ -23,8 +23,17 @@ const resources = {
         subtitle: 'Tenha Agentes de IA na Sua Equipe'
       },
       chat: {
+        title: 'Como posso te ajudar?',
         placeholder: 'Como posso te ajudar?',
-        sendPlaceholder: 'Envie uma mensagem…'
+        sendPlaceholder: 'Envie uma mensagem…',
+        inputPlaceholder: 'Envie uma mensagem...',
+        copyright: '©2025 | Desenvolvido por Evolut IA',
+        popup: {
+          title: 'Dúvidas?',
+          subtitle: 'Converse com o Gabriel!',
+          button: 'Falar com o Gabriel',
+          buttonShort: 'Gabriel'
+        }
       },
       agents: {
         title: 'Agentes Evolut IA',
@@ -202,8 +211,17 @@ const resources = {
         subtitle: 'Have AI Agents on Your Team'
       },
       chat: {
+        title: 'How can I help you?',
         placeholder: 'How can I help you?',
-        sendPlaceholder: 'Send a message…'
+        sendPlaceholder: 'Send a message…',
+        inputPlaceholder: 'Send a message...',
+        copyright: '©2025 | Developed by Evolut AI',
+        popup: {
+          title: 'Questions?',
+          subtitle: 'Talk to Gabriel!',
+          button: 'Talk to Gabriel',
+          buttonShort: 'Gabriel'
+        }
       },
       agents: {
         title: 'Evolut AI Agents',

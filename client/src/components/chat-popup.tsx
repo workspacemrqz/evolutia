@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle, X } from "lucide-react";
+import { useTranslation } from 'react-i18next';
 
 export default function ChatPopup() {
+  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(true);
 
   if (!isVisible) return null;
@@ -20,8 +22,8 @@ export default function ChatPopup() {
           <div className="flex items-center justify-between gap-2 sm:gap-4">
             {/* Left side - text */}
             <div className="flex-1 min-w-0">
-              <h3 className="text-white font-semibold text-xs sm:text-sm mb-1">Dúvidas?</h3>
-              <p className="text-gray-300 text-xs hidden sm:block">Converse com o Gabriel!</p>
+              <h3 className="text-white font-semibold text-xs sm:text-sm mb-1">{t('chat.popup.title')}</h3>
+              <p className="text-gray-300 text-xs hidden sm:block">{t('chat.popup.subtitle')}</p>
             </div>
 
             {/* Right side - Button and close */}
@@ -37,8 +39,8 @@ export default function ChatPopup() {
                 className="gradient-bg glow-effect text-white py-2 px-3 sm:px-4 rounded-lg font-semibold transition-all duration-300 hover:scale-105 flex items-center gap-1 sm:gap-2 text-xs sm:text-sm"
               >
                 <MessageCircle size={14} className="sm:w-4 sm:h-4" />
-                <span className="hidden sm:inline">Falar com o Gabriel</span>
-                <span className="sm:hidden">Gabriel</span>
+                <span className="hidden sm:inline">{t('chat.popup.button')}</span>
+                <span className="sm:hidden">{t('chat.popup.buttonShort')}</span>
               </button>
               <button
                 onClick={() => setIsVisible(false)}

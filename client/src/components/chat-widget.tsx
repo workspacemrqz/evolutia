@@ -1,8 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send, Minimize2, Maximize2, X, Mic, MicOff, Bot, User, Play, Pause, MessageCircle } from "lucide-react";
+import { useTranslation } from 'react-i18next';
 
 export default function ChatWidget() {
+  const { t } = useTranslation();
   const [isExpanded, setIsExpanded] = useState(false);
 
   // Add custom CSS for shimmer animation
@@ -344,7 +346,7 @@ export default function ChatWidget() {
               <div className="flex-1 flex items-center justify-center text-center p-8">
                 <div>
                   <h3 className="text-white text-2xl font-semibold mb-8">
-                    Como posso te ajudar?
+                    {t('chat.title')}
                   </h3>
                 </div>
               </div>
@@ -438,7 +440,7 @@ export default function ChatWidget() {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder="Envie uma mensagem..."
+                  placeholder={t('chat.inputPlaceholder')}
                   className="flex-1 bg-transparent text-white placeholder-gray-400 outline-none"
                   disabled={isRecording}
                 />
@@ -455,7 +457,7 @@ export default function ChatWidget() {
                 </button>
               </div>
               <p className="text-xs text-gray-500 text-center mt-3">
-                ©2025 | Desenvolvido por Evolut IA
+                {t('chat.copyright')}
               </p>
             </div>
           </div>
