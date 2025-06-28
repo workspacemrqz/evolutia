@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Globe } from "lucide-react";
+import { Menu, X, Globe, ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTranslation } from 'react-i18next';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [languageMenuOpen, setLanguageMenuOpen] = useState(false);
   const { t, i18n } = useTranslation();
 
-  const toggleLanguage = () => {
-    const currentLang = i18n.language;
-    const newLang = currentLang === 'pt' ? 'en' : 'pt';
-    i18n.changeLanguage(newLang);
+  const changeLanguage = (lang: string) => {
+    i18n.changeLanguage(lang);
+    setLanguageMenuOpen(false);
   };
 
   const scrollToSection = (sectionId: string) => {
@@ -34,6 +34,21 @@ export default function Header() {
       document.body.style.overflow = 'unset';
     };
   }, [mobileMenuOpen]);
+
+  // Close language dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Element;
+      if (!target.closest('.language-dropdown')) {
+        setLanguageMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <header className="w-full z-50 px-2 sm:px-4 lg:px-6 py-2 mt-2 sm:mt-4 relative">
@@ -96,12 +111,36 @@ export default function Header() {
             <div className="hidden md:flex w-1/4 justify-end items-center space-x-4">
               <div className="relative language-dropdown">
                 <button 
-                  onClick={toggleLanguage}
-                  className="text-gray-400 hover:text-white transition-colors duration-300"
-                  title={i18n.language === 'pt' ? 'Translate to English' : 'Traduzir para Português'}
+                  onClick={() => setLanguageMenuOpen(!languageMenuOpen)}
+                  className="flex items-center space-x-1 text-gray-400 hover:text-white transition-colors duration-300"
+                  title="Select Language"
                 >
                   <Globe size={24} />
+                  <ChevronDown size={16} />
                 </button>
+                
+                {languageMenuOpen && (
+                  <div className="absolute right-0 top-full mt-2 w-48 bg-[#0a0a0a] border border-gray-700 rounded-lg shadow-lg z-50">
+                    <button
+                      onClick={() => changeLanguage('pt')}
+                      className={`w-full text-left px-4 py-3 hover:bg-gray-800 transition-colors flex items-center space-x-3 ${
+                        i18n.language === 'pt' ? 'text-white bg-gray-800' : 'text-gray-400'
+                      }`}
+                    >
+                      <span className="text-lg">🇧🇷</span>
+                      <span>Português</span>
+                    </button>
+                    <button
+                      onClick={() => changeLanguage('en')}
+                      className={`w-full text-left px-4 py-3 hover:bg-gray-800 transition-colors flex items-center space-x-3 ${
+                        i18n.language === 'en' ? 'text-white bg-gray-800' : 'text-gray-400'
+                      }`}
+                    >
+                      <span className="text-lg">🇺🇸</span>
+                      <span>English</span>
+                    </button>
+                  </div>
+                )}
               </div>
               <button 
                 onClick={() => scrollToSection("nao-fique-para-tras")} 
@@ -118,12 +157,36 @@ export default function Header() {
             <div className="md:hidden flex items-center space-x-2">
               <div className="relative language-dropdown">
                 <button 
-                  onClick={toggleLanguage}
-                  className="text-gray-400 hover:text-white transition-colors duration-300"
-                  title={i18n.language === 'pt' ? 'Translate to English' : 'Traduzir para Português'}
+                  onClick={() => setLanguageMenuOpen(!languageMenuOpen)}
+                  className="flex items-center space-x-1 text-gray-400 hover:text-white transition-colors duration-300"
+                  title="Select Language"
                 >
-                  <Globe size={22} />
+                  <Globe size={20} />
+                  <ChevronDown size={14} />
                 </button>
+                
+                {languageMenuOpen && (
+                  <div className="absolute right-0 top-full mt-2 w-44 bg-[#0a0a0a] border border-gray-700 rounded-lg shadow-lg z-50">
+                    <button
+                      onClick={() => changeLanguage('pt')}
+                      className={`w-full text-left px-3 py-2 hover:bg-gray-800 transition-colors flex items-center space-x-2 text-sm ${
+                        i18n.language === 'pt' ? 'text-white bg-gray-800' : 'text-gray-400'
+                      }`}
+                    >
+                      <span>🇧🇷</span>
+                      <span>Português</span>
+                    </button>
+                    <button
+                      onClick={() => changeLanguage('en')}
+                      className={`w-full text-left px-3 py-2 hover:bg-gray-800 transition-colors flex items-center space-x-2 text-sm ${
+                        i18n.language === 'en' ? 'text-white bg-gray-800' : 'text-gray-400'
+                      }`}
+                    >
+                      <span>🇺🇸</span>
+                      <span>English</span>
+                    </button>
+                  </div>
+                )}
               </div>
               <motion.button
                 className="p-1.5 transition-colors relative z-30 text-white hover:text-white"
