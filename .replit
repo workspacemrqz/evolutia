@@ -8,7 +8,7 @@ channel = "stable-24_05"
 run = ["sh", "-c", "npm run dev"]
 
 [workflows]
-runButton = "Development Mode"
+runButton = "Development Server"
 
 [[workflows.workflow]]
 name = "Preview Mode"
@@ -32,6 +32,19 @@ args = "cd \"Replit Preview\" && tsx server-preview.ts"
 name = "Development Mode"
 author = 44232924
 mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
+
+[[workflows.workflow]]
+name = "Development Server"
+author = 44232924
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pkill -f \"node.*3001\" || true"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"

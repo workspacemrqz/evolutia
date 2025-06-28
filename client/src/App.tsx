@@ -16,37 +16,25 @@ import NotFound from "@/pages/not-found";
 function App() {
   console.log('App rendering...');
 
-  try {
-    return (
-      <div className="App min-h-screen bg-[#060606] text-white">
-        <QueryClientProvider client={queryClient}>
-          <AuthProvider>
-            <Switch>
-              <Route path="/" component={HomePage} />
-              <Route path="/formulario" component={FormularioPage} />
-              <Route path="/lgpd" component={LGPDPage} />
-              <Route path="/politica-de-privacidade" component={PrivacyPolicyPage} />
-              <Route path="/termos-de-uso" component={TermsOfUsePage} />
-              <Route path="/auth" component={AuthPage} />
-              <ProtectedRoute path="/admin" component={AdminPage} />
-              <Route component={NotFound} />
-            </Switch>
-            <Toaster />
-          </AuthProvider>
-        </QueryClientProvider>
-      </div>
-    );
-  } catch (error) {
-    console.error('Error rendering App:', error);
-    return (
-      <div className="min-h-screen bg-red-900 text-white flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Erro ao carregar aplicação</h1>
-          <p>{error?.toString()}</p>
-        </div>
-      </div>
-    );
-  }
+  return (
+    <div className="App min-h-screen bg-[#060606] text-white">
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <Switch>
+            <Route path="/" component={HomePage} />
+            <Route path="/formulario" component={FormularioPage} />
+            <Route path="/lgpd" component={LGPDPage} />
+            <Route path="/politica-de-privacidade" component={PrivacyPolicyPage} />
+            <Route path="/termos-de-uso" component={TermsOfUsePage} />
+            <Route path="/auth" component={AuthPage} />
+            <ProtectedRoute path="/admin" component={AdminPage} />
+            <Route component={NotFound} />
+          </Switch>
+          <Toaster />
+        </AuthProvider>
+      </QueryClientProvider>
+    </div>
+  );
 }
 
 export default App;
