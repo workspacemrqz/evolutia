@@ -28,9 +28,9 @@ export default function Header() {
   }, [mobileMenuOpen]);
 
   return (
-    <header className="w-full z-50 px-4 sm:px-6 lg:px-8 py-2 mt-2 sm:mt-4 relative">
+    <header className="w-full z-50 px-2 sm:px-4 lg:px-6 py-2 mt-2 sm:mt-4 relative">
       {/* Header Capsule Container */}
-      <div className={`max-w-7xl mx-auto bg-[#0a0a0a]/95 backdrop-blur-md border border-gray-800/50 shadow-xl transition-all ${
+      <div className={`max-w-6xl mx-auto bg-[#0a0a0a]/95 backdrop-blur-md border border-gray-800/50 shadow-xl transition-all ${
         mobileMenuOpen ? 'rounded-[10px] duration-75' : 'rounded-full duration-300'
       }`}>
         {/* Dotted Texture Background */}
@@ -41,7 +41,7 @@ export default function Header() {
              }}>
         </div>
 
-        <div className="relative px-6 lg:px-8 py-2">
+        <div className="relative px-4 lg:px-6 py-2">
           <div className="flex justify-between items-center">
             {/* Logo */}
             <div className="flex-shrink-0">
@@ -149,7 +149,7 @@ export default function Header() {
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.3, ease: "easeOut", delay: 0.1 }}
             >
-              <div className="px-6 pb-4 pt-3">
+              <div className="px-4 pb-4 pt-3">
                 {/* Horizontal Divider */}
                 <div className="w-full flex justify-center mb-6">
                   <div 
