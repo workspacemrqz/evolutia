@@ -19,7 +19,6 @@ function App() {
   try {
     return (
       <div className="App min-h-screen bg-[#060606] text-white">
-        <h1 className="text-4xl font-bold text-center py-8">App carregando...</h1>
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
             <Switch>
