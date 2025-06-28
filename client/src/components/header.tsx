@@ -85,9 +85,12 @@ export default function Header() {
               {/* Contact Button */}
               <button 
                 onClick={() => scrollToSection("nao-fique-para-tras")} 
-                className="relative bg-[#0a0a0a] text-white px-6 py-2.5 rounded-xl font-medium transition-all duration-300 border border-gray-700 hover:border-gray-600"
+                className="relative bg-[#0a0a0a] text-white px-6 py-2.5 rounded-xl font-medium transition-all duration-300 border border-gray-700 hover:border-gray-600 hover:scale-105 overflow-hidden group"
               >
-                Começar Agora
+                {/* Shine effect */}
+                <div className="absolute inset-0 -translate-x-full group-hover:-translate-x-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-transform duration-1000 ease-out animate-shine"></div>
+                <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 transition-transform duration-2000 ease-linear animate-shine-continuous"></div>
+                <span className="relative z-10">Começar Agora</span>
               </button>
             </nav>
 
@@ -162,9 +165,12 @@ export default function Header() {
                   <div className="pt-4 w-full flex justify-center">
                     <button 
                       onClick={() => scrollToSection("nao-fique-para-tras")} 
-                      className="bg-[#0a0a0a] text-white px-6 py-3 rounded-lg font-medium border border-gray-700 hover:border-gray-600 transition-colors"
+                      className="relative bg-[#0a0a0a] text-white px-6 py-3 rounded-lg font-medium border border-gray-700 hover:border-gray-600 hover:scale-105 transition-all duration-300 overflow-hidden group"
                     >
-                      Começar Agora
+                      {/* Shine effect */}
+                      <div className="absolute inset-0 -translate-x-full group-hover:-translate-x-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-transform duration-1000 ease-out animate-shine"></div>
+                      <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 transition-transform duration-2000 ease-linear animate-shine-continuous"></div>
+                      <span className="relative z-10">Começar Agora</span>
                     </button>
                   </div>
                 </div>
