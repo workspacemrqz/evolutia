@@ -103,19 +103,36 @@ export default function Header() {
                   <Menu className="w-6 h-6" />
                 )}
               </button>
-              <button 
+              <motion.button 
                 onClick={() => scrollToSection("nao-fique-para-tras")} 
-                className="relative bg-[#0a0a0a] text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 snake-border-btn text-sm"
+                className="relative bg-[#0a0a0a] text-white px-4 py-2 rounded-lg font-medium snake-border-btn text-sm"
+                animate={mobileMenuOpen ? { 
+                  y: 120,
+                  x: -80,
+                  scale: 1.1
+                } : { 
+                  y: 0,
+                  x: 0,
+                  scale: 1
+                }}
+                transition={{ 
+                  duration: 0.4, 
+                  ease: "easeInOut",
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 25
+                }}
+                style={{ zIndex: mobileMenuOpen ? 20 : 10 }}
               >
                 Começar Agora
-              </button>
+              </motion.button>
             </div>
           </div>
 
           {/* Mobile Menu Expansion */}
           {mobileMenuOpen && (
             <motion.div 
-              className="md:hidden overflow-hidden"
+              className="md:hidden overflow-visible relative"
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: "auto", opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
@@ -150,9 +167,12 @@ export default function Header() {
                   >
                     Como Funciona
                   </button>
+                  
+                  {/* Space for animated button */}
+                  <div className="h-12 w-full flex justify-center items-center">
+                    {/* The animated button will appear here */}
+                  </div>
                 </div>
-
-                
               </div>
             </motion.div>
           )}
