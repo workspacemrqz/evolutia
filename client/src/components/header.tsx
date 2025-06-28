@@ -115,29 +115,7 @@ export default function Header() {
                   )}
                 </motion.div>
               </motion.button>
-              <motion.button 
-                onClick={() => scrollToSection("nao-fique-para-tras")} 
-                className="relative bg-[#0a0a0a] text-white px-4 py-2 rounded-lg font-medium border border-gray-700 hover:border-gray-600 text-sm"
-                animate={mobileMenuOpen ? { 
-                  y: 120,
-                  x: -80,
-                  scale: 1.1
-                } : { 
-                  y: 0,
-                  x: 0,
-                  scale: 1
-                }}
-                transition={{ 
-                  duration: 0.4, 
-                  ease: "easeInOut",
-                  type: "spring",
-                  stiffness: 300,
-                  damping: 25
-                }}
-                style={{ zIndex: mobileMenuOpen ? 20 : 10 }}
-              >
-                Começar Agora
-              </motion.button>
+              
             </div>
           </div>
 
@@ -180,9 +158,14 @@ export default function Header() {
                     Como Funciona
                   </button>
                   
-                  {/* Space for animated button */}
-                  <div className="h-12 w-full flex justify-center items-center">
-                    {/* The animated button will appear here */}
+                  {/* Centered CTA Button */}
+                  <div className="pt-4 w-full flex justify-center">
+                    <button 
+                      onClick={() => scrollToSection("nao-fique-para-tras")} 
+                      className="bg-[#0a0a0a] text-white px-6 py-3 rounded-lg font-medium border border-gray-700 hover:border-gray-600 transition-colors"
+                    >
+                      Começar Agora
+                    </button>
                   </div>
                 </div>
               </div>
