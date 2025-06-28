@@ -341,58 +341,54 @@
   }
 
   .premium-advantage-card {
-    background: rgba(15, 15, 15, 0.8);
-    border: 1px solid rgba(48, 100, 239, 0.2);
-    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.95);
+    border: 1px solid rgba(100, 120, 180, 0.25);
+    border-radius: 12px;
     padding: 2rem;
-    text-align: center;
+    text-align: left;
     position: relative;
     transition: all 0.3s ease;
     backdrop-filter: blur(10px);
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
   }
 
   .premium-advantage-card:hover {
-    border-color: rgba(48, 100, 239, 0.4);
-    transform: translateY(-5px);
-    box-shadow: 0 10px 40px rgba(48, 100, 239, 0.15);
+    border-color: rgba(100, 120, 180, 0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(48, 100, 239, 0.12);
   }
 
   .premium-icon-container {
     display: flex;
-    justify-content: center;
-    margin-bottom: 1.5rem;
+    justify-content: flex-start;
+    margin-bottom: 24px;
+    position: relative;
   }
 
   .premium-icon-circle {
-    width: 120px;
-    height: 120px;
-    background: linear-gradient(135deg, #3064EF 0%, #1A3B93 100%);
+    width: 72px;
+    height: 72px;
+    background: radial-gradient(circle at 30% 30%, #4A7BF7 0%, #2C5BF0 40%, #1A3B93 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    overflow: hidden;
-    box-shadow: 0 0 30px rgba(48, 100, 239, 0.3);
+    box-shadow: 
+      0 0 20px rgba(48, 100, 239, 0.25),
+      0 4px 15px rgba(48, 100, 239, 0.15);
   }
 
-  .premium-icon-glow {
+  .premium-icon-circle::before {
+    content: '';
     position: absolute;
     inset: -2px;
-    background: linear-gradient(135deg, rgba(48, 100, 239, 0.6), rgba(26, 59, 147, 0.6));
+    background: radial-gradient(circle at 30% 30%, rgba(74, 123, 247, 0.4), rgba(26, 59, 147, 0.2));
     border-radius: 50%;
     animation: premium-glow-pulse 3s ease-in-out infinite;
     z-index: -1;
-  }
-
-  .premium-icon-dots {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background-image: radial-gradient(circle at 2px 2px, rgba(255, 255, 255, 0.3) 1px, transparent 1px);
-    background-size: 12px 12px;
-    animation: premium-dots-rotation 8s linear infinite;
-    opacity: 0.7;
   }
 
   .premium-icon {
@@ -401,20 +397,71 @@
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
   }
 
+  .premium-sparkle {
+    position: absolute;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 12px;
+    z-index: 3;
+    animation: sparkle-twinkle 2s ease-in-out infinite;
+  }
+
+  .premium-sparkle:nth-child(1) {
+    top: 8px;
+    right: 12px;
+    animation-delay: 0s;
+  }
+
+  .premium-sparkle:nth-child(2) {
+    bottom: 10px;
+    left: 8px;
+    animation-delay: 0.7s;
+  }
+
+  .premium-sparkle:nth-child(3) {
+    top: 20px;
+    left: 15px;
+    animation-delay: 1.4s;
+  }
+
+  .premium-card-content {
+    text-align: left;
+  }
+
+  .premium-card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+
+  .premium-card-description {
+    color: #BCBCBC;
+    line-height: 1.5;
+    max-width: 260px;
+    font-size: 0.95rem;
+  }
+
   @keyframes premium-glow-pulse {
     0%, 100% {
-      opacity: 0.6;
+      opacity: 0.4;
       transform: scale(1);
     }
     50% {
-      opacity: 0.8;
-      transform: scale(1.05);
+      opacity: 0.6;
+      transform: scale(1.02);
     }
   }
 
-  @keyframes premium-dots-rotation {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  @keyframes sparkle-twinkle {
+    0%, 100% {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.2);
+    }
   }
 
   /* Estilos para etapas hexagonais */

@@ -45,13 +45,16 @@ export default function AdvantagesSection() {
               <div key={index} className="premium-advantage-card">
                 <div className="premium-icon-container">
                   <div className="premium-icon-circle">
-                    <div className="premium-icon-glow"></div>
-                    <div className="premium-icon-dots"></div>
-                    <IconComponent className="premium-icon" size={32} />
+                    <span className="premium-sparkle">✨</span>
+                    <span className="premium-sparkle">⭐</span>
+                    <span className="premium-sparkle">✦</span>
+                    <IconComponent className="premium-icon" size={28} />
                   </div>
                 </div>
-                <h3 className="text-xl font-bold text-white mb-3 text-center">{advantage.title}</h3>
-                <p className="text-[#BCBCBC] text-center leading-relaxed">{advantage.description}</p>
+                <div className="premium-card-content">
+                  <h3 className="premium-card-title">{advantage.title}</h3>
+                  <p className="premium-card-description">{advantage.description}</p>
+                </div>
               </div>
             );
           })}
