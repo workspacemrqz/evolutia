@@ -95,12 +95,12 @@ export default function Header() {
             </nav>
 
             {/* Mobile Navigation - Menu and CTA Button */}
-            <div className="md:hidden flex items-center space-x-4">
+            <div className="md:hidden flex items-center space-x-3">
               <motion.button 
                 className="p-2 text-white/90 hover:text-[#1E90FF] transition-colors relative z-30"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 animate={mobileMenuOpen ? {
-                  x: 60,
+                  x: 85,
                   transition: { duration: 0.3, ease: "easeInOut" }
                 } : {
                   x: 0,
@@ -119,6 +119,24 @@ export default function Header() {
                 </motion.div>
               </motion.button>
               
+              <motion.button 
+                onClick={() => scrollToSection("nao-fique-para-tras")} 
+                className="relative bg-[#0a0a0a] text-white px-4 py-2 rounded-lg font-medium border border-gray-700 hover:border-gray-600 transition-all duration-300 overflow-hidden group text-sm z-20"
+                animate={mobileMenuOpen ? {
+                  opacity: 0,
+                  scale: 0.8,
+                  transition: { duration: 0.2, ease: "easeInOut" }
+                } : {
+                  opacity: 1,
+                  scale: 1,
+                  transition: { duration: 0.3, ease: "easeInOut", delay: 0.1 }
+                }}
+              >
+                {/* Shine effect */}
+                <div className="absolute inset-0 -translate-x-full group-hover:-translate-x-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-transform duration-1000 ease-out animate-shine"></div>
+                <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 transition-transform duration-2000 ease-linear animate-shine-continuous"></div>
+                <span className="relative z-10">Começar Agora</span>
+              </motion.button>
             </div>
           </div>
 
@@ -161,8 +179,13 @@ export default function Header() {
                     Como Funciona
                   </button>
                   
-                  {/* Centered CTA Button */}
-                  <div className="pt-4 w-full flex justify-center">
+                  {/* Centered CTA Button - appears when menu is open */}
+                  <motion.div 
+                    className="pt-4 w-full flex justify-center"
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, ease: "easeOut", delay: 0.2 }}
+                  >
                     <button 
                       onClick={() => scrollToSection("nao-fique-para-tras")} 
                       className="relative bg-[#0a0a0a] text-white px-6 py-3 rounded-lg font-medium border border-gray-700 hover:border-gray-600 transition-all duration-300 overflow-hidden group"
@@ -172,7 +195,7 @@ export default function Header() {
                       <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 transition-transform duration-2000 ease-linear animate-shine-continuous"></div>
                       <span className="relative z-10">Começar Agora</span>
                     </button>
-                  </div>
+                  </motion.div>
                 </div>
               </div>
             </motion.div>
