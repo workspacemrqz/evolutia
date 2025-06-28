@@ -1,0 +1,93 @@
+[root@srv856338 public_html]# git fetch --prune origin
+rm -f .git/packed-refs
+git fetch origin
+git reset --hard origin/main
+git pull origin main
+
+pm2 delete evolut-site
+npm run build
+pm2 start ecosystem.config.cjs
+systemctl reload lsws
+pm2 status
+HEAD is now at 21942213 Assistant checkpoint: Implement i18n for all hardcoded Portuguese strings
+From github.com:workspacemrqz/evolutia
+ * branch              main       -> FETCH_HEAD
+Already up to date.
+[PM2] Applying action deleteProcessId on app [evolut-site](ids: [ 228 ])
+[PM2] [evolut-site](228) ✓
+┌─────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id  │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├─────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19  │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.9mb  │
+│ 142 │ rotacaicara        │ fork     │ 0    │ online    │ 0%       │ 98.0mb   │
+│ 141 │ tempo-real         │ fork     │ 0    │ online    │ 0%       │ 106.2mb  │
+│ 151 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 34.2mb   │
+└─────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+
+> rest-express@1.0.0 build
+> vite build
+
+vite v5.4.14 building for production...
+transforming (3) src/main.tsxBrowserslist: browsers data (caniuse-lite) is 8 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+[plugin:vite:esbuild] [plugin vite:esbuild] client/src/lib/i18n.ts: Duplicate key "footer" in object literal
+175|          }
+176|        },
+177|        footer: {
+   |        ^
+178|          description: 'Transformamos empresas através de agentes de IA personalizados. Automatize processos, otimize resultados e cresça de forma inteligente.',
+179|          rights: '© 2024 Evolut IA. Todos os direitos reservados.',
+
+[plugin:vite:esbuild] [plugin vite:esbuild] client/src/lib/i18n.ts: Duplicate key "footer" in object literal
+357|          }
+358|        },
+359|        footer: {
+   |        ^
+360|          description: 'We transform companies through personalized AI agents. Automate processes, optimize results and grow intelligently.',
+361|          rights: '© 2024 Evolut IA. All rights reserved.',
+
+✓ 75 modules transformed.
+x Build failed in 1.88s
+error during build:
+[vite:esbuild] Transform failed with 1 error:
+/home/evolutiaoficial.com/public_html/client/src/components/footer.tsx:208:1: ERROR: Unterminated string literal
+file: /home/evolutiaoficial.com/public_html/client/src/components/footer.tsx:208:1
+
+Unterminated string literal
+206|      </footer>
+207|    );
+208|  }
+   |   ^
+
+    at failureErrorWithLog (/home/evolutiaoficial.com/public_html/node_modules/vite/node_modules/esbuild/lib/main.js:1472:15)
+    at /home/evolutiaoficial.com/public_html/node_modules/vite/node_modules/esbuild/lib/main.js:755:50
+    at responseCallbacks.<computed> (/home/evolutiaoficial.com/public_html/node_modules/vite/node_modules/esbuild/lib/main.js:622:9)
+    at handleIncomingPacket (/home/evolutiaoficial.com/public_html/node_modules/vite/node_modules/esbuild/lib/main.js:677:12)
+    at Socket.readFromStdout (/home/evolutiaoficial.com/public_html/node_modules/vite/node_modules/esbuild/lib/main.js:600:7)
+    at Socket.emit (node:events:524:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at Pipe.onStreamRead (node:internal/stream_base_commons:191:23)
+[PM2][WARN] Applications evolut-site not running, starting...
+[PM2] App [evolut-site] launched (1 instances)
+┌─────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id  │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├─────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19  │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.9mb  │
+│ 229 │ evolut-site        │ fork     │ 0    │ online    │ 0%       │ 21.6mb   │
+│ 142 │ rotacaicara        │ fork     │ 0    │ online    │ 0%       │ 98.0mb   │
+│ 141 │ tempo-real         │ fork     │ 0    │ online    │ 0%       │ 106.2mb  │
+│ 151 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 34.2mb   │
+└─────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+┌─────┬────────────────────┬──────────┬──────┬───────────┬──────────┬──────────┐
+│ id  │ name               │ mode     │ ↺    │ status    │ cpu      │ memory   │
+├─────┼────────────────────┼──────────┼──────┼───────────┼──────────┼──────────┤
+│ 19  │ conecta-litoral-n… │ fork     │ 3    │ online    │ 0%       │ 127.4mb  │
+│ 229 │ evolut-site        │ fork     │ 0    │ online    │ 0%       │ 57.6mb   │
+│ 142 │ rotacaicara        │ fork     │ 0    │ online    │ 0%       │ 98.0mb   │
+│ 141 │ tempo-real         │ fork     │ 0    │ online    │ 0%       │ 106.5mb  │
+│ 151 │ workspacemrqz-fla… │ fork     │ 0    │ online    │ 0%       │ 34.2mb   │
+└─────┴────────────────────┴──────────┴──────┴───────────┴──────────┴──────────┘
+[root@srv856338 public_html]# 
