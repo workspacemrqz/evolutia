@@ -96,10 +96,14 @@ export default function Header() {
             {/* Mobile Navigation - Menu and CTA Button */}
             <div className="md:hidden flex items-center space-x-3">
               <motion.button 
-                className="p-1.5 text-white/90 hover:text-[#1E90FF] transition-colors relative z-30"
+                className={`p-1.5 transition-colors relative z-30 ${
+                  mobileMenuOpen 
+                    ? "text-white hover:text-white" 
+                    : "text-white/90 hover:text-[#1E90FF]"
+                }`}
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 animate={mobileMenuOpen ? {
-                  x: 85,
+                  x: 110,
                   transition: { duration: 0.3, ease: "easeInOut" }
                 } : {
                   x: 0,
@@ -111,7 +115,7 @@ export default function Header() {
                   transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
                   {mobileMenuOpen ? (
-                    <X className="w-6 h-6" />
+                    <X className="w-6 h-6 text-white" />
                   ) : (
                     <Menu className="w-6 h-6" />
                   )}
