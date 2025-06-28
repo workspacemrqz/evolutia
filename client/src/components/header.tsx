@@ -207,7 +207,7 @@ export default function Header() {
                   animate={mobileMenuOpen ? {
                     opacity: 0,
                     scale: 0.8,
-                    transition: { duration: 0.2, ease: "easeInOut" }
+                    transition: { duration: 0.1, ease: "easeInOut" }
                   } : {
                     opacity: 1,
                     scale: 1,
