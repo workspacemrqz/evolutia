@@ -93,16 +93,28 @@ export default function Header() {
 
             {/* Mobile Navigation - Menu and CTA Button */}
             <div className="md:hidden flex items-center space-x-4">
-              <button 
-                className="p-2 text-white/90 hover:text-[#1E90FF] transition-colors"
+              <motion.button 
+                className="p-2 text-white/90 hover:text-[#1E90FF] transition-colors relative z-30"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                animate={mobileMenuOpen ? {
+                  x: 60,
+                  transition: { duration: 0.3, ease: "easeInOut" }
+                } : {
+                  x: 0,
+                  transition: { duration: 0.3, ease: "easeInOut" }
+                }}
               >
-                {mobileMenuOpen ? (
-                  <X className="w-6 h-6" />
-                ) : (
-                  <Menu className="w-6 h-6" />
-                )}
-              </button>
+                <motion.div
+                  animate={mobileMenuOpen ? { rotate: 90 } : { rotate: 0 }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                >
+                  {mobileMenuOpen ? (
+                    <X className="w-6 h-6" />
+                  ) : (
+                    <Menu className="w-6 h-6" />
+                  )}
+                </motion.div>
+              </motion.button>
               <motion.button 
                 onClick={() => scrollToSection("nao-fique-para-tras")} 
                 className="relative bg-[#0a0a0a] text-white px-4 py-2 rounded-lg font-medium border border-gray-700 hover:border-gray-600 text-sm"
