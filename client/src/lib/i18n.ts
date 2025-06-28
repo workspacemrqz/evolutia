@@ -26,9 +26,6 @@ const resources = {
         placeholder: 'Como posso te ajudar?',
         sendPlaceholder: 'Envie uma mensagem…'
       },
-      footer: {
-        copyright: '©2025 | Desenvolvido por Evolut IA'
-      },
       agents: {
         title: 'Agentes Evolut IA',
         subtitle: 'Cada desafio exige uma solução inteligente. Conheça alguns dos agentes já criados pela Evolut IA',
@@ -207,9 +204,6 @@ const resources = {
       chat: {
         placeholder: 'How can I help you?',
         sendPlaceholder: 'Send a message…'
-      },
-      footer: {
-        copyright: '©2025 | Developed by Evolut AI'
       },
       agents: {
         title: 'Evolut AI Agents',
