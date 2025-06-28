@@ -80,11 +80,11 @@
     z-index: -10;
     animation: dotted-glow 3s ease-in-out infinite alternate;
     mask: 
-      radial-gradient(ellipse 100% 100% at center, black 40%, transparent 70%),
-      linear-gradient(to bottom, transparent 0%, transparent 120px, black 120px, black 100%);
+      linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
     -webkit-mask: 
-      radial-gradient(ellipse 100% 100% at center, black 40%, transparent 70%),
-      linear-gradient(to bottom, transparent 0%, transparent 120px, black 120px, black 100%);
+      linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
     mask-composite: intersect;
     -webkit-mask-composite: source-in;
   }
