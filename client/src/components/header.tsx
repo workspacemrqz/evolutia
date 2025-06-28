@@ -173,39 +173,29 @@ export default function Header() {
 
               {/* Right side elements aligned */}
               <div className="flex items-center space-x-3">
-                {/* Globe Icon */}
-                <div className="relative language-dropdown">
-                  <button 
-                    onClick={() => setLanguageMenuOpen(!languageMenuOpen)}
-                    className="text-gray-400 hover:text-white transition-colors duration-300"
-                    title="Select Language"
+                {/* Mobile menu button */}
+                <motion.button
+                  className="p-1.5 transition-colors relative z-30 text-white hover:text-white"
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  animate={mobileMenuOpen ? {
+                    x: 110,
+                    transition: { duration: 0.3, ease: "easeInOut" }
+                  } : {
+                    x: 0,
+                    transition: { duration: 0.3, ease: "easeInOut" }
+                  }}
+                >
+                  <motion.div
+                    animate={mobileMenuOpen ? { rotate: 90 } : { rotate: 0 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
                   >
-                    <Globe size={22} />
-                  </button>
-                  
-                  {languageMenuOpen && (
-                    <div className="absolute right-0 top-full mt-2 w-44 bg-[#0a0a0a] border border-gray-700 rounded-lg shadow-lg z-50">
-                      <button
-                        onClick={() => changeLanguage('pt')}
-                        className={`w-full text-left px-3 py-2 hover:bg-gray-800 transition-colors flex items-center space-x-2 text-sm ${
-                          i18n.language === 'pt' ? 'text-white bg-gray-800' : 'text-gray-400'
-                        }`}
-                      >
-                        <span>🇧🇷</span>
-                        <span>Português</span>
-                      </button>
-                      <button
-                        onClick={() => changeLanguage('en')}
-                        className={`w-full text-left px-3 py-2 hover:bg-gray-800 transition-colors flex items-center space-x-2 text-sm ${
-                          i18n.language === 'en' ? 'text-white bg-gray-800' : 'text-gray-400'
-                        }`}
-                      >
-                        <span>🇺🇸</span>
-                        <span>English</span>
-                      </button>
-                    </div>
-                  )}
-                </div>
+                    {mobileMenuOpen ? (
+                      <X className="w-6 h-6 text-white" />
+                    ) : (
+                      <Menu className="w-6 h-6 text-white" />
+                    )}
+                  </motion.div>
+                </motion.button>
 
                 {/* CTA Button */}
                 <motion.button 
@@ -225,30 +215,6 @@ export default function Header() {
                   <div className="absolute inset-0 -translate-x-full group-hover:-translate-x-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-transform duration-1000 ease-out animate-shine"></div>
                   <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 transition-transform duration-2000 ease-linear animate-shine-continuous"></div>
                   <span className="relative z-10">{t('cta.startNow', 'Começar Agora')}</span>
-                </motion.button>
-
-                {/* Mobile menu button */}
-                <motion.button
-                  className="p-1.5 transition-colors relative z-30 text-white hover:text-white"
-                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  animate={mobileMenuOpen ? {
-                    x: 150,
-                    transition: { duration: 0.3, ease: "easeInOut" }
-                  } : {
-                    x: 0,
-                    transition: { duration: 0.3, ease: "easeInOut" }
-                  }}
-                >
-                  <motion.div
-                    animate={mobileMenuOpen ? { rotate: 90 } : { rotate: 0 }}
-                    transition={{ duration: 0.3, ease: "easeInOut" }}
-                  >
-                    {mobileMenuOpen ? (
-                      <X className="w-6 h-6 text-white" />
-                    ) : (
-                      <Menu className="w-6 h-6 text-white" />
-                    )}
-                  </motion.div>
                 </motion.button>
               </div>
             </div>
@@ -292,6 +258,42 @@ export default function Header() {
                   >
                     {t('nav.howItWorks', 'Como Funciona')}
                   </button>
+
+                  {/* Globe Icon - Mobile Menu */}
+                  <div className="relative language-dropdown pt-2">
+                    <button 
+                      onClick={() => setLanguageMenuOpen(!languageMenuOpen)}
+                      className="flex items-center space-x-2 text-gray-400 hover:text-white transition-colors duration-300"
+                      title="Select Language"
+                    >
+                      <Globe size={22} />
+                      <ChevronDown size={16} />
+                      <span className="text-lg">{i18n.language === 'pt' ? 'Idioma' : 'Language'}</span>
+                    </button>
+                    
+                    {languageMenuOpen && (
+                      <div className="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 w-44 bg-[#0a0a0a] border border-gray-700 rounded-lg shadow-lg z-50">
+                        <button
+                          onClick={() => changeLanguage('pt')}
+                          className={`w-full text-left px-3 py-2 hover:bg-gray-800 transition-colors flex items-center space-x-2 text-sm ${
+                            i18n.language === 'pt' ? 'text-white bg-gray-800' : 'text-gray-400'
+                          }`}
+                        >
+                          <span>🇧🇷</span>
+                          <span>Português</span>
+                        </button>
+                        <button
+                          onClick={() => changeLanguage('en')}
+                          className={`w-full text-left px-3 py-2 hover:bg-gray-800 transition-colors flex items-center space-x-2 text-sm ${
+                            i18n.language === 'en' ? 'text-white bg-gray-800' : 'text-gray-400'
+                          }`}
+                        >
+                          <span>🇺🇸</span>
+                          <span>English</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
 
                   {/* Centered CTA Button - appears when menu is open */}
                   <motion.div 
