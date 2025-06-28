@@ -30,7 +30,7 @@ export default function Header() {
   return (
     <header className="w-full z-50 px-2 sm:px-4 lg:px-6 py-2 mt-2 sm:mt-4 relative">
       {/* Header Capsule Container */}
-      <div className={`max-w-6xl mx-auto bg-[#0a0a0a]/95 backdrop-blur-md border border-gray-800/50 shadow-xl transition-all ${
+      <div className={`max-w-4xl mx-auto bg-[#0a0a0a]/95 backdrop-blur-md border border-gray-800/50 shadow-xl transition-all ${
         mobileMenuOpen ? 'rounded-[10px] duration-75' : 'rounded-full duration-300'
       }`}>
         {/* Dotted Texture Background */}
@@ -41,8 +41,8 @@ export default function Header() {
              }}>
         </div>
 
-        <div className="relative px-4 lg:px-6 py-2">
-          <div className="flex justify-between items-center">
+        <div className="relative px-3 lg:px-4 py-2">
+          <div className="flex justify-between items-center gap-4">
             {/* Logo */}
             <div className="flex-shrink-0">
               <motion.button 
@@ -61,7 +61,7 @@ export default function Header() {
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-4">
+            <nav className="hidden md:flex items-center space-x-3">
               <button 
                 onClick={() => scrollToSection("agentes")} 
                 className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
