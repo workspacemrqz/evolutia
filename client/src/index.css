@@ -360,6 +360,9 @@
     position: relative;
     margin-bottom: 24px;
     overflow: hidden;
+    box-shadow: 
+      0 0 12px rgba(0, 0, 0, 0.4),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.05);
   }
 
   .premium-grid-pattern {
@@ -381,6 +384,7 @@
     background: white;
     border-radius: 50%;
     z-index: 2;
+    animation: sparkle-float-1 2s ease-in-out infinite;
   }
 
   .premium-star-2 {
@@ -392,6 +396,7 @@
     background: white;
     border-radius: 50%;
     z-index: 2;
+    animation: sparkle-float-2 2s ease-in-out infinite 0.4s;
   }
 
   .premium-star-3 {
@@ -403,6 +408,7 @@
     background: white;
     border-radius: 50%;
     z-index: 2;
+    animation: sparkle-float-3 2s ease-in-out infinite 0.8s;
   }
 
   .premium-star-4 {
@@ -414,6 +420,7 @@
     background: white;
     border-radius: 50%;
     z-index: 2;
+    animation: sparkle-float-4 2s ease-in-out infinite 1.2s;
   }
 
   .premium-star-5 {
@@ -426,6 +433,7 @@
     background: white;
     border-radius: 50%;
     z-index: 2;
+    animation: sparkle-float-5 2s ease-in-out infinite 1.6s;
   }
 
   .premium-icon-circle {
@@ -447,6 +455,91 @@
   .premium-icon {
     color: white;
     stroke-width: 2px;
+    animation: icon-gentle-pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes icon-gentle-pulse {
+    0%, 100% {
+      transform: scale(1) translateY(0px);
+    }
+    50% {
+      transform: scale(1.05) translateY(-2px);
+    }
+  }
+
+  @keyframes sparkle-float-1 {
+    0% {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+    50% {
+      opacity: 0.3;
+      transform: translate(3px, -4px);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(-2px, 3px);
+    }
+  }
+
+  @keyframes sparkle-float-2 {
+    0% {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+    50% {
+      opacity: 0.3;
+      transform: translate(-4px, 3px);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(3px, -2px);
+    }
+  }
+
+  @keyframes sparkle-float-3 {
+    0% {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+    50% {
+      opacity: 0.3;
+      transform: translate(2px, -3px);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(-3px, 4px);
+    }
+  }
+
+  @keyframes sparkle-float-4 {
+    0% {
+      opacity: 1;
+      transform: translate(0, 0);
+    }
+    50% {
+      opacity: 0.3;
+      transform: translate(-3px, -2px);
+    }
+    100% {
+      opacity: 1;
+      transform: translate(4px, 3px);
+    }
+  }
+
+  @keyframes sparkle-float-5 {
+    0% {
+      opacity: 1;
+      transform: translateX(-50%) translate(0, 0);
+    }
+    50% {
+      opacity: 0.3;
+      transform: translateX(-50%) translate(3px, 4px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(-50%) translate(-2px, -3px);
+    }
   }
 
   .premium-card-title {
