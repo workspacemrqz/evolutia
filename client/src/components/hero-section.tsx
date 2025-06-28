@@ -3,6 +3,37 @@ import { motion } from "framer-motion";
 export default function HeroSection() {
   return (
     <section className="pt-24 pb-20 bg-[#060606] relative overflow-hidden">
+      {/* Dotted pattern overlay with edge fade and center glow */}
+      <div className="absolute inset-0 opacity-30">
+        <div 
+          className="w-full h-full"
+          style={{
+            backgroundImage: `radial-gradient(circle at 2px 2px, rgba(245, 245, 245, 0.6) 1px, transparent 0)`,
+            backgroundSize: '24px 24px',
+            mask: `
+              radial-gradient(ellipse at center, black 40%, transparent 70%),
+              linear-gradient(to bottom, black 0%, black 80%, transparent 100%),
+              linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)
+            `,
+            WebkitMask: `
+              radial-gradient(ellipse at center, black 40%, transparent 70%),
+              linear-gradient(to bottom, black 0%, black 80%, transparent 100%),
+              linear-gradient(to right, transparent 0%, black 15%, black 85%, transparent 100%)
+            `,
+            maskComposite: 'intersect',
+            WebkitMaskComposite: 'source-in'
+          }}
+        />
+      </div>
+      
+      {/* Pulsing center glow */}
+      <div 
+        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full opacity-20"
+        style={{
+          background: 'radial-gradient(circle, #224FC4 0%, transparent 70%)',
+          animation: 'pulse-glow 4s ease-in-out infinite'
+        }}
+      />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-4xl mx-auto">
           <motion.div

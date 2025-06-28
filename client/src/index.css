@@ -406,3 +406,14 @@
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
+
+@keyframes pulse-glow {
+  0%, 100% { 
+    opacity: 0.1; 
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% { 
+    opacity: 0.3; 
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
