@@ -53,7 +53,7 @@ export default function Header() {
   return (
     <header className="w-full z-50 px-4 sm:px-8 lg:px-16 py-1 mt-1 sm:mt-2 relative">
       {/* Header Capsule Container */}
-      <div className={`max-w-5xl mx-auto bg-[#0a0a0a]/95 backdrop-blur-md border border-gray-800/50 shadow-xl transition-all ${
+      <div className={`max-w-5xl mx-auto bg-[#050505]/95 backdrop-blur-md border border-gray-800/50 shadow-xl transition-all ${
         mobileMenuOpen ? 'rounded-[10px] duration-75' : 'rounded-full duration-300'
       }`}>
         
@@ -115,7 +115,7 @@ export default function Header() {
                   </button>
                   
                   {languageMenuOpen && (
-                    <div className="absolute right-0 top-full mt-2 w-48 bg-[#0a0a0a] border border-gray-700 rounded-lg shadow-lg z-50">
+                    <div className="absolute right-0 top-full mt-2 w-48 bg-[#050505] border border-gray-700 rounded-lg shadow-lg z-50">
                       <button
                         onClick={() => changeLanguage('pt')}
                         className={`w-full text-left px-4 py-3 hover:bg-gray-800 transition-colors flex items-center space-x-3 ${
@@ -143,7 +143,7 @@ export default function Header() {
               <div className="mr-4">
                 <button 
                   onClick={() => scrollToSection("nao-fique-para-tras")} 
-                  className="relative bg-[#0a0a0a] text-white px-6 py-2 rounded-xl font-medium transition-all duration-300 border border-gray-700 hover:border-gray-600 overflow-hidden group whitespace-nowrap flex items-center justify-center"
+                  className="relative bg-[#050505] text-white px-6 py-2 rounded-xl font-medium transition-all duration-300 border border-gray-700 hover:border-gray-600 overflow-hidden group whitespace-nowrap flex items-center justify-center"
                 >
                   {/* Shine effect */}
                   <div className="absolute inset-0 -translate-x-full group-hover:-translate-x-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-transform duration-1000 ease-out animate-shine"></div>
@@ -199,7 +199,7 @@ export default function Header() {
                 {/* CTA Button */}
                 <motion.button 
                   onClick={() => scrollToSection("nao-fique-para-tras")} 
-                  className="relative bg-[#0a0a0a] text-white px-4 py-2 rounded-lg font-medium border border-gray-700 hover:border-gray-600 transition-all duration-300 overflow-hidden group text-sm z-20 whitespace-nowrap"
+                  className="relative bg-[#050505] text-white px-4 py-2 rounded-lg font-medium border border-gray-700 hover:border-gray-600 transition-all duration-300 overflow-hidden group text-sm z-20 whitespace-nowrap"
                   animate={mobileMenuOpen ? {
                     opacity: 0,
                     scale: 0.8,
@@ -271,7 +271,7 @@ export default function Header() {
                     </button>
                     
                     {languageMenuOpen && (
-                      <div className="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 w-44 bg-[#0a0a0a] border border-gray-700 rounded-lg shadow-lg z-50">
+                      <div className="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 w-44 bg-[#050505] border border-gray-700 rounded-lg shadow-lg z-50">
                         <button
                           onClick={() => changeLanguage('pt')}
                           className={`w-full text-left px-3 py-2 hover:bg-gray-800 transition-colors flex items-center space-x-2 text-sm ${
@@ -303,7 +303,7 @@ export default function Header() {
                   >
                     <button 
                       onClick={() => scrollToSection("nao-fique-para-tras")} 
-                      className="relative bg-[#0a0a0a] text-white px-6 py-3 rounded-lg font-medium border border-gray-700 hover:border-gray-600 transition-all duration-300 overflow-hidden group"
+                      className="relative bg-[#050505] text-white px-6 py-3 rounded-lg font-medium border border-gray-700 hover:border-gray-600 transition-all duration-300 overflow-hidden group"
                     >
                       {/* Shine effect */}
                       <div className="absolute inset-0 -translate-x-full group-hover:-translate-x-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-transform duration-1000 ease-out animate-shine"></div>
