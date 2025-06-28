@@ -144,19 +144,19 @@ export default function Header() {
                 <div className="flex flex-col items-center space-y-4 mb-6">
                   <button 
                     onClick={() => scrollToSection("agentes")} 
-                    className="text-[#d1d1d1] hover:text-[#1E90FF] transition-colors duration-300 font-semibold text-lg"
+                    className="text-gray-400 hover:text-white transition-colors duration-300 font-light text-lg"
                   >
                     Agentes
                   </button>
                   <button 
                     onClick={() => scrollToSection("vantagens")} 
-                    className="text-[#d1d1d1] hover:text-[#1E90FF] transition-colors duration-300 font-semibold text-lg"
+                    className="text-gray-400 hover:text-white transition-colors duration-300 font-light text-lg"
                   >
                     Vantagens
                   </button>
                   <button 
                     onClick={() => scrollToSection("como-funciona")} 
-                    className="text-[#d1d1d1] hover:text-[#1E90FF] transition-colors duration-300 font-semibold text-lg"
+                    className="text-gray-400 hover:text-white transition-colors duration-300 font-light text-lg"
                   >
                     Como Funciona
                   </button>
