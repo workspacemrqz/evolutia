@@ -55,7 +55,7 @@ export default function Header() {
                 <img 
                   src="https://i.ibb.co/rf3PXc8r/LOGO-Evolut-IA-com-texto-na-horizontal.png" 
                   alt="Evolut IA Logo" 
-                  className="h-5 sm:h-7 w-auto max-w-[100px] md:max-w-[120px] filter brightness-100"
+                  className="h-6 sm:h-7 w-auto max-w-[120px] md:max-w-[120px] filter brightness-100"
                 />
               </motion.button>
             </div>
@@ -103,7 +103,7 @@ export default function Header() {
                 className="p-1.5 transition-colors relative z-30 text-white hover:text-white"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 animate={mobileMenuOpen ? {
-                  x: 130,
+                  x: 150,
                   transition: { duration: 0.3, ease: "easeInOut" }
                 } : {
                   x: 0,
