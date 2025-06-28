@@ -349,6 +349,51 @@
     filter: brightness(1.15) drop-shadow(0 0 20px rgba(48, 100, 239, 0.6));
   }
 
+  /* Estilos para etapas hexagonais */
+  .step-hexagon {
+    width: 80px;
+    height: 80px;
+    background: #1a1a1a;
+    position: relative;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  .step-hexagon::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(45deg, #1A3B93, #3064EF, #1A3B93);
+    border-radius: 14px;
+    z-index: -1;
+  }
+
+  .step-number {
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    z-index: 3;
+  }
+
+  /* Linha conectora entre etapas */
+  .step-connector {
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(26, 59, 147, 0.3), rgba(48, 100, 239, 0.3));
+    transform: translateY(-50%);
+    z-index: 1;
+  }
+
+  .step-container {
+    position: relative;
+  }
+
   /* Tamanho maior do relógio no mobile */
   @media (max-width: 768px) {
     .clock-animation {

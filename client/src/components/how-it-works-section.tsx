@@ -39,9 +39,12 @@ export default function HowItWorksSection() {
         
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {steps.map((step, index) => (
-            <div key={index} className="text-center">
-              <div className="w-20 h-20 gradient-bg rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-2xl font-bold text-white">{step.number}</span>
+            <div key={index} className="text-center step-container">
+              <div className="step-hexagon mx-auto mb-6">
+                <span className="step-number">{step.number}</span>
+                {index < steps.length - 1 && (
+                  <div className="step-connector hidden lg:block"></div>
+                )}
               </div>
               <h3 className="text-xl font-semibold text-white mb-4">{step.title}</h3>
               <p className="text-[#BCBCBC]">{step.description}</p>
