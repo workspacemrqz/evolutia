@@ -27,3 +27,7 @@ mode = "sequential"
 [[workflows.workflow.tasks]]
 task = "shell.exec"
 args = "cd \"Replit Preview\" && tsx server-preview.ts"
+
+[[ports]]
+localPort = 3001
+externalPort = 80
