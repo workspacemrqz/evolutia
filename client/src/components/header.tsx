@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { motion } from "framer-motion";
+import { useTranslation } from 'react-i18next';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { t } = useTranslation();
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -20,7 +22,7 @@ export default function Header() {
     } else {
       document.body.style.overflow = 'unset';
     }
-    
+
     // Cleanup on unmount
     return () => {
       document.body.style.overflow = 'unset';
@@ -93,7 +95,7 @@ export default function Header() {
                 {/* Shine effect */}
                 <div className="absolute inset-0 -translate-x-full group-hover:-translate-x-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-transform duration-1000 ease-out animate-shine"></div>
                 <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 transition-transform duration-2000 ease-linear animate-shine-continuous"></div>
-                <span className="relative z-10">Começar Agora</span>
+                <span className="relative z-10">{t('cta.startNow', 'Começar Agora')}</span>
               </button>
             </div>
 
@@ -121,7 +123,7 @@ export default function Header() {
                   )}
                 </motion.div>
               </motion.button>
-              
+
               <motion.button 
                 onClick={() => scrollToSection("nao-fique-para-tras")} 
                 className="relative bg-[#0a0a0a] text-white px-4 py-2 rounded-lg font-medium border border-gray-700 hover:border-gray-600 transition-all duration-300 overflow-hidden group text-sm z-20"
@@ -138,7 +140,7 @@ export default function Header() {
                 {/* Shine effect */}
                 <div className="absolute inset-0 -translate-x-full group-hover:-translate-x-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-transform duration-1000 ease-out animate-shine"></div>
                 <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 transition-transform duration-2000 ease-linear animate-shine-continuous"></div>
-                <span className="relative z-10">Começar Agora</span>
+                <span className="relative z-10">{t('cta.startNow', 'Começar Agora')}</span>
               </motion.button>
             </div>
           </div>
@@ -160,7 +162,7 @@ export default function Header() {
                     style={{ opacity: 0.3 }}
                   ></div>
                 </div>
-                
+
                 {/* Navigation Links */}
                 <div className="flex flex-col items-center space-y-4 mb-6">
                   <button 
@@ -181,7 +183,7 @@ export default function Header() {
                   >
                     Como Funciona
                   </button>
-                  
+
                   {/* Centered CTA Button - appears when menu is open */}
                   <motion.div 
                     className="pt-4 w-full flex justify-center"
@@ -196,7 +198,7 @@ export default function Header() {
                       {/* Shine effect */}
                       <div className="absolute inset-0 -translate-x-full group-hover:-translate-x-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-transform duration-1000 ease-out animate-shine"></div>
                       <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 transition-transform duration-2000 ease-linear animate-shine-continuous"></div>
-                      <span className="relative z-10">Começar Agora</span>
+                      <span className="relative z-10">{t('cta.startNow', 'Começar Agora')}</span>
                     </button>
                   </motion.div>
                 </div>
