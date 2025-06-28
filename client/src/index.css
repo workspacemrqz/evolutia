@@ -346,12 +346,12 @@
   100% { background-position: 0% 50%; }
 }
 
-@keyframes laser-trace {
+@keyframes laser-trace-external {
   0% {
-    background-position: 0% 0%;
+    transform: rotate(0deg);
   }
   100% {
-    background-position: 200% 0%;
+    transform: rotate(360deg);
   }
 }
 
@@ -364,23 +364,16 @@
 .laser-border-btn::before {
   content: '';
   position: absolute;
-  inset: -1px;
-  padding: 1px;
+  inset: -2px;
   border-radius: inherit;
-  background: linear-gradient(90deg, 
-    transparent 0%,
-    transparent 25%, 
-    #224FC4 50%, 
-    transparent 75%, 
-    transparent 100%
-  );
-  background-size: 200% 100%;
-  animation: laser-trace 2s linear infinite;
+  padding: 2px;
+  background: conic-gradient(from 0deg, transparent 0deg, transparent 270deg, #224FC4 290deg, #224FC4 300deg, transparent 320deg, transparent 360deg);
+  animation: laser-trace-external 3s linear infinite;
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: xor;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
-  filter: drop-shadow(0 0 4px rgba(34, 79, 196, 0.4));
+  filter: drop-shadow(0 0 6px rgba(34, 79, 196, 0.6));
 }
 
 @keyframes slideInUp {
