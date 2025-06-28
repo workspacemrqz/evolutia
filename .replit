@@ -8,7 +8,7 @@ channel = "stable-24_05"
 run = ["sh", "-c", "npm run dev"]
 
 [workflows]
-runButton = "Preview Mode"
+runButton = "Development Mode"
 
 [[workflows.workflow]]
 name = "Preview Mode"
@@ -28,6 +28,16 @@ mode = "sequential"
 task = "shell.exec"
 args = "cd \"Replit Preview\" && tsx server-preview.ts"
 
+[[workflows.workflow]]
+name = "Development Mode"
+author = 44232924
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
+
 [[ports]]
 localPort = 3001
 externalPort = 80
+exposeLocalhost = true
