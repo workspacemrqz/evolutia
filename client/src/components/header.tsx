@@ -85,7 +85,7 @@ export default function Header() {
               {/* Contact Button */}
               <button 
                 onClick={() => scrollToSection("nao-fique-para-tras")} 
-                className="relative bg-[#0a0a0a] text-white px-6 py-2.5 rounded-xl font-medium transition-all duration-300 snake-border-btn"
+                className="relative bg-[#0a0a0a] text-white px-6 py-2.5 rounded-xl font-medium transition-all duration-300 border border-gray-700 hover:border-gray-600"
               >
                 Começar Agora
               </button>
@@ -105,7 +105,7 @@ export default function Header() {
               </button>
               <motion.button 
                 onClick={() => scrollToSection("nao-fique-para-tras")} 
-                className="relative bg-[#0a0a0a] text-white px-4 py-2 rounded-lg font-medium snake-border-btn text-sm"
+                className="relative bg-[#0a0a0a] text-white px-4 py-2 rounded-lg font-medium border border-gray-700 hover:border-gray-600 text-sm"
                 animate={mobileMenuOpen ? { 
                   y: 120,
                   x: -80,
