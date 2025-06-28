@@ -53,7 +53,7 @@ export default function Header() {
   return (
     <header className="w-full z-50 px-4 sm:px-8 lg:px-16 py-2 mt-2 sm:mt-4 relative">
       {/* Header Capsule Container */}
-      <div className={`max-w-4xl mx-auto bg-[#0a0a0a]/95 backdrop-blur-md border border-gray-800/50 shadow-xl transition-all ${
+      <div className={`max-w-3xl mx-auto bg-[#0a0a0a]/95 backdrop-blur-md border border-gray-800/50 shadow-xl transition-all ${
         mobileMenuOpen ? 'rounded-[10px] duration-75' : 'rounded-full duration-300'
       }`}>
         {/* Dotted Texture Background */}
