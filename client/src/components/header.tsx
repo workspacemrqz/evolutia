@@ -84,7 +84,7 @@ export default function Header() {
               </motion.button>
 
               {/* Navigation Links */}
-              <div className="flex items-center space-x-8 ml-10">
+              <div className="flex items-center space-x-8 ml-8">
                 {/* Agentes */}
                 <button 
                   onClick={() => scrollToSection("agentes")} 
