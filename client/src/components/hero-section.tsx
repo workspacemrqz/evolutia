@@ -40,9 +40,31 @@ export default function HeroSection() {
               className="text-3xl font-bold text-white hero-title px-2 -mt-4"
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 1, ease: "easeOut" }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              {t('hero.title')}
+              {t('hero.title').split(' ').map((word, index) => (
+                <motion.span
+                  key={index}
+                  className="inline-block mr-2"
+                  initial={{ 
+                    opacity: 0,
+                    filter: "blur(25px)",
+                    y: 20
+                  }}
+                  animate={{ 
+                    opacity: 1,
+                    filter: "blur(0px)",
+                    y: 0
+                  }}
+                  transition={{ 
+                    duration: 1.2,
+                    delay: index * 0.15,
+                    ease: "easeOut"
+                  }}
+                >
+                  {word}
+                </motion.span>
+              ))}
             </motion.h1>
           </div>
 
@@ -51,9 +73,31 @@ export default function HeroSection() {
             className="hidden sm:block text-5xl lg:text-6xl font-bold text-white mb-6 hero-title"
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 1, ease: "easeOut" }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            {t('hero.title')}
+            {t('hero.title').split(' ').map((word, index) => (
+              <motion.span
+                key={index}
+                className="inline-block mr-4"
+                initial={{ 
+                  opacity: 0,
+                  filter: "blur(25px)",
+                  y: 20
+                }}
+                animate={{ 
+                  opacity: 1,
+                  filter: "blur(0px)",
+                  y: 0
+                }}
+                transition={{ 
+                  duration: 1.2,
+                  delay: index * 0.15,
+                  ease: "easeOut"
+                }}
+              >
+                {word}
+              </motion.span>
+            ))}
           </motion.h1>
 
           <motion.div
