@@ -6,22 +6,37 @@ export default function HeroSection() {
       {/* Dotted pattern overlay with edge fade and center glow */}
       <div className="absolute inset-0 opacity-30 z-0">
         <div 
-          className="w-full h-full"
+          className="w-full h-full relative"
           style={{
             backgroundImage: `radial-gradient(circle at 1px 1px, rgba(245, 245, 245, 0.6) 0.5px, transparent 0)`,
-            backgroundSize: '12px 12px',
-            mask: `
-              linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%),
-              linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)
-            `,
-            WebkitMask: `
-              linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%),
-              linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)
-            `,
-            maskComposite: 'intersect',
-            WebkitMaskComposite: 'source-in'
+            backgroundSize: '12px 12px'
           }}
-        />
+        >
+          {/* Overlay para criar o efeito de fade nas bordas */}
+          <div 
+            className="absolute inset-0 pointer-events-none"
+            style={{
+              background: `
+                linear-gradient(to right, 
+                  rgba(6, 6, 6, 1) 0%, 
+                  rgba(6, 6, 6, 0.7) 5%, 
+                  transparent 10%, 
+                  transparent 90%, 
+                  rgba(6, 6, 6, 0.7) 95%, 
+                  rgba(6, 6, 6, 1) 100%
+                ),
+                linear-gradient(to bottom, 
+                  rgba(6, 6, 6, 1) 0%, 
+                  rgba(6, 6, 6, 0.7) 5%, 
+                  transparent 10%, 
+                  transparent 90%, 
+                  rgba(6, 6, 6, 0.7) 95%, 
+                  rgba(6, 6, 6, 1) 100%
+                )
+              `
+            }}
+          />
+        </div>
       </div>
 
       {/* Pulsing center glow */}
