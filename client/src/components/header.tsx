@@ -64,7 +64,7 @@ export default function Header() {
              }}>
         </div>
 
-        <div className="relative px-8 lg:px-10 py-6"></div>
+        <div className="relative px-8 lg:px-10 py-6">
           <div className="flex items-center">
             {/* Desktop Navigation - Balanced spacing */}
             <div className="hidden md:flex items-center justify-between w-full">
