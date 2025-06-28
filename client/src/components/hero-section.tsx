@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 export default function HeroSection() {
   return (
     <section className="hero-section pt-24 pb-20 bg-transparent relative overflow-hidden">
-      
+
       {/* Pulsing center glow */}
       {/* <div 
         className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full opacity-20"

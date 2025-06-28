@@ -64,6 +64,29 @@
     @apply font-sans antialiased bg-[#030303] text-white;
     font-family: 'Inter', sans-serif;
   }
+  
+  /* Garantir fundo consistente em todas as páginas e containers */
+  html, body, #root {
+    background-color: #030303 !important;
+  }
+  
+  /* Aplicar fundo escuro a todos os containers principais */
+  .bg-\[\#060606\] {
+    background-color: #030303 !important;
+  }
+  
+  .bg-\[\#0a0a0a\] {
+    background-color: #030303 !important;
+  }
+  
+  .bg-\[\#0D0D0D\] {
+    background-color: #030303 !important;
+  }
+  
+  /* Seções e containers principais */
+  section, main, div[class*="container"], div[class*="wrapper"] {
+    background-color: #030303;
+  }
 
   /* Seção hero sem grid de pontos */
   .hero-section {
