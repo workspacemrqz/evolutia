@@ -358,7 +358,7 @@
   100% { background-position: 0% 50%; }
 }
 
-@keyframes laser-trace-border {
+@keyframes snake-border-rotation {
   0% {
     transform: rotate(0deg);
   }
@@ -367,39 +367,38 @@
   }
 }
 
-.laser-border-btn {
+.snake-border-btn {
   position: relative;
-  background: #202020;
+  background: #0a0a0a;
   border: none;
-  border-radius: 7px;
   overflow: hidden;
 }
 
-/* Stroke Layer - Animated border trace */
-.laser-border-btn::before {
+/* Snake Border Animation */
+.snake-border-btn::before {
   content: '';
   position: absolute;
   inset: 0;
-  border-radius: 7px;
   padding: 2px;
-  background: conic-gradient(from 0deg, #224FC4 0deg, #224FC4 90deg, transparent 90deg, transparent 270deg, #224FC4 270deg, #224FC4 360deg);
-  animation: laser-trace-border 2s linear infinite;
+  background: conic-gradient(from 0deg, transparent 0deg, transparent 270deg, #224FC4 270deg, #224FC4 360deg);
+  animation: snake-border-rotation 3s linear infinite;
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: xor;
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
+  border-radius: inherit;
 }
 
-/* Glow Layer - External glow effect */
-.laser-border-btn::after {
+/* Glow Effect */
+.snake-border-btn::after {
   content: '';
   position: absolute;
-  inset: -4px;
-  border-radius: 11px;
+  inset: -3px;
   background: transparent;
-  box-shadow: 0 0 12px rgba(34, 79, 196, 0.6), 0 0 6px rgba(34, 79, 196, 0.4);
+  box-shadow: 0 0 8px rgba(34, 79, 196, 0.4), 0 0 4px rgba(34, 79, 196, 0.2);
   pointer-events: none;
   z-index: -1;
+  border-radius: inherit;
 }
 
 @keyframes slideInUp {

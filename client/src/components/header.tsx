@@ -85,7 +85,7 @@ export default function Header() {
               {/* Contact Button */}
               <button 
                 onClick={() => scrollToSection("nao-fique-para-tras")} 
-                className="relative bg-[#0a0a0a] text-white px-6 py-2.5 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 laser-border-btn"
+                className="relative bg-[#0a0a0a] text-white px-6 py-2.5 rounded-xl font-medium transition-all duration-300 snake-border-btn"
               >
                 Começar Agora
               </button>
@@ -105,7 +105,7 @@ export default function Header() {
               </button>
               <button 
                 onClick={() => scrollToSection("nao-fique-para-tras")} 
-                className="relative bg-[#0a0a0a] text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 laser-border-btn text-sm"
+                className="relative bg-[#0a0a0a] text-white px-4 py-2 rounded-lg font-medium transition-all duration-300 snake-border-btn text-sm"
               >
                 Começar Agora
               </button>
@@ -156,7 +156,7 @@ export default function Header() {
                 <div className="flex justify-center">
                   <button 
                     onClick={() => scrollToSection("nao-fique-para-tras")} 
-                    className="relative bg-[#0a0a0a] text-white px-6 py-2.5 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 laser-border-btn"
+                    className="relative bg-[#0a0a0a] text-white px-6 py-2.5 rounded-xl font-medium transition-all duration-300 snake-border-btn"
                   >
                     Começar Agora
                   </button>
