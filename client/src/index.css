@@ -97,8 +97,6 @@
     z-index: 1;
   }
 
-  }
-
 @layer utilities {
   .gradient-bg {
     background: linear-gradient(180deg, #1A3B93 0%, #3064EF 100%);
