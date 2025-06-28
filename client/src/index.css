@@ -61,7 +61,7 @@
   }
 
   body {
-    @apply font-sans antialiased bg-[#060606] text-white;
+    @apply font-sans antialiased bg-[#030303] text-white;
     font-family: 'Inter', sans-serif;
   }
 
@@ -85,8 +85,8 @@
     position: absolute;
     inset: 0;
     background: 
-      linear-gradient(to right, #060606 0%, rgba(6, 6, 6, 0.95) 5%, rgba(6, 6, 6, 0.8) 15%, transparent 20%, transparent 80%, rgba(6, 6, 6, 0.8) 85%, rgba(6, 6, 6, 0.95) 95%, #060606 100%),
-      linear-gradient(to bottom, #060606 0%, rgba(6, 6, 6, 0.95) 5%, rgba(6, 6, 6, 0.8) 15%, transparent 20%, transparent 80%, rgba(6, 6, 6, 0.8) 85%, rgba(6, 6, 6, 0.95) 95%, #060606 100%);
+      linear-gradient(to right, #030303 0%, rgba(3, 3, 3, 0.95) 5%, rgba(3, 3, 3, 0.8) 15%, transparent 20%, transparent 80%, rgba(3, 3, 3, 0.8) 85%, rgba(3, 3, 3, 0.95) 95%, #030303 100%),
+      linear-gradient(to bottom, #030303 0%, rgba(3, 3, 3, 0.95) 5%, rgba(3, 3, 3, 0.8) 15%, transparent 20%, transparent 80%, rgba(3, 3, 3, 0.8) 85%, rgba(3, 3, 3, 0.95) 95%, #030303 100%);
     pointer-events: none;
     z-index: 0;
   }
@@ -122,7 +122,7 @@
   }
 
   .animated-gradient-bg {
-    background: linear-gradient(-45deg, #060606, #1A3B93, #3064EF, #060606);
+    background: linear-gradient(-45deg, #030303, #1A3B93, #3064EF, #030303);
     background-size: 400% 400%;
     animation: gradient-shift 8s ease infinite;
   }
