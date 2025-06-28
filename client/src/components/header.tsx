@@ -171,60 +171,16 @@ export default function Header() {
                 />
               </motion.button>
 
-              {/* Globe icon and Mobile menu button */}
-              <div className="flex items-center space-x-2">
-              <div className="relative language-dropdown">
-                <button 
-                  onClick={() => setLanguageMenuOpen(!languageMenuOpen)}
-                  className="flex items-center space-x-1 text-gray-400 hover:text-white transition-colors duration-300"
-                  title="Select Language"
-                >
-                  <Globe size={24} />
-                  <ChevronDown size={16} />
-                </button>
-                
-                {languageMenuOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-48 bg-[#0a0a0a] border border-gray-700 rounded-lg shadow-lg z-50">
-                    <button
-                      onClick={() => changeLanguage('pt')}
-                      className={`w-full text-left px-4 py-3 hover:bg-gray-800 transition-colors flex items-center space-x-3 ${
-                        i18n.language === 'pt' ? 'text-white bg-gray-800' : 'text-gray-400'
-                      }`}
-                    >
-                      <span className="text-lg">🇧🇷</span>
-                      <span>Português</span>
-                    </button>
-                    <button
-                      onClick={() => changeLanguage('en')}
-                      className={`w-full text-left px-4 py-3 hover:bg-gray-800 transition-colors flex items-center space-x-3 ${
-                        i18n.language === 'en' ? 'text-white bg-gray-800' : 'text-gray-400'
-                      }`}
-                    >
-                      <span className="text-lg">🇺🇸</span>
-                      <span>English</span>
-                    </button>
-                  </div>
-                )}
-              </div>
-              <button 
-                onClick={() => scrollToSection("nao-fique-para-tras")} 
-                className="relative bg-[#0a0a0a] text-white px-6 py-2 rounded-xl font-medium transition-all duration-300 border border-gray-700 hover:border-gray-600 overflow-hidden group"
-              >
-                {/* Shine effect */}
-                <div className="absolute inset-0 -translate-x-full group-hover:-translate-x-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-transform duration-1000 ease-out animate-shine"></div>
-                <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 transition-transform duration-2000 ease-linear animate-shine-continuous"></div>
-                <span className="relative z-10">{t('cta.startNow', 'Começar Agora')}</span>
-              </button>
-            </div>
-
-            <div className="relative language-dropdown">
+              {/* Right side elements aligned */}
+              <div className="flex items-center space-x-3">
+                {/* Globe Icon */}
+                <div className="relative language-dropdown">
                   <button 
                     onClick={() => setLanguageMenuOpen(!languageMenuOpen)}
-                    className="flex items-center space-x-1 text-gray-400 hover:text-white transition-colors duration-300"
+                    className="text-gray-400 hover:text-white transition-colors duration-300"
                     title="Select Language"
                   >
-                    <Globe size={20} />
-                    <ChevronDown size={14} />
+                    <Globe size={22} />
                   </button>
                   
                   {languageMenuOpen && (
@@ -250,6 +206,28 @@ export default function Header() {
                     </div>
                   )}
                 </div>
+
+                {/* CTA Button */}
+                <motion.button 
+                  onClick={() => scrollToSection("nao-fique-para-tras")} 
+                  className="relative bg-[#0a0a0a] text-white px-4 py-2 rounded-lg font-medium border border-gray-700 hover:border-gray-600 transition-all duration-300 overflow-hidden group text-sm z-20 whitespace-nowrap"
+                  animate={mobileMenuOpen ? {
+                    opacity: 0,
+                    scale: 0.8,
+                    transition: { duration: 0.2, ease: "easeInOut" }
+                  } : {
+                    opacity: 1,
+                    scale: 1,
+                    transition: { duration: 0.3, ease: "easeInOut", delay: 0.1 }
+                  }}
+                >
+                  {/* Shine effect */}
+                  <div className="absolute inset-0 -translate-x-full group-hover:-translate-x-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-transform duration-1000 ease-out animate-shine"></div>
+                  <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 transition-transform duration-2000 ease-linear animate-shine-continuous"></div>
+                  <span className="relative z-10">{t('cta.startNow', 'Começar Agora')}</span>
+                </motion.button>
+
+                {/* Mobile menu button */}
                 <motion.button
                   className="p-1.5 transition-colors relative z-30 text-white hover:text-white"
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -271,25 +249,6 @@ export default function Header() {
                       <Menu className="w-6 h-6 text-white" />
                     )}
                   </motion.div>
-                </motion.button>
-
-                <motion.button 
-                  onClick={() => scrollToSection("nao-fique-para-tras")} 
-                  className="relative bg-[#0a0a0a] text-white px-4 py-2 rounded-lg font-medium border border-gray-700 hover:border-gray-600 transition-all duration-300 overflow-hidden group text-sm z-20 whitespace-nowrap"
-                  animate={mobileMenuOpen ? {
-                    opacity: 0,
-                    scale: 0.8,
-                    transition: { duration: 0.2, ease: "easeInOut" }
-                  } : {
-                    opacity: 1,
-                    scale: 1,
-                    transition: { duration: 0.3, ease: "easeInOut", delay: 0.1 }
-                  }}
-                >
-                  {/* Shine effect */}
-                  <div className="absolute inset-0 -translate-x-full group-hover:-translate-x-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-transform duration-1000 ease-out animate-shine"></div>
-                  <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 transition-transform duration-2000 ease-linear animate-shine-continuous"></div>
-                  <span className="relative z-10">{t('cta.startNow', 'Começar Agora')}</span>
                 </motion.button>
               </div>
             </div>
