@@ -96,75 +96,93 @@ function AnimatedIcon({ iconType }: { iconType: number }) {
     const svg = svgRef.current;
     if (!svg) return;
 
-    // Aguardar um pequeno delay para garantir que o SVG foi renderizado
-    setTimeout(() => {
+    let animationInterval: NodeJS.Timeout;
+
+    const startContinuousAnimation = () => {
       const paths = svg.querySelectorAll('path, circle, line, polyline');
       
-      paths.forEach((element, index) => {
-        const pathElement = element as SVGPathElement;
-        
-        // Calcular o comprimento do path
-        let length = 0;
-        if (pathElement.getTotalLength) {
-          length = pathElement.getTotalLength();
-        } else if (element.tagName === 'circle') {
-          const radius = parseFloat(element.getAttribute('r') || '0');
-          length = 2 * Math.PI * radius;
-        }
-        
-        if (length > 0) {
-          // Configurar o stroke-dasharray e stroke-dashoffset
-          pathElement.style.strokeDasharray = `${length}`;
-          pathElement.style.strokeDashoffset = `${length}`;
-          pathElement.style.fill = 'transparent';
-          pathElement.style.opacity = '1';
+      const animateIconCycle = () => {
+        paths.forEach((element, index) => {
+          const pathElement = element as SVGPathElement;
           
-          // Animação de desenho progressivo
-          const drawAnimation = pathElement.animate([
-            { 
-              strokeDashoffset: length,
-              fill: 'transparent'
-            },
-            { 
-              strokeDashoffset: 0,
-              fill: 'transparent',
-              offset: 0.8
-            },
-            { 
-              strokeDashoffset: 0,
-              fill: 'white'
-            }
-          ], {
-            duration: 800,
-            easing: 'ease-out',
-            delay: index * 100,
-            fill: 'forwards'
-          });
-        }
-      });
-
-      // Brilho pulsante contínuo após o desenho
-      setTimeout(() => {
-        const pulseAnimation = svg.animate([
-          { 
-            filter: 'brightness(1) drop-shadow(0 0 4px rgba(255,255,255,0.3))',
-            transform: 'scale(1)'
-          },
-          { 
-            filter: 'brightness(1.1) drop-shadow(0 0 8px rgba(255,255,255,0.5))',
-            transform: 'scale(1.02)'
-          },
-          { 
-            filter: 'brightness(1) drop-shadow(0 0 4px rgba(255,255,255,0.3))',
-            transform: 'scale(1)'
+          // Calcular o comprimento do path
+          let length = 0;
+          if (pathElement.getTotalLength) {
+            length = pathElement.getTotalLength();
+          } else if (element.tagName === 'circle') {
+            const radius = parseFloat(element.getAttribute('r') || '0');
+            length = 2 * Math.PI * radius;
           }
-        ], {
-          duration: 3000,
-          easing: 'ease-in-out',
-          iterations: Infinity
+          
+          if (length > 0) {
+            // Reset para estado inicial
+            pathElement.style.strokeDasharray = `${length}`;
+            pathElement.style.strokeDashoffset = `${length}`;
+            pathElement.style.fill = 'transparent';
+            pathElement.style.stroke = 'white';
+            pathElement.style.strokeWidth = '2.5';
+            pathElement.style.opacity = '1';
+            
+            // Animação de desenho progressivo (apenas contorno)
+            const drawAnimation = pathElement.animate([
+              { 
+                strokeDashoffset: length,
+                filter: 'brightness(1) drop-shadow(0 0 2px rgba(255,255,255,0.2))'
+              },
+              { 
+                strokeDashoffset: 0,
+                filter: 'brightness(1.1) drop-shadow(0 0 6px rgba(255,255,255,0.4))'
+              }
+            ], {
+              duration: 800,
+              easing: 'ease-out',
+              delay: index * 100,
+              fill: 'forwards'
+            });
+
+            // Após desenhar, aplicar brilho pulsante por 3 segundos
+            setTimeout(() => {
+              const glowAnimation = pathElement.animate([
+                { 
+                  filter: 'brightness(1.1) drop-shadow(0 0 6px rgba(255,255,255,0.4))',
+                  transform: 'scale(1)'
+                },
+                { 
+                  filter: 'brightness(1.3) drop-shadow(0 0 10px rgba(255,255,255,0.6))',
+                  transform: 'scale(1.02)'
+                },
+                { 
+                  filter: 'brightness(1.1) drop-shadow(0 0 6px rgba(255,255,255,0.4))',
+                  transform: 'scale(1)'
+                }
+              ], {
+                duration: 3000,
+                easing: 'ease-in-out',
+                iterations: 1
+              });
+            }, 800 + (index * 100));
+          }
         });
-      }, 1000);
-    }, 100);
+      };
+
+      // Animação inicial
+      setTimeout(() => {
+        animateIconCycle();
+        
+        // Repetir a cada 5 segundos (0.8s desenho + 3s brilho + 1.2s pausa)
+        animationInterval = setInterval(() => {
+          animateIconCycle();
+        }, 5000);
+      }, 100);
+    };
+
+    startContinuousAnimation();
+
+    return () => {
+      if (animationInterval) {
+        clearInterval(animationInterval);
+      }
+    };
   }, [iconType]);
 
   const getIconSVG = () => {
