@@ -30,7 +30,9 @@ export default function Header() {
   return (
     <header className="w-full z-50 px-4 sm:px-6 lg:px-8 py-4 mt-8 relative">
       {/* Header Capsule Container */}
-      <div className="max-w-7xl mx-auto bg-[#0a0a0a]/95 backdrop-blur-md border border-gray-800/50 rounded-full shadow-xl">
+      <div className={`max-w-7xl mx-auto bg-[#0a0a0a]/95 backdrop-blur-md border border-gray-800/50 shadow-xl transition-all duration-300 ${
+        mobileMenuOpen ? 'rounded-[10px]' : 'rounded-full'
+      }`}>
         {/* Dotted Texture Background */}
         <div className="absolute inset-0 opacity-20 pointer-events-none rounded-full" 
              style={{
@@ -142,15 +144,7 @@ export default function Header() {
                   </button>
                 </div>
 
-                {/* CTA Button */}
-                <div className="flex justify-center">
-                  <button 
-                    onClick={() => scrollToSection("nao-fique-para-tras")} 
-                    className="relative bg-[#0a0a0a] text-white px-6 py-2.5 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 laser-border-btn"
-                  >
-                    Começar Agora
-                  </button>
-                </div>
+                
               </div>
             </motion.div>
           )}
