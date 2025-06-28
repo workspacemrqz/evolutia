@@ -61,7 +61,7 @@ export default function Header() {
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-8">
+            <nav className="hidden md:flex items-center space-x-4">
               <button 
                 onClick={() => scrollToSection("agentes")} 
                 className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
