@@ -124,8 +124,8 @@ export default function Header() {
                     <div className="absolute right-0 top-full mt-2 w-48 bg-[#0a0a0a] border border-gray-700 rounded-lg shadow-lg z-50">
                       <button
                         onClick={() => changeLanguage('pt')}
-                        className={`w-full text-left px-4 py-3 hover:bg-gray-800 transition-colors flex items-center space-x-3 first:rounded-t-lg last:rounded-b-lg ${
-                          i18n.language === 'pt' ? 'text-white bg-gray-800 rounded-lg mx-1 my-1' : 'text-gray-400'
+                        className={`w-full text-left px-4 py-3 hover:bg-gray-800 transition-colors flex items-center space-x-3 ${
+                          i18n.language === 'pt' ? 'text-white bg-gray-800 rounded-t-lg' : 'text-gray-400 rounded-t-lg'
                         }`}
                       >
                         <span className="text-lg">🇧🇷</span>
@@ -133,8 +133,8 @@ export default function Header() {
                       </button>
                       <button
                         onClick={() => changeLanguage('en')}
-                        className={`w-full text-left px-4 py-3 hover:bg-gray-800 transition-colors flex items-center space-x-3 first:rounded-t-lg last:rounded-b-lg ${
-                          i18n.language === 'en' ? 'text-white bg-gray-800 rounded-lg mx-1 my-1' : 'text-gray-400'
+                        className={`w-full text-left px-4 py-3 hover:bg-gray-800 transition-colors flex items-center space-x-3 ${
+                          i18n.language === 'en' ? 'text-white bg-gray-800 rounded-b-lg' : 'text-gray-400 rounded-b-lg'
                         }`}
                       >
                         <span className="text-lg">🇺🇸</span>
@@ -278,8 +278,8 @@ export default function Header() {
                       <div className="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 w-44 bg-[#0a0a0a] border border-gray-700 rounded-lg shadow-lg z-50">
                         <button
                           onClick={() => changeLanguage('pt')}
-                          className={`w-full text-left px-3 py-2 hover:bg-gray-800 transition-colors flex items-center space-x-2 text-sm first:rounded-t-lg last:rounded-b-lg ${
-                            i18n.language === 'pt' ? 'text-white bg-gray-800 rounded-lg mx-1 my-1' : 'text-gray-400'
+                          className={`w-full text-left px-3 py-2 hover:bg-gray-800 transition-colors flex items-center space-x-2 text-sm ${
+                            i18n.language === 'pt' ? 'text-white bg-gray-800 rounded-t-lg' : 'text-gray-400 rounded-t-lg'
                           }`}
                         >
                           <span>🇧🇷</span>
@@ -287,8 +287,8 @@ export default function Header() {
                         </button>
                         <button
                           onClick={() => changeLanguage('en')}
-                          className={`w-full text-left px-3 py-2 hover:bg-gray-800 transition-colors flex items-center space-x-2 text-sm first:rounded-t-lg last:rounded-b-lg ${
-                            i18n.language === 'en' ? 'text-white bg-gray-800 rounded-lg mx-1 my-1' : 'text-gray-400'
+                          className={`w-full text-left px-3 py-2 hover:bg-gray-800 transition-colors flex items-center space-x-2 text-sm ${
+                            i18n.language === 'en' ? 'text-white bg-gray-800 rounded-b-lg' : 'text-gray-400 rounded-b-lg'
                           }`}
                         >
                           <span>🇺🇸</span>
