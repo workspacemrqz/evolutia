@@ -42,9 +42,9 @@ export default function Header() {
         </div>
 
         <div className="relative px-3 lg:px-4 py-2">
-          <div className="flex items-center justify-between">
-            {/* Logo */}
-            <div className="flex-1 flex justify-start">
+          <div className="flex items-center">
+            {/* Logo - Left aligned */}
+            <div className="w-1/4 flex justify-start">
               <motion.button 
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 className="block header-logo"
@@ -60,30 +60,32 @@ export default function Header() {
               </motion.button>
             </div>
 
-            {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-6 flex-1 justify-center">
-              <button 
-                onClick={() => scrollToSection("agentes")} 
-                className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
-              >
-                Agentes
-              </button>
-              <button 
-                onClick={() => scrollToSection("vantagens")} 
-                className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
-              >
-                Vantagens
-              </button>
-              <button 
-                onClick={() => scrollToSection("como-funciona")} 
-                className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
-              >
-                Como Funciona
-              </button>
+            {/* Desktop Navigation - Centered */}
+            <nav className="hidden md:flex items-center justify-center w-1/2">
+              <div className="flex items-center space-x-8">
+                <button 
+                  onClick={() => scrollToSection("agentes")} 
+                  className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
+                >
+                  Agentes
+                </button>
+                <button 
+                  onClick={() => scrollToSection("vantagens")} 
+                  className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
+                >
+                  Vantagens
+                </button>
+                <button 
+                  onClick={() => scrollToSection("como-funciona")} 
+                  className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
+                >
+                  Como Funciona
+                </button>
+              </div>
             </nav>
 
-            {/* Contact Button */}
-            <div className="hidden md:flex flex-1 justify-end">
+            {/* Contact Button - Right aligned */}
+            <div className="hidden md:flex w-1/4 justify-end">
               <button 
                 onClick={() => scrollToSection("nao-fique-para-tras")} 
                 className="relative bg-[#0a0a0a] text-white px-6 py-2 rounded-xl font-medium transition-all duration-300 border border-gray-700 hover:border-gray-600 overflow-hidden group"
