@@ -331,34 +331,41 @@
   100% { background-position: 0% 50%; }
 }
 
-@keyframes border-glow-rotation {
-  0% { 
-    border-image: linear-gradient(0deg, #224FC4, transparent, transparent, transparent) 1;
-    box-shadow: 0 0 8px rgba(34, 79, 196, 0.6);
+@keyframes laser-trace {
+  0% {
+    background-position: 0% 0%;
   }
-  25% { 
-    border-image: linear-gradient(90deg, #224FC4, transparent, transparent, transparent) 1;
-    box-shadow: 0 0 8px rgba(34, 79, 196, 0.6);
-  }
-  50% { 
-    border-image: linear-gradient(180deg, #224FC4, transparent, transparent, transparent) 1;
-    box-shadow: 0 0 8px rgba(34, 79, 196, 0.6);
-  }
-  75% { 
-    border-image: linear-gradient(270deg, #224FC4, transparent, transparent, transparent) 1;
-    box-shadow: 0 0 8px rgba(34, 79, 196, 0.6);
-  }
-  100% { 
-    border-image: linear-gradient(360deg, #224FC4, transparent, transparent, transparent) 1;
-    box-shadow: 0 0 8px rgba(34, 79, 196, 0.6);
+  100% {
+    background-position: 200% 0%;
   }
 }
 
-.border-glow-laser {
-  border: 2px solid transparent;
-  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%) padding-box,
-              conic-gradient(from 0deg, #224FC4, transparent, #224FC4, transparent) border-box;
-  animation: border-glow-rotation 3s linear infinite;
+.laser-border-btn {
+  position: relative;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
+
+.laser-border-btn::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, 
+    transparent 0%,
+    transparent 25%, 
+    #224FC4 50%, 
+    transparent 75%, 
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: laser-trace 2s linear infinite;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: xor;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  filter: drop-shadow(0 0 4px rgba(34, 79, 196, 0.4));
 }
 
 @keyframes slideInUp {

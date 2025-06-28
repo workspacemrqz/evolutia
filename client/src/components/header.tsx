@@ -83,7 +83,7 @@ export default function Header() {
               {/* Contact Button */}
               <button 
                 onClick={() => scrollToSection("nao-fique-para-tras")} 
-                className="relative bg-gradient-to-br from-[#0a0a0a] to-[#1a1a1a] text-white px-6 py-2.5 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 border-glow-laser"
+                className="relative bg-[#0a0a0a] text-white px-6 py-2.5 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 laser-border-btn"
               >
                 Começar Agora
               </button>
@@ -152,7 +152,7 @@ export default function Header() {
             {/* CTA Button */}
             <button 
               onClick={() => scrollToSection("nao-fique-para-tras")} 
-              className="w-[90%] bg-gradient-to-br from-[#0a0a0a] to-[#1a1a1a] text-white px-6 py-4 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl mt-8 text-lg border-glow-laser"
+              className="w-[90%] bg-[#0a0a0a] text-white px-6 py-4 rounded-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl mt-8 text-lg laser-border-btn"
             >
               Começar Agora
             </button>
