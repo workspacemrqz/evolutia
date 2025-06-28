@@ -51,7 +51,6 @@ export default function Header() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: 0.2 }}
-                whileHover={{ scale: 1.05 }}
               >
                 <img 
                   src="https://i.ibb.co/rf3PXc8r/LOGO-Evolut-IA-com-texto-na-horizontal.png" 
