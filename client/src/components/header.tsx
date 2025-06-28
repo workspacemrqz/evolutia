@@ -66,12 +66,12 @@ export default function Header() {
 
         <div className="relative px-8 lg:px-10 py-3">
           <div className="flex items-center">
-            {/* Desktop Navigation - Compact spacing */}
-            <div className="hidden md:flex items-center w-full">
+            {/* Desktop Navigation - Balanced spacing */}
+            <div className="hidden md:flex items-center justify-between w-full">
               {/* Logo */}
               <motion.button 
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="block header-logo flex-shrink-0"
+                className="block header-logo flex-shrink-0 ml-4"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 1, delay: 0.2 }}
@@ -83,8 +83,8 @@ export default function Header() {
                 />
               </motion.button>
 
-              {/* Navigation Links */}
-              <div className="flex items-center space-x-8 ml-8">
+              {/* Center Navigation Links */}
+              <div className="flex items-center space-x-8">
                 {/* Agentes */}
                 <button 
                   onClick={() => scrollToSection("agentes")} 
@@ -143,8 +143,10 @@ export default function Header() {
                     </div>
                   )}
                 </div>
+              </div>
 
-                {/* CTA Button */}
+              {/* Right Side CTA Button */}
+              <div className="mr-4">
                 <button 
                   onClick={() => scrollToSection("nao-fique-para-tras")} 
                   className="relative bg-[#0a0a0a] text-white px-6 py-2 rounded-xl font-medium transition-all duration-300 border border-gray-700 hover:border-gray-600 overflow-hidden group whitespace-nowrap flex items-center justify-center"
