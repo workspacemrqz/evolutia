@@ -22,6 +22,13 @@ const resources = {
         cta: 'Começar agora',
         subtitle: 'Tenha Agentes de IA na Sua Equipe'
       },
+      chat: {
+        placeholder: 'Como posso te ajudar?',
+        sendPlaceholder: 'Envie uma mensagem…'
+      },
+      footer: {
+        copyright: '©2025 | Desenvolvido por Evolut IA'
+      },
       agents: {
         title: 'Agentes Evolut IA',
         subtitle: 'Cada desafio exige uma solução inteligente. Conheça alguns dos agentes já criados pela Evolut IA',
@@ -196,6 +203,13 @@ const resources = {
         description: 'Make your company grow 70% faster. Implement artificial intelligence in all sectors of your business',
         cta: 'Get started now',
         subtitle: 'Have AI Agents on Your Team'
+      },
+      chat: {
+        placeholder: 'How can I help you?',
+        sendPlaceholder: 'Send a message…'
+      },
+      footer: {
+        copyright: '©2025 | Developed by Evolut AI'
       },
       agents: {
         title: 'Evolut AI Agents',

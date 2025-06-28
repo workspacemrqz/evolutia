@@ -23,7 +23,7 @@ export default function HeroSection() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            AGÊNCIA DE IA
+            {t('hero.badge')}
           </motion.div>
 
           {/* Mobile layout with image first */}
@@ -62,13 +62,13 @@ export default function HeroSection() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
           >
-            <span>2025</span>
+            <span>{t('hero.year')}</span>
             <span className="hidden sm:inline">•</span>
-            <span>Agência de IA</span>
+            <span>{t('hero.agency')}</span>
             <span className="hidden sm:inline">•</span>
-            <span className="gradient-bg text-white px-2 py-1 rounded text-xs font-semibold">Soluções Empresariais</span>
+            <span className="gradient-bg text-white px-2 py-1 rounded text-xs font-semibold">{t('hero.businessSolutions')}</span>
             <span className="hidden sm:inline">•</span>
-            <span className="gradient-bg text-white px-2 py-1 rounded text-sm sm:text-lg font-bold">IA</span>
+            <span className="gradient-bg text-white px-2 py-1 rounded text-sm sm:text-lg font-bold">{t('hero.ai')}</span>
           </motion.div>
 
           <motion.p 
@@ -77,7 +77,7 @@ export default function HeroSection() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
           >
-            Faça sua empresa crescer 70% mais rápido. Implemente inteligência artificial em todos os setores do seu negócio
+            {t('hero.description')}
           </motion.p>
 
           <motion.button
@@ -94,7 +94,7 @@ export default function HeroSection() {
               }
             }}
           >
-            Começar agora
+            {t('hero.cta')}
           </motion.button>
 
           <motion.p
@@ -103,7 +103,7 @@ export default function HeroSection() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.9, ease: "easeOut" }}
           >
-            Tenha Agentes de IA na Sua Equipe
+            {t('hero.subtitle')}
           </motion.p>
 
         </div>
