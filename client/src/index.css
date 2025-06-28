@@ -430,10 +430,19 @@
     box-shadow: 0 0 12px rgba(0, 85, 255, 0.25);
   }
 
-  /* Ícones animados agora são controlados via JavaScript */
   .premium-icon {
     color: white;
-    stroke-width: 2.5px;
+    stroke-width: 2px;
+    animation: icon-gentle-pulse 3s ease-in-out infinite;
+  }
+
+  @keyframes icon-gentle-pulse {
+    0%, 100% {
+      transform: scale(1) translateY(0px);
+    }
+    50% {
+      transform: scale(1.05) translateY(-2px);
+    }
   }
 
   @keyframes organic-sparkle {
