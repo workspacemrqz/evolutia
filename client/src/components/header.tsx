@@ -152,15 +152,7 @@ export default function Header() {
                   </button>
                 </div>
 
-                {/* CTA Button */}
-                <div className="flex justify-center">
-                  <button 
-                    onClick={() => scrollToSection("nao-fique-para-tras")} 
-                    className="relative bg-[#0a0a0a] text-white px-6 py-2.5 rounded-xl font-medium transition-all duration-300 snake-border-btn"
-                  >
-                    Começar Agora
-                  </button>
-                </div>
+                
               </div>
             </motion.div>
           )}
