@@ -94,13 +94,15 @@ export default function Header() {
 
             {/* Globe Icon and Contact Button - Right aligned */}
             <div className="hidden md:flex w-1/4 justify-end items-center space-x-4">
-              <button 
-                onClick={toggleLanguage}
-                className="text-gray-400 hover:text-white transition-colors duration-300 p-2 hover:bg-gray-800 rounded-lg"
-                title={i18n.language === 'pt' ? 'Translate to English' : 'Traduzir para Português'}
-              >
-                <Globe size={20} />
-              </button>
+              <div className="relative language-dropdown">
+                <button 
+                  onClick={toggleLanguage}
+                  className="text-gray-400 hover:text-white transition-colors duration-300 p-2 hover:bg-gray-800 rounded-lg"
+                  title={i18n.language === 'pt' ? 'Translate to English' : 'Traduzir para Português'}
+                >
+                  <Globe size={20} />
+                </button>
+              </div>
               <button 
                 onClick={() => scrollToSection("nao-fique-para-tras")} 
                 className="relative bg-[#0a0a0a] text-white px-6 py-2 rounded-xl font-medium transition-all duration-300 border border-gray-700 hover:border-gray-600 overflow-hidden group"
@@ -114,13 +116,15 @@ export default function Header() {
 
             {/* Globe icon and Mobile menu button */}
             <div className="md:hidden flex items-center space-x-2">
-              <button 
-                onClick={toggleLanguage}
-                className="text-gray-400 hover:text-white transition-colors duration-300 p-1.5 hover:bg-gray-800 rounded-lg"
-                title={i18n.language === 'pt' ? 'Translate to English' : 'Traduzir para Português'}
-              >
-                <Globe size={20} />
-              </button>
+              <div className="relative language-dropdown">
+                <button 
+                  onClick={toggleLanguage}
+                  className="text-gray-400 hover:text-white transition-colors duration-300 p-1.5 hover:bg-gray-800 rounded-lg"
+                  title={i18n.language === 'pt' ? 'Translate to English' : 'Traduzir para Português'}
+                >
+                  <Globe size={20} />
+                </button>
+              </div>
               <motion.button
                 className="p-1.5 transition-colors relative z-30 text-white hover:text-white"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
