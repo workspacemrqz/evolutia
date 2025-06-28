@@ -25,16 +25,11 @@ const resources = {
         subtitle: 'Tenha Agentes de IA na Sua Equipe'
       },
       about: {
-        badge: 'SOBRE NÓS',
-        title: 'Transformamos empresas com Inteligência Artificial',
-        subtitle: 'Somos especialistas em implementar soluções de IA que revolucionam processos empresariais',
-        description: 'Nossa missão é democratizar o acesso à inteligência artificial, oferecendo soluções personalizadas que automatizam tarefas, otimizam processos e impulsionam o crescimento do seu negócio de forma sustentável e eficiente.',
-        stats: {
-          clients: 'Clientes Atendidos',
-          satisfaction: 'Satisfação',
-          growth: 'Crescimento Médio',
-          automation: 'Automatização'
-        }
+        badge: 'AGENTES EVOLUT IA',
+        title: 'Agentes Evolut IA',
+        subtitle: 'Cada desafio exige uma solução inteligente. Conheça alguns dos agentes já criados pela Evolut IA',
+        description: 'Na Evolut IA, criamos agentes inteligentes para transformar processos e impulsionar os seus resultados',
+        cta: 'Crie Seu Próprio Agente'
       },
       agents: {
         badge: 'NOSSOS AGENTES',
@@ -68,56 +63,48 @@ const resources = {
         }
       },
       advantages: {
-        badge: 'VANTAGENS',
-        title: 'Por que escolher nossa solução de IA?',
-        subtitle: 'Benefícios comprovados que transformam empresas',
+        badge: 'VANTAGENS DA EVOLUT IA',
+        title: 'Vantagens da Evolut IA',
+        subtitle: 'Na Evolut IA, criamos agentes inteligentes para transformar processos e impulsionar os seus resultados',
         items: {
-          efficiency: {
-            title: 'Eficiência 10x maior',
-            description: 'Automatize tarefas repetitivas e libere sua equipe para atividades estratégicas.'
+          fastImplementation: {
+            title: 'Implementação Rápida',
+            description: 'Seus agentes ficam prontos em até 30 dias, com suporte completo durante todo o processo'
           },
-          costs: {
-            title: 'Redução de custos',
-            description: 'Diminua custos operacionais em até 60% com processos automatizados.'
-          },
-          available: {
-            title: 'Disponibilidade 24/7',
-            description: 'Seus agentes de IA trabalham ininterruptamente, sem pausas ou feriados.'
-          },
-          scalable: {
-            title: 'Escalabilidade total',
-            description: 'Cresça sem limites. Nossa IA se adapta ao tamanho do seu negócio.'
-          },
-          integration: {
-            title: 'Integração simples',
-            description: 'Conecte com suas ferramentas existentes sem complicações técnicas.'
+          guaranteedROI: {
+            title: 'ROI Garantido',
+            description: 'Reduza custos em até 70% e aumente a produtividade em até 300% com nossas soluções'
           },
           support: {
-            title: 'Suporte especializado',
-            description: 'Equipe dedicada para garantir o sucesso da sua implementação.'
+            title: 'Suporte',
+            description: 'Equipe especializada disponível 24 horas por dia para garantir que tudo funcione perfeitamente'
+          },
+          premiumQuality: {
+            title: 'Qualidade Premium',
+            description: 'Tecnologia de ponta com os melhores modelos de IA do mercado, sempre atualizados'
           }
         }
       },
       howItWorks: {
         badge: 'COMO FUNCIONA',
-        title: 'Processo simples e eficiente',
-        subtitle: 'Em apenas 4 etapas, sua empresa estará transformada pela IA',
+        title: 'Como funciona',
+        subtitle: 'Um processo simples e estruturado para transformar sua empresa em apenas algumas semanas.',
         steps: {
-          analysis: {
-            title: 'Análise Diagnóstica',
-            description: 'Identificamos oportunidades de automação e melhoria nos seus processos atuais.'
+          consultation: {
+            title: 'Consultoria Gratuita',
+            description: 'Agendamos uma reunião para entender suas necessidades e mapear oportunidades de automação.'
           },
-          planning: {
-            title: 'Planejamento Estratégico',
-            description: 'Desenvolvemos um plano personalizado com agentes específicos para suas necessidades.'
+          analysis: {
+            title: 'Análise e Proposta',
+            description: 'Nossa equipe faz uma análise detalhada e apresenta uma proposta personalizada para sua empresa.'
+          },
+          development: {
+            title: 'Desenvolvimento',
+            description: 'Desenvolvemos e configuramos seus agentes de IA de acordo com suas necessidades específicas.'
           },
           implementation: {
-            title: 'Implementação Rápida',
-            description: 'Deploy dos agentes de IA integrados aos seus sistemas em até 30 dias.'
-          },
-          optimization: {
-            title: 'Otimização Contínua',
-            description: 'Monitoramento e aprimoramento constante para máxima performance.'
+            title: 'Implementação',
+            description: 'Integramos os agentes em seus sistemas e treinamos sua equipe para o uso eficiente.'
           }
         }
       },
@@ -146,35 +133,36 @@ const resources = {
         }
       },
       target: {
-        badge: 'PARA QUEM',
-        title: 'Soluções para empresas que querem crescer',
-        subtitle: 'Independente do setor, temos a solução ideal para sua empresa',
+        badge: 'NÃO FIQUE PARA TRÁS',
+        title: 'Não fique para trás',
+        subtitle: 'A Evolut IA é ideal para empresas que buscam inovação, eficiência e crescimento sustentável através da inteligência artificial.',
         segments: {
-          ecommerce: {
-            title: 'E-commerce',
-            description: 'Automatize atendimento, gestão de estoque e marketing digital.'
+          midSized: {
+            title: 'Empresas Médias',
+            description: 'De 50 a 500 funcionários que precisam escalar operações sem aumentar custos proporcionalmente.'
           },
-          services: {
-            title: 'Prestação de Serviços',
-            description: 'Otimize agendamentos, follow-up de clientes e processos internos.'
+          startups: {
+            title: 'Startups em Crescimento',
+            description: 'Empresas inovadoras que querem automatizar desde cedo e crescer de forma inteligente.'
           },
-          industry: {
-            title: 'Indústria',
-            description: 'Controle de produção, qualidade e gestão de fornecedores automatizada.'
+          traditional: {
+            title: 'Empresas Tradicionais',
+            description: 'Negócios estabelecidos que querem se modernizar e manter competitividade no mercado.'
           },
-          healthcare: {
-            title: 'Saúde',
-            description: 'Agendamentos, prontuários digitais e atendimento ao paciente.'
+          remote: {
+            title: 'Equipes Remotas',
+            description: 'Times distribuídos que precisam de automação para manter produtividade e coordenação.'
           },
-          education: {
-            title: 'Educação',
-            description: 'Gestão de alunos, conteúdo personalizado e suporte acadêmico.'
+          costReduction: {
+            title: 'Redução de Custos',
+            description: 'Organizações focadas em otimizar custos operacionais e aumentar margem de lucro.'
           },
-          finance: {
-            title: 'Financeiro',
-            description: 'Análise de risco, aprovação de crédito e atendimento automatizado.'
+          dataDriven: {
+            title: 'Orientadas por Dados',
+            description: 'Empresas que valorizam decisões baseadas em dados e análises preditivas.'
           }
-        }
+        },
+        cta: 'Ver Se É Ideal Para Minha Empresa'
       },
       newRoutine: {
         badge: 'NOVA ROTINA',
@@ -215,11 +203,14 @@ const resources = {
       },
       integrations: {
         badge: 'INTEGRAÇÕES',
-        title: 'Conecta com suas ferramentas favoritas',
-        subtitle: 'Mais de 200 integrações disponíveis'
+        title: 'Integrações',
+        subtitle: 'Conecte nossos agentes com as ferramentas que você já usa. Integração simples e rápida com as principais plataformas do mercado.',
+        cta: 'Ver Todas as Integrações'
       },
       poweredBy: {
-        title: 'Alimentado pelas melhores tecnologias de IA'
+        badge: 'POWERED BY',
+        title: 'Powered by',
+        subtitle: 'Utilizamos as tecnologias mais avançadas e confiáveis do mercado para garantir a melhor performance dos seus agentes de IA.'
       },
       guarantee: {
         badge: 'NOSSA GARANTIA',
@@ -329,31 +320,25 @@ const resources = {
         }
       },
       finalCta: {
-        badge: 'NÃO FIQUE PARA TRÁS',
-        title: 'Suas empresas concorrentes já estão usando IA',
-        subtitle: 'Não deixe sua empresa ficar para trás. Comece sua transformação digital hoje mesmo.',
-        cta: 'Quero começar agora',
-        urgency: 'Vagas limitadas para este mês'
+        badge: 'NÃO DEIXE SEUS CONCORRENTES SAÍREM NA FRENTE',
+        title: 'Transforme sua empresa hoje mesmo',
+        subtitle: 'Não deixe seus concorrentes saírem na frente',
+        description: 'Dê o primeiro passo rumo à automação inteligente. Agende sua consultoria gratuita e transforme sua operação com IA.',
+        cta: 'Começar Transformação AGORA',
+        features: {
+          noObligation: 'Sem compromisso',
+          freeConsultation: 'Consultoria gratuita',
+          guaranteedResults: 'Resultado garantido'
+        }
       },
       footer: {
-        description: 'Transformamos empresas através da Inteligência Artificial, oferecendo soluções inovadoras e personalizadas para cada necessidade.',
+        description: 'Transformamos empresas através de agentes de IA personalizados. Automatize processos, otimize resultados e cresça de forma inteligente.',
+        rights: '© 2024 Evolut IA. Todos os direitos reservados.',
         links: {
-          company: 'Empresa',
-          about: 'Sobre nós',
-          blog: 'Blog',
-          careers: 'Carreiras',
-          contact: 'Contato',
-          solutions: 'Soluções',
-          agents: 'Agentes de IA',
-          integrations: 'Integrações',
-          pricing: 'Preços',
-          support: 'Suporte',
-          legal: 'Legal',
           terms: 'Termos de Uso',
           privacy: 'Política de Privacidade',
           lgpd: 'LGPD'
-        },
-        rights: 'Todos os direitos reservados.'
+        }
       }
     }
   },
@@ -378,16 +363,11 @@ const resources = {
         subtitle: 'Have AI Agents on Your Team'
       },
       about: {
-        badge: 'ABOUT US',
-        title: 'We transform companies with Artificial Intelligence',
-        subtitle: 'We are specialists in implementing AI solutions that revolutionize business processes',
-        description: 'Our mission is to democratize access to artificial intelligence, offering personalized solutions that automate tasks, optimize processes and drive your business growth in a sustainable and efficient way.',
-        stats: {
-          clients: 'Clients Served',
-          satisfaction: 'Satisfaction',
-          growth: 'Average Growth',
-          automation: 'Automation'
-        }
+        badge: 'EVOLUT AI AGENTS',
+        title: 'Evolut AI Agents',
+        subtitle: 'Each challenge demands an intelligent solution. Meet some of the agents already created by Evolut AI',
+        description: 'At Evolut AI, we create intelligent agents to transform processes and boost your results',
+        cta: 'Create Your Own Agent'
       },
       agents: {
         badge: 'OUR AGENTS',
@@ -421,56 +401,48 @@ const resources = {
         }
       },
       advantages: {
-        badge: 'ADVANTAGES',
-        title: 'Why choose our AI solution?',
-        subtitle: 'Proven benefits that transform companies',
+        badge: 'EVOLUT AI ADVANTAGES',
+        title: 'Evolut AI Advantages',
+        subtitle: 'At Evolut AI, we create intelligent agents to transform processes and boost your results',
         items: {
-          efficiency: {
-            title: '10x greater efficiency',
-            description: 'Automate repetitive tasks and free your team for strategic activities.'
+          fastImplementation: {
+            title: 'Fast Implementation',
+            description: 'Your agents are ready within 30 days, with full support throughout the process'
           },
-          costs: {
-            title: 'Cost reduction',
-            description: 'Reduce operational costs by up to 60% with automated processes.'
-          },
-          available: {
-            title: '24/7 availability',
-            description: 'Your AI agents work uninterrupted, without breaks or holidays.'
-          },
-          scalable: {
-            title: 'Total scalability',
-            description: 'Grow without limits. Our AI adapts to the size of your business.'
-          },
-          integration: {
-            title: 'Simple integration',
-            description: 'Connect with your existing tools without technical complications.'
+          guaranteedROI: {
+            title: 'Guaranteed ROI',
+            description: 'Cut costs by up to 70% and increase productivity by up to 300% with our solutions'
           },
           support: {
-            title: 'Specialized support',
-            description: 'Dedicated team to ensure the success of your implementation.'
+            title: 'Support',
+            description: 'Specialized team available 24 hours a day to make sure everything runs perfectly'
+          },
+          premiumQuality: {
+            title: 'Premium Quality',
+            description: 'Cutting-edge technology with the market\'s best AI models, always up to date'
           }
         }
       },
       howItWorks: {
         badge: 'HOW IT WORKS',
-        title: 'Simple and efficient process',
-        subtitle: 'In just 4 steps, your company will be transformed by AI',
+        title: 'How it works',
+        subtitle: 'A simple, structured process to transform your company in just a few weeks.',
         steps: {
-          analysis: {
-            title: 'Diagnostic Analysis',
-            description: 'We identify automation and improvement opportunities in your current processes.'
+          consultation: {
+            title: 'Free Consultation',
+            description: 'We schedule a meeting to understand your needs and map automation opportunities.'
           },
-          planning: {
-            title: 'Strategic Planning',
-            description: 'We develop a personalized plan with specific agents for your needs.'
+          analysis: {
+            title: 'Analysis & Proposal',
+            description: 'Our team performs a detailed analysis and presents a tailored proposal for your company.'
+          },
+          development: {
+            title: 'Development',
+            description: 'We develop and configure your AI agents according to your specific needs.'
           },
           implementation: {
-            title: 'Rapid Implementation',
-            description: 'Deploy AI agents integrated to your systems in up to 30 days.'
-          },
-          optimization: {
-            title: 'Continuous Optimization',
-            description: 'Monitoring and constant improvement for maximum performance.'
+            title: 'Implementation',
+            description: 'We integrate the agents into your systems and train your team for efficient use.'
           }
         }
       },
@@ -501,33 +473,34 @@ const resources = {
       target: {
         badge: 'FOR WHOM',
         title: 'Solutions for companies that want to grow',
-        subtitle: 'Regardless of the sector, we have the ideal solution for your company',
+        subtitle: 'Evolut AI is ideal for companies seeking innovation, efficiency, and sustainable growth through artificial intelligence.',
         segments: {
-          ecommerce: {
-            title: 'E-commerce',
-            description: 'Automate customer service, inventory management and digital marketing.'
+          midSized: {
+            title: 'Mid-Sized Companies',
+            description: 'From 50 to 500 employees who need to scale operations without proportionally increasing costs.'
           },
-          services: {
-            title: 'Service Providers',
-            description: 'Optimize scheduling, customer follow-up and internal processes.'
+          startups: {
+            title: 'Growing Startups',
+            description: 'Innovative companies that want to automate early and grow smart.'
           },
-          industry: {
-            title: 'Industry',
-            description: 'Production control, quality and automated supplier management.'
+          traditional: {
+            title: 'Traditional Companies',
+            description: 'Established businesses that want to modernize and stay competitive in the market.'
           },
-          healthcare: {
-            title: 'Healthcare',
-            description: 'Scheduling, digital records and patient care.'
+          remote: {
+            title: 'Remote Teams',
+            description: 'Distributed teams that need automation to maintain productivity and coordination.'
           },
-          education: {
-            title: 'Education',
-            description: 'Student management, personalized content and academic support.'
+          costReduction: {
+            title: 'Cost Reduction',
+            description: 'Organizations focused on optimizing operating costs and increasing profit margin.'
           },
-          finance: {
-            title: 'Finance',
-            description: 'Risk analysis, credit approval and automated service.'
+          dataDriven: {
+            title: 'Data-Driven',
+            description: 'Companies that value data-based decisions and predictive analytics.'
           }
-        }
+        },
+        cta: 'See If It\'s Right for My Company'
       },
       newRoutine: {
         badge: 'NEW ROUTINE',
@@ -568,11 +541,14 @@ const resources = {
       },
       integrations: {
         badge: 'INTEGRATIONS',
-        title: 'Connects with your favorite tools',
-        subtitle: 'More than 200 integrations available'
+        title: 'Integrations',
+        subtitle: 'Connect our agents to the tools you already use. Simple, fast integration with the market\'s leading platforms.',
+        cta: 'View All Integrations'
       },
       poweredBy: {
-        title: 'Powered by the best AI technologies'
+        badge: 'POWERED BY',
+        title: 'Powered by',
+        subtitle: 'We use the most advanced and reliable technologies on the market to ensure the best performance for your AI agents.'
       },
       guarantee: {
         badge: 'OUR GUARANTEE',
@@ -682,31 +658,25 @@ const resources = {
         }
       },
       finalCta: {
-        badge: 'DON\'T STAY BEHIND',
-        title: 'Your competitor companies are already using AI',
-        subtitle: 'Don\'t let your company fall behind. Start your digital transformation today.',
-        cta: 'I want to start now',
-        urgency: 'Limited spots for this month'
+        badge: 'DON\'T FALL BEHIND',
+        title: 'Transform your company today',
+        subtitle: 'Don\'t let your competitors get ahead',
+        description: 'Take the first step toward intelligent automation. Schedule your free consultation and transform your operation with AI.',
+        cta: 'Start Transformation NOW',
+        features: {
+          noObligation: 'No obligation',
+          freeConsultation: 'Free consultation',
+          guaranteedResults: 'Guaranteed results'
+        }
       },
       footer: {
-        description: 'We transform companies through Artificial Intelligence, offering innovative and personalized solutions for each need.',
+        description: 'We transform companies through customized AI agents. Digitize processes, optimize results, and grow intelligently.',
+        rights: '© 2024 Evolut AI. All rights reserved.',
         links: {
-          company: 'Company',
-          about: 'About us',
-          blog: 'Blog',
-          careers: 'Careers',
-          contact: 'Contact',
-          solutions: 'Solutions',
-          agents: 'AI Agents',
-          integrations: 'Integrations',
-          pricing: 'Pricing',
-          support: 'Support',
-          legal: 'Legal',
           terms: 'Terms of Use',
           privacy: 'Privacy Policy',
           lgpd: 'LGPD'
-        },
-        rights: 'All rights reserved.'
+        }
       }
     }
   }
