@@ -14,8 +14,13 @@ import Footer from "@/components/footer";
 export default function Home() {
   return (
     <div className="min-h-screen bg-[#060606]">
-      <Header />
-      <HeroSection />
+      {/* Seção superior com grid */}
+      <div className="top-section-grid">
+        <Header />
+        <HeroSection />
+      </div>
+      
+      {/* Seções sem grid */}
       <ChatWidget />
       <AgentsSection />
       <AdvantagesSection />
