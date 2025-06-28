@@ -99,7 +99,7 @@ export default function Header() {
                 className="p-1.5 text-white/90 hover:text-white transition-colors relative z-30 focus:outline-none focus:ring-0"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 animate={mobileMenuOpen ? {
-                  x: 120,
+                  x: 140,
                   transition: { duration: 0.3, ease: "easeInOut" }
                 } : {
                   x: 0,
