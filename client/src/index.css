@@ -97,23 +97,25 @@
 
 @layer utilities {
   .gradient-bg {
-    background: linear-gradient(180deg, #1A3B93 0%, #3064EF 100%);
-    animation: gradient-pulse 3s ease-in-out infinite alternate;
+    background: linear-gradient(180deg, rgba(26, 59, 147, 0.9) 0%, rgba(48, 100, 239, 0.9) 100%);
+    animation: gradient-pulse 3s ease-in-out infinite;
   }
 
   .gradient-bg:hover {
-    background: linear-gradient(180deg, #153280 0%, #2557D6 100%);
+    background: linear-gradient(180deg, rgba(26, 59, 147, 1) 0%, rgba(48, 100, 239, 1) 100%);
     animation: none;
+    transition: background 0.3s ease;
   }
 
   .glow-effect {
-    box-shadow: 0 0 20px rgba(48, 100, 239, 0.3);
-    animation: glow-pulse 2s ease-in-out infinite alternate;
+    box-shadow: 0 0 20px rgba(48, 100, 239, 0.25);
+    animation: glow-pulse 3s ease-in-out infinite;
   }
 
   .glow-effect:hover {
-    box-shadow: 0 0 30px rgba(48, 100, 239, 0.5);
+    box-shadow: 0 0 35px rgba(48, 100, 239, 0.45);
     animation: none;
+    transition: box-shadow 0.3s ease;
   }
 
   .text-gradient {
@@ -330,11 +332,11 @@
   @keyframes advantage-pulse-glow {
     0%, 100% {
       transform: scale(1);
-      filter: brightness(1) drop-shadow(0 0 8px rgba(48, 100, 239, 0.2));
+      filter: brightness(1) drop-shadow(0 0 8px rgba(48, 100, 239, 0.15));
     }
     50% {
-      transform: scale(1.05);
-      filter: brightness(1.1) drop-shadow(0 0 16px rgba(48, 100, 239, 0.4));
+      transform: scale(1.03);
+      filter: brightness(1.08) drop-shadow(0 0 12px rgba(48, 100, 239, 0.3));
     }
   }
 
@@ -345,8 +347,8 @@
 
   .advantage-icon-pulse:hover {
     animation-play-state: paused;
-    transform: scale(1.08);
-    filter: brightness(1.15) drop-shadow(0 0 20px rgba(48, 100, 239, 0.6));
+    transform: scale(1.06);
+    filter: brightness(1.12) drop-shadow(0 0 16px rgba(48, 100, 239, 0.4));
   }
 
   /* Estilos para etapas hexagonais */
@@ -445,13 +447,21 @@
 }
 
 @keyframes gradient-pulse {
-  0% { background: linear-gradient(180deg, #1A3B93 0%, #3064EF 100%); }
-  100% { background: linear-gradient(180deg, #2557D6 0%, #4A7FFF 100%); }
+  0%, 100% { 
+    background: linear-gradient(180deg, rgba(26, 59, 147, 0.9) 0%, rgba(48, 100, 239, 0.9) 100%); 
+  }
+  50% { 
+    background: linear-gradient(180deg, rgba(26, 59, 147, 1) 0%, rgba(48, 100, 239, 1) 100%); 
+  }
 }
 
 @keyframes glow-pulse {
-  0% { box-shadow: 0 0 20px rgba(48, 100, 239, 0.3); }
-  100% { box-shadow: 0 0 40px rgba(48, 100, 239, 0.6); }
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(48, 100, 239, 0.25); 
+  }
+  50% { 
+    box-shadow: 0 0 30px rgba(48, 100, 239, 0.4); 
+  }
 }
 
 @keyframes gradient-shift {
@@ -472,6 +482,15 @@
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes snake-glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 8px rgba(34, 79, 196, 0.3), 0 0 4px rgba(34, 79, 196, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 12px rgba(34, 79, 196, 0.4), 0 0 6px rgba(34, 79, 196, 0.2);
   }
 }
 
@@ -503,10 +522,11 @@
   position: absolute;
   inset: -3px;
   background: transparent;
-  box-shadow: 0 0 8px rgba(34, 79, 196, 0.4), 0 0 4px rgba(34, 79, 196, 0.2);
+  box-shadow: 0 0 8px rgba(34, 79, 196, 0.3), 0 0 4px rgba(34, 79, 196, 0.15);
   pointer-events: none;
   z-index: -1;
   border-radius: inherit;
+  animation: snake-glow-pulse 3s ease-in-out infinite;
 }
 
 @keyframes slideInUp {
@@ -530,13 +550,23 @@
 }
 
 @keyframes glow-continuous {
-  0% { box-shadow: 0 0 20px rgba(48, 100, 239, 0.4); }
-  100% { box-shadow: 0 0 30px rgba(48, 100, 239, 0.8); }
+  0%, 100% { 
+    box-shadow: 0 0 20px rgba(48, 100, 239, 0.3); 
+  }
+  50% { 
+    box-shadow: 0 0 28px rgba(48, 100, 239, 0.5); 
+  }
 }
 
 @keyframes pulse-gentle {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.02); opacity: 0.9; }
+  0%, 100% { 
+    transform: scale(1); 
+    opacity: 1; 
+  }
+  50% { 
+    transform: scale(1.02); 
+    opacity: 0.95; 
+  }
 }
 
 @keyframes shimmer {
