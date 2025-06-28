@@ -38,23 +38,24 @@ export default function AdvantagesSection() {
           </p>
         </div>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
           {advantages.map((advantage, index) => {
             const IconComponent = advantage.icon;
             return (
               <div key={index} className="premium-advantage-card">
                 <div className="premium-icon-container">
+                  <div className="premium-grid-pattern"></div>
+                  <div className="premium-star-1"></div>
+                  <div className="premium-star-2"></div>
+                  <div className="premium-star-3"></div>
+                  <div className="premium-star-4"></div>
+                  <div className="premium-star-5"></div>
                   <div className="premium-icon-circle">
-                    <span className="premium-sparkle">✨</span>
-                    <span className="premium-sparkle">⭐</span>
-                    <span className="premium-sparkle">✦</span>
-                    <IconComponent className="premium-icon" size={28} />
+                    <IconComponent className="premium-icon" size={40} />
                   </div>
                 </div>
-                <div className="premium-card-content">
-                  <h3 className="premium-card-title">{advantage.title}</h3>
-                  <p className="premium-card-description">{advantage.description}</p>
-                </div>
+                <h3 className="premium-card-title">{advantage.title}</h3>
+                <p className="premium-card-description">{advantage.description}</p>
               </div>
             );
           })}
