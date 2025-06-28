@@ -56,13 +56,7 @@ export default function Header() {
       <div className={`max-w-5xl mx-auto bg-[#0a0a0a]/95 backdrop-blur-md border border-gray-800/50 shadow-xl transition-all ${
         mobileMenuOpen ? 'rounded-[10px] duration-75' : 'rounded-full duration-300'
       }`}>
-        {/* Dotted Texture Background */}
-        <div className="absolute inset-0 opacity-20 pointer-events-none rounded-full" 
-             style={{
-               backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.1) 1px, transparent 0)',
-               backgroundSize: '20px 20px'
-             }}>
-        </div>
+        
 
         <div className="relative px-8 lg:px-12 py-3">
           <div className="flex items-center">

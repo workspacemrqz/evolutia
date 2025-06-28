@@ -4,6 +4,14 @@ export default function HeroSection() {
   return (
     <section className="pt-24 pb-20 bg-[#060606] relative overflow-hidden">
       
+      {/* Grid Background - Only in Hero Section */}
+      <div 
+        className="absolute inset-0 opacity-10 pointer-events-none" 
+        style={{
+          backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(255,255,255,0.1) 1px, transparent 0)',
+          backgroundSize: '20px 20px'
+        }}>
+      </div>
 
       {/* Pulsing center glow */}
       {/* <div 
