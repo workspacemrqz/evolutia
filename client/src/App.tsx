@@ -18,9 +18,10 @@ function App() {
 
   try {
     return (
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <div className="App">
+      <div className="App min-h-screen bg-[#060606] text-white">
+        <h1 className="text-4xl font-bold text-center py-8">App carregando...</h1>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
             <Switch>
               <Route path="/" component={HomePage} />
               <Route path="/formulario" component={FormularioPage} />
@@ -32,13 +33,20 @@ function App() {
               <Route component={NotFound} />
             </Switch>
             <Toaster />
-          </div>
-        </AuthProvider>
-      </QueryClientProvider>
+          </AuthProvider>
+        </QueryClientProvider>
+      </div>
     );
   } catch (error) {
     console.error('Error rendering App:', error);
-    return <div>Error loading application</div>;
+    return (
+      <div className="min-h-screen bg-red-900 text-white flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-bold mb-4">Erro ao carregar aplicação</h1>
+          <p>{error?.toString()}</p>
+        </div>
+      </div>
+    );
   }
 }
 
