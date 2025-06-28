@@ -1,11 +1,17 @@
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Globe } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTranslation } from 'react-i18next';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+
+  const toggleLanguage = () => {
+    const currentLang = i18n.language;
+    const newLang = currentLang === 'pt' ? 'en' : 'pt';
+    i18n.changeLanguage(newLang);
+  };
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -69,25 +75,32 @@ export default function Header() {
                   onClick={() => scrollToSection("agentes")} 
                   className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
                 >
-                  Agentes
+                  {t('nav.agents', 'Agentes')}
                 </button>
                 <button 
                   onClick={() => scrollToSection("vantagens")} 
                   className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
                 >
-                  Vantagens
+                  {t('nav.advantages', 'Vantagens')}
                 </button>
                 <button 
                   onClick={() => scrollToSection("como-funciona")} 
                   className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
                 >
-                  Como Funciona
+                  {t('nav.howItWorks', 'Como Funciona')}
                 </button>
               </div>
             </nav>
 
-            {/* Contact Button - Right aligned */}
-            <div className="hidden md:flex w-1/4 justify-end">
+            {/* Globe Icon and Contact Button - Right aligned */}
+            <div className="hidden md:flex w-1/4 justify-end items-center space-x-4">
+              <button 
+                onClick={toggleLanguage}
+                className="text-gray-400 hover:text-white transition-colors duration-300 p-2 hover:bg-gray-800 rounded-lg"
+                title={i18n.language === 'pt' ? 'Translate to English' : 'Traduzir para Português'}
+              >
+                <Globe size={20} />
+              </button>
               <button 
                 onClick={() => scrollToSection("nao-fique-para-tras")} 
                 className="relative bg-[#0a0a0a] text-white px-6 py-2 rounded-xl font-medium transition-all duration-300 border border-gray-700 hover:border-gray-600 overflow-hidden group"
@@ -99,9 +112,16 @@ export default function Header() {
               </button>
             </div>
 
-            {/* Mobile Navigation - Menu and CTA Button */}
-            <div className="md:hidden flex items-center space-x-3">
-              <motion.button 
+            {/* Globe icon and Mobile menu button */}
+            <div className="md:hidden flex items-center space-x-2">
+              <button 
+                onClick={toggleLanguage}
+                className="text-gray-400 hover:text-white transition-colors duration-300 p-1.5 hover:bg-gray-800 rounded-lg"
+                title={i18n.language === 'pt' ? 'Translate to English' : 'Traduzir para Português'}
+              >
+                <Globe size={20} />
+              </button>
+              <motion.button
                 className="p-1.5 transition-colors relative z-30 text-white hover:text-white"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 animate={mobileMenuOpen ? {
@@ -169,19 +189,19 @@ export default function Header() {
                     onClick={() => scrollToSection("agentes")} 
                     className="text-gray-400 hover:text-white transition-colors duration-300 font-light text-lg"
                   >
-                    Agentes
+                    {t('nav.agents', 'Agentes')}
                   </button>
                   <button 
                     onClick={() => scrollToSection("vantagens")} 
                     className="text-gray-400 hover:text-white transition-colors duration-300 font-light text-lg"
                   >
-                    Vantagens
+                    {t('nav.advantages', 'Vantagens')}
                   </button>
                   <button 
                     onClick={() => scrollToSection("como-funciona")} 
                     className="text-gray-400 hover:text-white transition-colors duration-300 font-light text-lg"
                   >
-                    Como Funciona
+                    {t('nav.howItWorks', 'Como Funciona')}
                   </button>
 
                   {/* Centered CTA Button - appears when menu is open */}
