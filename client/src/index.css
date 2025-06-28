@@ -340,15 +340,81 @@
     }
   }
 
-  .advantage-icon-pulse {
-    animation: advantage-pulse-glow 3s ease-in-out infinite;
+  .premium-advantage-card {
+    background: rgba(15, 15, 15, 0.8);
+    border: 1px solid rgba(48, 100, 239, 0.2);
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
     transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
   }
 
-  .advantage-icon-pulse:hover {
-    animation-play-state: paused;
-    transform: scale(1.06);
-    filter: brightness(1.12) drop-shadow(0 0 16px rgba(48, 100, 239, 0.4));
+  .premium-advantage-card:hover {
+    border-color: rgba(48, 100, 239, 0.4);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 40px rgba(48, 100, 239, 0.15);
+  }
+
+  .premium-icon-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .premium-icon-circle {
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(135deg, #3064EF 0%, #1A3B93 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 30px rgba(48, 100, 239, 0.3);
+  }
+
+  .premium-icon-glow {
+    position: absolute;
+    inset: -2px;
+    background: linear-gradient(135deg, rgba(48, 100, 239, 0.6), rgba(26, 59, 147, 0.6));
+    border-radius: 50%;
+    animation: premium-glow-pulse 3s ease-in-out infinite;
+    z-index: -1;
+  }
+
+  .premium-icon-dots {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background-image: radial-gradient(circle at 2px 2px, rgba(255, 255, 255, 0.3) 1px, transparent 1px);
+    background-size: 12px 12px;
+    animation: premium-dots-rotation 8s linear infinite;
+    opacity: 0.7;
+  }
+
+  .premium-icon {
+    color: white;
+    z-index: 2;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  }
+
+  @keyframes premium-glow-pulse {
+    0%, 100% {
+      opacity: 0.6;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.8;
+      transform: scale(1.05);
+    }
+  }
+
+  @keyframes premium-dots-rotation {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
   }
 
   /* Estilos para etapas hexagonais */

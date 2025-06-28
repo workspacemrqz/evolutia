@@ -1,25 +1,26 @@
 import { useTranslation } from 'react-i18next';
+import { Clock, TrendingUp, HeadphonesIcon, Award } from 'lucide-react';
 
 export default function AdvantagesSection() {
   const { t } = useTranslation();
   const advantages = [
     {
-      iconUrl: "https://i.ibb.co/zVWf8zFs/Implementa-o-R-pida.png",
+      icon: Clock,
       title: t('advantages.implementation.title'),
       description: t('advantages.implementation.description')
     },
     {
-      iconUrl: "https://i.ibb.co/DfdNT6hY/ROI-Garantido.png",
+      icon: TrendingUp,
       title: t('advantages.roi.title'),
       description: t('advantages.roi.description')
     },
     {
-      iconUrl: "https://i.ibb.co/x87MCn5j/Suporte.png",
+      icon: HeadphonesIcon,
       title: t('advantages.support.title'),
       description: t('advantages.support.description')
     },
     {
-      iconUrl: "https://i.ibb.co/V06vns99/Qualidade.png",
+      icon: Award,
       title: t('advantages.quality.title'),
       description: t('advantages.quality.description')
     }
@@ -38,15 +39,22 @@ export default function AdvantagesSection() {
         </div>
         
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {advantages.map((advantage, index) => (
-            <div key={index} className="text-center">
-              <div className="w-32 h-32 flex items-center justify-center mx-auto mb-6">
-                <img src={advantage.iconUrl} alt={advantage.title} className="w-full h-full object-contain advantage-icon-pulse" />
+          {advantages.map((advantage, index) => {
+            const IconComponent = advantage.icon;
+            return (
+              <div key={index} className="premium-advantage-card">
+                <div className="premium-icon-container">
+                  <div className="premium-icon-circle">
+                    <div className="premium-icon-glow"></div>
+                    <div className="premium-icon-dots"></div>
+                    <IconComponent className="premium-icon" size={32} />
+                  </div>
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3 text-center">{advantage.title}</h3>
+                <p className="text-[#BCBCBC] text-center leading-relaxed">{advantage.description}</p>
               </div>
-              <h3 className="text-xl font-semibold text-white mb-3">{advantage.title}</h3>
-              <p className="text-[#BCBCBC] px-4">{advantage.description}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
