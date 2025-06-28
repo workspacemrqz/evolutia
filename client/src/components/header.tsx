@@ -42,9 +42,9 @@ export default function Header() {
         </div>
 
         <div className="relative px-3 lg:px-4 py-2">
-          <div className="flex justify-between items-center gap-4">
+          <div className="flex items-center justify-between">
             {/* Logo */}
-            <div className="flex-shrink-0">
+            <div className="flex-1 flex justify-start">
               <motion.button 
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 className="block header-logo"
@@ -61,7 +61,7 @@ export default function Header() {
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-3">
+            <nav className="hidden md:flex items-center space-x-6 flex-1 justify-center">
               <button 
                 onClick={() => scrollToSection("agentes")} 
                 className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
@@ -80,8 +80,10 @@ export default function Header() {
               >
                 Como Funciona
               </button>
+            </nav>
 
-              {/* Contact Button */}
+            {/* Contact Button */}
+            <div className="hidden md:flex flex-1 justify-end">
               <button 
                 onClick={() => scrollToSection("nao-fique-para-tras")} 
                 className="relative bg-[#0a0a0a] text-white px-6 py-2 rounded-xl font-medium transition-all duration-300 border border-gray-700 hover:border-gray-600 overflow-hidden group"
@@ -91,7 +93,7 @@ export default function Header() {
                 <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 transition-transform duration-2000 ease-linear animate-shine-continuous"></div>
                 <span className="relative z-10">Começar Agora</span>
               </button>
-            </nav>
+            </div>
 
             {/* Mobile Navigation - Menu and CTA Button */}
             <div className="md:hidden flex items-center space-x-3">
