@@ -1,24 +1,27 @@
+import { useTranslation } from 'react-i18next';
+
 export default function HowItWorksSection() {
+  const { t } = useTranslation();
   const steps = [
     {
       number: "1",
-      title: "Consultoria Gratuita",
-      description: "Entendemos sua operação e mapeamos onde a IA pode ajudar"
+      title: t('howItWorks.steps.consultation.title'),
+      description: t('howItWorks.steps.consultation.description')
     },
     {
       number: "2",
-      title: "Análise e Proposta",
-      description: "Criamos uma proposta clara, personalizada para o seu negócio"
+      title: t('howItWorks.steps.analysis.title'),
+      description: t('howItWorks.steps.analysis.description')
     },
     {
       number: "3",
-      title: "Desenvolvimento",
-      description: "Montamos e treinamos seus agentes sob medida"
+      title: t('howItWorks.steps.development.title'),
+      description: t('howItWorks.steps.development.description')
     },
     {
       number: "4",
-      title: "Implementação",
-      description: "Testamos tudo e ensinamos como usar"
+      title: t('howItWorks.steps.implementation.title'),
+      description: t('howItWorks.steps.implementation.description')
     }
   ];
 
@@ -27,10 +30,10 @@ export default function HowItWorksSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-4xl mx-auto mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6 uppercase">
-            Como funciona
+            {t('howItWorks.title')}
           </h2>
           <p className="text-xl text-[#BCBCBC]">
-            Um processo simples e estruturado para transformar sua empresa em apenas algumas semanas
+            {t('howItWorks.subtitle')}
           </p>
         </div>
         
@@ -54,7 +57,7 @@ export default function HowItWorksSection() {
               element?.scrollIntoView({ behavior: 'smooth' });
             }}
           >
-            Começar Agora
+            {t('howItWorks.cta')}
           </button>
         </div>
       </div>

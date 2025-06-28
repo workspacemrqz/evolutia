@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
+import { useTranslation } from 'react-i18next';
 
 export default function AgentsSection() {
+  const { t } = useTranslation();
   const agents = [
     {
       image: "https://i.ibb.co/nqGGg2TM/Analista.png",
@@ -98,10 +100,10 @@ export default function AgentsSection() {
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6 uppercase">
-            Agentes Evolut IA
+            {t('agents.title')}
           </h2>
           <p className="text-xl text-[#BCBCBC]">
-            Cada desafio exige uma solução inteligente. Conheça alguns dos agentes já criados pela Evolut IA
+            {t('agents.subtitle')}
           </p>
         </motion.div>
 
@@ -140,7 +142,7 @@ export default function AgentsSection() {
               element?.scrollIntoView({ behavior: 'smooth' });
             }}
           >
-            Crie Seu Próprio Agente
+            {t('agents.cta')}
           </motion.button>
         </motion.div>
       </div>

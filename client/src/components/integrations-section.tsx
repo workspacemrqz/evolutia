@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
+import { useTranslation } from 'react-i18next';
 
 export default function IntegrationsSection() {
+  const { t } = useTranslation();
   const integrations = [
     {
       name: "Slack",
@@ -81,10 +83,10 @@ export default function IntegrationsSection() {
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6 uppercase">
-            Integrações
+            {t('integrations.title')}
           </h2>
           <p className="text-xl text-[#BCBCBC]">
-            Conecte nossos agentes com as ferramentas que você já usa. Integração simples e rápida com as principais plataformas do mercado
+            {t('integrations.subtitle')}
           </p>
         </motion.div>
         

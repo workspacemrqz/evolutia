@@ -1,8 +1,11 @@
+import { useTranslation } from 'react-i18next';
+
 export default function AboutSection() {
+  const { t } = useTranslation();
   const stats = [
-    { value: "500+", label: "Empresas Atendidas" },
-    { value: "1000+", label: "Agentes Implementados" },
-    { value: "98%", label: "Satisfação" }
+    { value: "500+", label: t('about.stats.companies') },
+    { value: "1000+", label: t('about.stats.agents') },
+    { value: "98%", label: t('about.stats.satisfaction') }
   ];
 
   return (
@@ -10,10 +13,10 @@ export default function AboutSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-4xl mx-auto mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6 uppercase">
-            Quem somos
+            {t('about.title')}
           </h2>
           <p className="text-xl text-[#BCBCBC] mb-12">
-            Somos uma equipe de especialistas em IA e automação, dedicados a transformar empresas através da tecnologia mais avançada disponível no mercado.
+            {t('about.subtitle')}
           </p>
         </div>
         
@@ -30,16 +33,16 @@ export default function AboutSection() {
           
           <div className="space-y-6">
             <div>
-              <h3 className="text-2xl font-semibold text-white mb-4">Nossa Missão</h3>
+              <h3 className="text-2xl font-semibold text-white mb-4">{t('about.mission.title')}</h3>
               <p className="text-[#BCBCBC]">
-                Democratizar o acesso à inteligência artificial para empresas de todos os tamanhos, permitindo que foquem no que realmente importa: crescer e inovar.
+                {t('about.mission.description')}
               </p>
             </div>
             
             <div>
-              <h3 className="text-2xl font-semibold text-white mb-4">Nossa Experiência</h3>
+              <h3 className="text-2xl font-semibold text-white mb-4">{t('about.experience.title')}</h3>
               <p className="text-[#BCBCBC]">
-                Mais de 10 anos de experiência combinada em desenvolvimento de IA, automação de processos e transformação digital em empresas de diversos setores.
+                {t('about.experience.description')}
               </p>
             </div>
             

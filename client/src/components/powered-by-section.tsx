@@ -1,4 +1,7 @@
+import { useTranslation } from 'react-i18next';
+
 export default function PoweredBySection() {
+  const { t } = useTranslation();
   const technologies = [
     {
       name: "OpenAI",
@@ -39,10 +42,10 @@ export default function PoweredBySection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-4xl mx-auto mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6 uppercase">
-            Powered by
+            {t('poweredBy.title')}
           </h2>
           <p className="text-xl text-[#BCBCBC]">
-            Utilizamos as tecnologias mais avançadas e confiáveis do mercado para garantir a melhor performance dos seus agentes de IA
+            {t('poweredBy.subtitle')}
           </p>
         </div>
         

@@ -1,24 +1,27 @@
+import { useTranslation } from 'react-i18next';
+
 export default function AdvantagesSection() {
+  const { t } = useTranslation();
   const advantages = [
     {
       iconUrl: "https://i.ibb.co/zVWf8zFs/Implementa-o-R-pida.png",
-      title: "Implementação Rápida",
-      description: "Seus agentes ficam prontos em até 30 dias, com suporte completo durante todo o processo"
+      title: t('advantages.implementation.title'),
+      description: t('advantages.implementation.description')
     },
     {
       iconUrl: "https://i.ibb.co/DfdNT6hY/ROI-Garantido.png",
-      title: "ROI Garantido",
-      description: "Reduza custos em até 70% e aumente a produtividade em até 300% com nossas soluções"
+      title: t('advantages.roi.title'),
+      description: t('advantages.roi.description')
     },
     {
       iconUrl: "https://i.ibb.co/x87MCn5j/Suporte.png",
-      title: "Suporte",
-      description: "Equipe especializada disponível 24 horas por dia para garantir que tudo funcione perfeitamente"
+      title: t('advantages.support.title'),
+      description: t('advantages.support.description')
     },
     {
       iconUrl: "https://i.ibb.co/V06vns99/Qualidade.png",
-      title: "Qualidade Premium",
-      description: "Tecnologia de ponta com os melhores modelos de IA do mercado, sempre atualizados"
+      title: t('advantages.quality.title'),
+      description: t('advantages.quality.description')
     }
   ];
 
@@ -27,10 +30,10 @@ export default function AdvantagesSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-4xl mx-auto mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6 uppercase">
-            Vantagens da Evolut IA
+            {t('advantages.title')}
           </h2>
           <p className="text-xl text-[#BCBCBC]">
-            Na Evolut IA, criamos agentes inteligentes para transformar processos e impulsionar os seus resultados
+            {t('advantages.subtitle')}
           </p>
         </div>
         

@@ -56,7 +56,7 @@ export default function Header() {
       <div className={`max-w-5xl mx-auto bg-[#050505]/95 backdrop-blur-md border border-gray-800/50 shadow-xl transition-all ${
         mobileMenuOpen ? 'rounded-[10px] duration-75' : 'rounded-full duration-300'
       }`}>
-        
+
 
         <div className="relative px-8 lg:px-12 py-3">
           <div className="flex items-center">
@@ -113,7 +113,7 @@ export default function Header() {
                     <Globe size={24} />
                     <ChevronDown size={16} />
                   </button>
-                  
+
                   {languageMenuOpen && (
                     <div className="absolute right-0 top-full mt-2 w-48 bg-[#050505] border border-gray-700 rounded-lg shadow-lg z-50">
                       <button
@@ -148,7 +148,7 @@ export default function Header() {
                   {/* Shine effect */}
                   <div className="absolute inset-0 -translate-x-full group-hover:-translate-x-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-transform duration-1000 ease-out animate-shine"></div>
                   <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 transition-transform duration-2000 ease-linear animate-shine-continuous"></div>
-                  <span className="relative z-10">{t('cta.startNow', 'Começar Agora')}</span>
+                  <span className="relative z-10">{t('nav.getStarted', 'Começar Agora')}</span>
                 </button>
               </div>
             </div>
@@ -213,7 +213,7 @@ export default function Header() {
                   {/* Shine effect */}
                   <div className="absolute inset-0 -translate-x-full group-hover:-translate-x-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-transform duration-1000 ease-out animate-shine"></div>
                   <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 transition-transform duration-2000 ease-linear animate-shine-continuous"></div>
-                  <span className="relative z-10">{t('cta.startNow', 'Começar Agora')}</span>
+                  <span className="relative z-10">{t('nav.getStarted', 'Começar Agora')}</span>
                 </motion.button>
               </div>
             </div>
@@ -269,7 +269,7 @@ export default function Header() {
                       <ChevronDown size={16} />
                       <span className="text-lg">{i18n.language === 'pt' ? 'Idioma' : 'Language'}</span>
                     </button>
-                    
+
                     {languageMenuOpen && (
                       <div className="absolute left-1/2 transform -translate-x-1/2 top-full mt-2 w-44 bg-[#050505] border border-gray-700 rounded-lg shadow-lg z-50">
                         <button
@@ -308,7 +308,7 @@ export default function Header() {
                       {/* Shine effect */}
                       <div className="absolute inset-0 -translate-x-full group-hover:-translate-x-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-transform duration-1000 ease-out animate-shine"></div>
                       <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 transition-transform duration-2000 ease-linear animate-shine-continuous"></div>
-                      <span className="relative z-10">{t('cta.startNow', 'Começar Agora')}</span>
+                      <span className="relative z-10">{t('nav.getStarted', 'Começar Agora')}</span>
                     </button>
                   </motion.div>
                 </div>

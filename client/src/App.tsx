@@ -12,6 +12,7 @@ import TermsOfUsePage from "@/pages/terms-of-use";
 import AuthPage from "@/pages/auth-page";
 import AdminPage from "@/pages/admin-page";
 import NotFound from "@/pages/not-found";
+import './lib/i18n';
 
 function App() {
   console.log('App rendering...');

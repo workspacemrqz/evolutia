@@ -1,16 +1,12 @@
 import { Rocket, Check } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { useTranslation } from 'react-i18next';
 import DiagnosticForm from "./diagnostic-form";
 
 export default function FinalCTASection() {
+  const { t } = useTranslation();
   const [showDiagnosticForm, setShowDiagnosticForm] = useState(false);
-
-  const benefits = [
-    "Sem compromisso",
-    "Consultoria gratuita",
-    "Resultados comprovados",
-  ];
 
   return (
     <section id="nao-fique-para-tras" className="py-24 sm:py-32 bg-[#060606]">
@@ -150,7 +146,7 @@ export default function FinalCTASection() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              Não fique para trás
+              {t('finalCta.title')}
             </motion.h2>
             <motion.p
               className="hidden sm:block text-xl sm:text-3xl lg:text-4xl text-white/90 mb-3 sm:mb-4 leading-tight"
@@ -159,7 +155,7 @@ export default function FinalCTASection() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >
-              Seus concorrentes já estão usando IA
+              {t('finalCta.subtitle')}
             </motion.p>
             <motion.p
               className="text-sm sm:text-base text-white/80 mb-6 sm:mb-8 max-w-2xl mx-auto px-2"
@@ -168,8 +164,7 @@ export default function FinalCTASection() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              Agende sua consultoria gratuita e veja como evoluir seu negócio
-              agora
+              {t('finalCta.description')}
             </motion.p>
 
             <motion.button
@@ -203,7 +198,7 @@ export default function FinalCTASection() {
               >
                 <Rocket className="w-6 h-6" />
               </motion.div>
-              INICIAR AGORA
+              {t('finalCta.cta')}
             </motion.button>
 
             <motion.div
@@ -215,15 +210,15 @@ export default function FinalCTASection() {
             >
               <div className="flex items-center gap-1">
                 <Check className="w-4 h-4 flex-shrink-0" />
-                <span>Sem compromisso</span>
+                <span>{t('finalCta.features.noObligation')}</span>
               </div>
               <div className="flex items-center gap-1">
                 <Check className="w-4 h-4 flex-shrink-0" />
-                <span>Consultoria gratuita</span>
+                <span>{t('finalCta.features.freeConsultation')}</span>
               </div>
               <div className="flex items-center gap-1">
                 <Check className="w-4 h-4 flex-shrink-0" />
-                <span>Resultados comprovados</span>
+                <span>{t('finalCta.features.guaranteedResults')}</span>
               </div>
             </motion.div>
           </div>

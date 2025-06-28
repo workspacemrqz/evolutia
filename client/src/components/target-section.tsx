@@ -1,36 +1,39 @@
 import { Building, TrendingUp, Lightbulb, Users, DollarSign, BarChart } from "lucide-react";
+import { useTranslation } from 'react-i18next';
 
 export default function TargetSection() {
+  const { t } = useTranslation();
+  
   const targets = [
     {
       icon: Building,
-      title: "Empresas Médias",
-      description: "De 50 a 500 funcionários que precisam escalar operações sem aumentar custos proporcionalmente."
+      title: t('target.types.medium.title'),
+      description: t('target.types.medium.description')
     },
     {
       icon: TrendingUp,
-      title: "Startups em Crescimento",
-      description: "Empresas inovadoras que querem automatizar desde cedo e crescer de forma inteligente."
+      title: t('target.types.startups.title'),
+      description: t('target.types.startups.description')
     },
     {
       icon: Lightbulb,
-      title: "Empresas Tradicionais",
-      description: "Negócios estabelecidos que querem se modernizar e manter competitividade no mercado."
+      title: t('target.types.traditional.title'),
+      description: t('target.types.traditional.description')
     },
     {
       icon: Users,
-      title: "Equipes Remotas",
-      description: "Times distribuídos que precisam de automação para manter produtividade e coordenação."
+      title: t('target.types.remote.title'),
+      description: t('target.types.remote.description')
     },
     {
       icon: DollarSign,
-      title: "Redução de Custos",
-      description: "Organizações focadas em otimizar custos operacionais e aumentar margem de lucro."
+      title: t('target.types.costReduction.title'),
+      description: t('target.types.costReduction.description')
     },
     {
       icon: BarChart,
-      title: "Orientadas por Dados",
-      description: "Empresas que valorizam decisões baseadas em dados e análises preditivas."
+      title: t('target.types.dataDriven.title'),
+      description: t('target.types.dataDriven.description')
     }
   ];
 
@@ -39,10 +42,10 @@ export default function TargetSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-4xl mx-auto mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6 uppercase">
-            Não fique para trás
+            {t('target.title')}
           </h2>
           <p className="text-xl text-[#BCBCBC]">
-            A Evolut IA é ideal para empresas que buscam inovação, eficiência e crescimento sustentável através da inteligência artificial
+            {t('target.subtitle')}
           </p>
         </div>
         

@@ -1,8 +1,10 @@
 import { Linkedin, Instagram } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { motion } from "framer-motion";
+import { useTranslation } from 'react-i18next';
 
 export default function Footer() {
+  const { t } = useTranslation();
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -47,7 +49,7 @@ export default function Footer() {
             />
           </motion.button>
           <p className="text-[#BCBCBC] mb-8 max-w-2xl mx-auto">
-            Transformamos empresas através de agentes de IA personalizados. Automatize processos, otimize resultados e cresça de forma inteligente.
+            {t('footer.description')}
           </p>
           <div className="flex justify-center space-x-6 mb-8">
             <motion.a 
@@ -84,11 +86,11 @@ export default function Footer() {
             variants={itemVariants}
           >
             <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-8 text-sm text-[#BCBCBC]">
-              <p>&copy; 2024 Evolut IA. Todos os direitos reservados.</p>
+              <p>{t('footer.rights')}</p>
               <div className="flex space-x-6">
-                <a href="/termos-de-uso" className="hover:text-white transition-colors">Termos de Uso</a>
-                <a href="/politica-de-privacidade" className="hover:text-white transition-colors">Política de Privacidade</a>
-                <a href="/lgpd" className="hover:text-white transition-colors">LGPD</a>
+                <a href="/termos-de-uso" className="hover:text-white transition-colors">{t('footer.links.terms')}</a>
+                <a href="/politica-de-privacidade" className="hover:text-white transition-colors">{t('footer.links.privacy')}</a>
+                <a href="/lgpd" className="hover:text-white transition-colors">{t('footer.links.lgpd')}</a>
               </div>
             </div>
           </motion.div>

@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
+import { useTranslation } from 'react-i18next';
 
 export default function HeroSection() {
+  const { t } = useTranslation();
+
   return (
     <section className="hero-section pt-24 pb-20 bg-transparent relative overflow-hidden">
 
@@ -39,7 +42,7 @@ export default function HeroSection() {
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 1, ease: "easeOut" }}
             >
-              Deixe nossos agentes de IA trabalharem por você
+              {t('hero.title')}
             </motion.h1>
           </div>
 
@@ -50,7 +53,7 @@ export default function HeroSection() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 1, ease: "easeOut" }}
           >
-            Deixe nossos agentes de IA trabalharem por você
+            {t('hero.title')}
           </motion.h1>
 
           <motion.div
