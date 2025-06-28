@@ -64,7 +64,7 @@ export default function Header() {
              }}>
         </div>
 
-        <div className="relative px-6 lg:px-8 py-2">
+        <div className="relative px-8 lg:px-12 py-3">
           <div className="flex items-center">
             {/* Desktop Navigation - Compact spacing */}
             <div className="hidden md:flex items-center w-full">
