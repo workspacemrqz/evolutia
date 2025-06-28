@@ -42,7 +42,7 @@ export default function Header() {
         </div>
 
         <div className="relative px-4 lg:px-6 py-2">
-          <div className="flex items-center">
+          <div className="flex justify-between items-center">
             {/* Logo */}
             <div className="flex-shrink-0">
               <motion.button 
@@ -61,7 +61,7 @@ export default function Header() {
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-4 flex-1 justify-center ml-8">
+            <nav className="hidden md:flex items-center space-x-4">
               <button 
                 onClick={() => scrollToSection("agentes")} 
                 className="text-gray-400 hover:text-white transition-colors duration-300 font-light"
@@ -84,7 +84,7 @@ export default function Header() {
               {/* Contact Button */}
               <button 
                 onClick={() => scrollToSection("nao-fique-para-tras")} 
-                className="relative bg-[#0a0a0a] text-white px-6 py-2 rounded-xl font-medium transition-all duration-300 border border-gray-700 hover:border-gray-600 overflow-hidden group ml-8"
+                className="relative bg-[#0a0a0a] text-white px-6 py-2 rounded-xl font-medium transition-all duration-300 border border-gray-700 hover:border-gray-600 overflow-hidden group"
               >
                 {/* Shine effect */}
                 <div className="absolute inset-0 -translate-x-full group-hover:-translate-x-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-transform duration-1000 ease-out animate-shine"></div>
@@ -93,16 +93,17 @@ export default function Header() {
               </button>
             </nav>
 
-            {/* Spacer for desktop layout balance */}
-            <div className="hidden md:block flex-shrink-0 w-[100px] lg:w-[120px]"></div>
-
             {/* Mobile Navigation - Menu and CTA Button */}
             <div className="md:hidden flex items-center space-x-3">
               <motion.button 
-                className="p-1.5 text-white/90 hover:text-white transition-colors relative z-30 focus:outline-none focus:ring-0"
+                className={`p-1.5 transition-colors relative z-30 ${
+                  mobileMenuOpen 
+                    ? "text-white hover:text-white" 
+                    : "text-white/90 hover:text-[#1E90FF]"
+                }`}
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 animate={mobileMenuOpen ? {
-                  x: 140,
+                  x: 110,
                   transition: { duration: 0.3, ease: "easeInOut" }
                 } : {
                   x: 0,
