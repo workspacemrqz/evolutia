@@ -17,7 +17,7 @@ mode = "sequential"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "cd \"Replit Preview\" && npm install && npm run preview"
+args = "cd \"Replit Preview\" && npm install && npm run start"
 
 [[workflows.workflow]]
 name = "Start Preview Server"
