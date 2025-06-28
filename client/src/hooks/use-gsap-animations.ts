@@ -11,13 +11,7 @@ export const useGSAPAnimations = () => {
     if (initialized.current) return;
     initialized.current = true;
 
-    // Header logo animation
-    gsap.from('.header-logo', {
-      opacity: 0,
-      duration: 1,
-      ease: 'power2.out',
-      delay: 0.2
-    });
+    // Header logo animation removed
 
     // Hero section animations
     gsap.timeline()
