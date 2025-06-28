@@ -28,7 +28,7 @@ export default function Header() {
   }, [mobileMenuOpen]);
 
   return (
-    <header className="w-full z-50 px-4 sm:px-6 lg:px-8 py-4 mt-2 sm:mt-8 relative">
+    <header className="w-full z-50 px-4 sm:px-6 lg:px-8 py-2 mt-2 sm:mt-4 relative">
       {/* Header Capsule Container */}
       <div className={`max-w-7xl mx-auto bg-[#0a0a0a]/95 backdrop-blur-md border border-gray-800/50 shadow-xl transition-all ${
         mobileMenuOpen ? 'rounded-[10px] duration-75' : 'rounded-full duration-300'
@@ -41,7 +41,7 @@ export default function Header() {
              }}>
         </div>
 
-        <div className="relative px-6 lg:px-8 py-4">
+        <div className="relative px-6 lg:px-8 py-2">
           <div className="flex justify-between items-center">
             {/* Logo */}
             <div className="flex-shrink-0">
@@ -56,7 +56,7 @@ export default function Header() {
                 <img 
                   src="https://i.ibb.co/rf3PXc8r/LOGO-Evolut-IA-com-texto-na-horizontal.png" 
                   alt="Evolut IA Logo" 
-                  className="h-6 sm:h-8 w-auto max-w-[100px] md:max-w-[120px] filter brightness-100"
+                  className="h-5 sm:h-7 w-auto max-w-[100px] md:max-w-[120px] filter brightness-100"
                 />
               </motion.button>
             </div>
@@ -85,7 +85,7 @@ export default function Header() {
               {/* Contact Button */}
               <button 
                 onClick={() => scrollToSection("nao-fique-para-tras")} 
-                className="relative bg-[#0a0a0a] text-white px-6 py-2.5 rounded-xl font-medium transition-all duration-300 border border-gray-700 hover:border-gray-600 overflow-hidden group"
+                className="relative bg-[#0a0a0a] text-white px-6 py-2 rounded-xl font-medium transition-all duration-300 border border-gray-700 hover:border-gray-600 overflow-hidden group"
               >
                 {/* Shine effect */}
                 <div className="absolute inset-0 -translate-x-full group-hover:-translate-x-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 transition-transform duration-1000 ease-out animate-shine"></div>
@@ -97,7 +97,7 @@ export default function Header() {
             {/* Mobile Navigation - Menu and CTA Button */}
             <div className="md:hidden flex items-center space-x-3">
               <motion.button 
-                className="p-2 text-white/90 hover:text-[#1E90FF] transition-colors relative z-30"
+                className="p-1.5 text-white/90 hover:text-[#1E90FF] transition-colors relative z-30"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 animate={mobileMenuOpen ? {
                   x: 85,
@@ -149,7 +149,7 @@ export default function Header() {
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.3, ease: "easeOut", delay: 0.1 }}
             >
-              <div className="px-6 pb-6 pt-4">
+              <div className="px-6 pb-4 pt-3">
                 {/* Horizontal Divider */}
                 <div className="w-full flex justify-center mb-6">
                   <div 
